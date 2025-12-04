@@ -22,10 +22,15 @@ class Panel(ScreenPanel):
 
         pos = self._gtk.HomogeneousGrid()
         pos.attach(self.widgets['zposition'], 0, 1, 2, 1)
-        z_up_image = "bed_down"
-        z_down_image = "bed_up"
-        z_up_label = _("Lower")
-        z_down_label = _("Raise")
+        z_up_image = "z-farther"
+        z_down_image = "z-closer"
+        z_up_label = _("Raise")  
+        z_down_label = _("Lower")
+        if True:
+            z_up_image = "bed_down"
+            z_down_image = "bed_up"
+            z_up_label = _("Lower")
+            z_down_label = _("Raise")
         if self.z_offset is not None:
             self.widgets['zoffset'] = Gtk.Label(label="?")
             pos.attach(Gtk.Label(_("Probe Offset") + ": "), 0, 2, 2, 1)
@@ -45,47 +50,41 @@ class Panel(ScreenPanel):
         self.buttons['complete'].connect("clicked", self.accept)
         self.buttons['cancel'].connect("clicked", self.abort)
 
-        # Check if CALIBRATE_Z_OFFSET macro is available
-        if "CALIBRATE_Z_OFFSET" in self._printer.get_gcode_macros():
-            # If CALIBRATE_Z_OFFSET macro exists, use it directly
-            self.buttons['start'].connect("clicked", self.start_z_offset_calibration)
+        functions = []
+        pobox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+
+        if "MD_DIST_CALIBRATE" in self._printer.available_commands:
+            self._add_button("Probe", "probe", pobox)
+            functions.append("md_dist")
         else:
-            # Original logic for other calibration methods
-            functions = []
-            pobox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-
-            if "MD_DIST_CALIBRATE" in self._printer.available_commands:
+            # if "Z_ENDSTOP_CALIBRATE" in self._printer.available_commands:
+            #     self._add_button("Endstop", "endstop", pobox)
+            #     functions.append("endstop")
+            if "PROBE_CALIBRATE" in self._printer.available_commands:
                 self._add_button("Probe", "probe", pobox)
-                functions.append("md_dist")
-            else:
-                # if "Z_ENDSTOP_CALIBRATE" in self._printer.available_commands:
-                #     self._add_button("Endstop", "endstop", pobox)
-                #     functions.append("endstop")
-                if "PROBE_CALIBRATE" in self._printer.available_commands:
-                    self._add_button("Probe", "probe", pobox)
-                    functions.append("probe")
-                if "BED_MESH_CALIBRATE" in self._printer.available_commands and "probe" not in functions:
-                    # This is used to do a manual bed mesh if there is no probe
-                    self._add_button("Bed mesh", "mesh", pobox)
-                    functions.append("mesh")
-                if "DELTA_CALIBRATE" in self._printer.available_commands:
-                    if "probe" in functions:
-                        self._add_button("Delta Automatic", "delta", pobox)
-                        functions.append("delta")
-                    # Since probes may not be accturate enough for deltas, always show the manual method
-                    self._add_button("Delta Manual", "delta_manual", pobox)
-                    functions.append("delta_manual")
+                functions.append("probe")
+            if "BED_MESH_CALIBRATE" in self._printer.available_commands and "probe" not in functions:
+                # This is used to do a manual bed mesh if there is no probe
+                self._add_button("Bed mesh", "mesh", pobox)
+                functions.append("mesh")
+            if "DELTA_CALIBRATE" in self._printer.available_commands:
+                if "probe" in functions:
+                    self._add_button("Delta Automatic", "delta", pobox)
+                    functions.append("delta")
+                # Since probes may not be accturate enough for deltas, always show the manual method
+                self._add_button("Delta Manual", "delta_manual", pobox)
+                functions.append("delta_manual")
 
-            logging.info(f"Available functions for calibration: {functions}")
+        logging.info(f"Available functions for calibration: {functions}")
 
-            self.labels['popover'] = Gtk.Popover()
-            self.labels['popover'].add(pobox)
-            self.labels['popover'].set_position(Gtk.PositionType.BOTTOM)
+        self.labels['popover'] = Gtk.Popover()
+        self.labels['popover'].add(pobox)
+        self.labels['popover'].set_position(Gtk.PositionType.BOTTOM)
 
-            if len(functions) > 1:
-                self.buttons['start'].connect("clicked", self.on_popover_clicked)
-            else:
-                self.buttons['start'].connect("clicked", self.start_calibration, functions[0])
+        if len(functions) > 1:
+            self.buttons['start'].connect("clicked", self.on_popover_clicked)
+        else:
+            self.buttons['start'].connect("clicked", self.start_calibration, functions[0])
 
         distgrid = Gtk.Grid()
         for j, i in enumerate(self.distances):
@@ -119,6 +118,12 @@ class Panel(ScreenPanel):
             grid.attach(self.buttons['cancel'], 1, 2, 1, 1)
             grid.attach(distances, 0, 3, 2, 1)
         else:
+            if True:
+                grid.attach(self.buttons['zneg'], 0, 0, 1, 1)
+                grid.attach(self.buttons['zpos'], 0, 1, 1, 1)
+            else:            
+                grid.attach(self.buttons['zpos'], 0, 0, 1, 1)
+                grid.attach(self.buttons['zneg'], 0, 1, 1, 1)
             grid.attach(self.buttons['zneg'], 0, 0, 1, 1)
             grid.attach(self.buttons['zpos'], 0, 1, 1, 1)
             grid.attach(self.buttons['start'], 1, 0, 1, 1)
@@ -136,12 +141,6 @@ class Panel(ScreenPanel):
     def on_popover_clicked(self, widget):
         self.labels['popover'].set_relative_to(widget)
         self.labels['popover'].show_all()
-
-    def start_z_offset_calibration(self, widget):
-        """Start calibration using CALIBRATE_Z_OFFSET macro"""
-        self.buttons['start'].set_sensitive(False)
-        logging.info("Starting Z offset calibration with CALIBRATE_Z_OFFSET macro")
-        self._screen._ws.klippy.gcode_script("CALIBRATE_Z_OFFSET")
 
     def start_calibration(self, widget, method):
         self.labels['popover'].popdown()

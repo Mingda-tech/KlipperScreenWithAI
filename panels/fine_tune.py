@@ -1,6 +1,9 @@
 import logging
 import re
 import gi
+import subprocess
+import mpv
+from contextlib import suppress
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
@@ -21,6 +24,7 @@ class Panel(ScreenPanel):
     extruder_target = 0
     def __init__(self, screen, title):
         super().__init__(screen, title)
+        self.mpv = None
         if self.ks_printer_cfg is not None:
             bs = self.ks_printer_cfg.get("z_babystep_values", "0.02, 0.1")
             if re.match(r'^[0-9,\.\s]+$', bs):
@@ -76,8 +80,8 @@ class Panel(ScreenPanel):
         grid = self._gtk.HomogeneousGrid()
         grid.set_row_homogeneous(False)
 
-        self.labels['z+'] = self._gtk.Button("z-farther", "Z+", "color1")
-        self.labels['z-'] = self._gtk.Button("z-closer", "Z-", "color1")
+        self.labels['z+'] = self._gtk.Button("bed_down", "Z+", "color1")
+        self.labels['z-'] = self._gtk.Button("bed_up", "Z-", "color1")
         self.labels['zoffset'] = self._gtk.Button("refresh", '  0.00' + _("mm"),
                                                   "color1", self.bts, Gtk.PositionType.LEFT, 1)
         self.labels['speed+'] = self._gtk.Button("speed+", _("Speed +"), "color3")
@@ -103,18 +107,43 @@ class Panel(ScreenPanel):
             grid.attach(self.labels['extrudefactor'], 2, 4, 1, 1)
             grid.attach(extgrid, 0, 5, 3, 1)
         else:
-            grid.attach(self.labels['zoffset'], 0, 0, 1, 1)
-            grid.attach(self.labels['z+'], 0, 1, 1, 1)
-            grid.attach(self.labels['z-'], 0, 2, 1, 1)
-            grid.attach(zgrid, 0, 3, 1, 1)
-            grid.attach(self.labels['speedfactor'], 1, 0, 1, 1)
-            grid.attach(self.labels['speed+'], 1, 1, 1, 1)
-            grid.attach(self.labels['speed-'], 1, 2, 1, 1)
-            grid.attach(spdgrid, 1, 3, 1, 1)
-            grid.attach(self.labels['extrudefactor'], 2, 0, 1, 1)
-            grid.attach(self.labels['extrude+'], 2, 1, 1, 1)
-            grid.attach(self.labels['extrude-'], 2, 2, 1, 1)
-            grid.attach(extgrid, 2, 3, 1, 1)
+            # 添加摄像头支持
+            camera_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+            for i, cam in enumerate(self._printer.cameras):
+                if not cam["enabled"] or (cam["name"] != 'webcaml' and cam["name"] != 'webcamr'):
+                # if not cam["enabled"] or cam["name"] != 'webcam':
+                    continue
+                logging.info(cam)
+                cam[cam["name"]] = self._gtk.Button(
+                    image_name="camera", label=_("Start"), style=f"color{i % 4 + 1}",
+                    scale=self.bts, position=Gtk.PositionType.LEFT, lines=1
+                )
+                cam[cam["name"]].set_hexpand(True)
+                cam[cam["name"]].set_vexpand(True)
+                cam[cam["name"]].connect("clicked", self.play, cam)
+                camera_box.add(cam[cam["name"]])
+
+            self.scroll = self._gtk.ScrolledWindow()
+            self.scroll.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
+            self.scroll.add(camera_box)
+            
+            # 设置摄像头占40% (2/5)，操作区域占60% (3/5)
+            self.scroll.set_size_request(int(self._screen.width * 0.4), -1)
+            grid.set_column_homogeneous(False)
+            
+            grid.attach(self.scroll, 0, 0, 1, 4)  # 摄像头占据左侧
+            grid.attach(self.labels['zoffset'], 1, 0, 1, 1)
+            grid.attach(self.labels['z-'], 1, 1, 1, 1)
+            grid.attach(self.labels['z+'], 1, 2, 1, 1)
+            grid.attach(zgrid, 1, 3, 1, 1)
+            grid.attach(self.labels['speedfactor'], 2, 0, 1, 1)
+            grid.attach(self.labels['speed+'], 2, 1, 1, 1)
+            grid.attach(self.labels['speed-'], 2, 2, 1, 1)
+            grid.attach(spdgrid, 2, 3, 1, 1)
+            grid.attach(self.labels['extrudefactor'], 3, 0, 1, 1)
+            grid.attach(self.labels['extrude+'], 3, 1, 1, 1)
+            grid.attach(self.labels['extrude-'], 3, 2, 1, 1)
+            grid.attach(extgrid, 3, 3, 1, 1)
 
         self.labels['z+'].connect("clicked", self.change_babystepping, "+")
         self.labels['zoffset'].connect("clicked", self.change_babystepping, "reset")
@@ -225,3 +254,75 @@ class Panel(ScreenPanel):
         elif array == "extrude":
             self.labels[f"edelta{self.e_delta}"].get_style_context().remove_class("distbutton_active")
             self.e_delta = delta
+
+    def play(self, widget, cam):
+        url = cam['stream_url']
+        if url.startswith('/'):
+            logging.info("camera URL is relative")
+            endpoint = self._screen.apiclient.endpoint.split(':')
+            url = f"{endpoint[0]}:{endpoint[1]}{url}"
+        vf = ""
+        if cam["flip_horizontal"]:
+            vf += "hflip,"
+        if cam["flip_vertical"]:
+            vf += "vflip,"
+        vf += f"rotate:{cam['rotation']*3.14159/180}"
+        logging.info(f"video filters: {vf}")
+
+        if check_web_page_access(url) == False:
+            self._screen.show_popup_message(_("Please wait for the camera initialization to complete."), level=1)
+            return
+
+        if self.mpv:
+            self.mpv.terminate()
+        
+        self.mpv = mpv.MPV(fullscreen=True, log_handler=self.log, vo='gpu,wlshm,xv,x11', wid=str(widget.get_property("window").get_xid()))
+        self.mpv.vf = vf
+
+        with suppress(Exception):
+            self.mpv.profile = 'sw-fast'
+
+        # LOW LATENCY PLAYBACK
+        with suppress(Exception):
+            self.mpv.profile = 'low-latency'
+        self.mpv.untimed = True
+        self.mpv.audio = 'no'
+
+        logging.debug(f"Camera URL: {url}")
+        self.mpv.loop = True
+        self.mpv.play(url)
+
+        try:
+            self.mpv.wait_until_playing()
+        except mpv.ShutdownError:
+            logging.info('Exiting Fullscreen')
+            return
+        except Exception as e:
+            logging.exception(e)
+            return
+
+    def log(self, loglevel, component, message):
+        logging.debug(f'[{loglevel}] {component}: {message}')
+        if loglevel == 'error' and 'No Xvideo support found' not in message:
+            self._screen.show_popup_message(f'{message}')
+
+    def deactivate(self):
+        if self.mpv:
+            self.mpv.terminate()
+            self.mpv = None
+
+
+def check_web_page_access(url):
+    try:
+        result = subprocess.run(["curl", "-I", url], check=True, capture_output=True, text=True, timeout=10)
+        status_code = result.stdout.splitlines()[0].split()[1]
+        if status_code == "200":
+            logging.info(f"The web page at {url} is accessible. Status code: {status_code}")
+            return True
+        else:
+            logging.warning(f"Warning: The web page at {url} returned status code {status_code}")
+    except subprocess.CalledProcessError as e:
+        logging.error(f"Error: The web page at {url} is not accessible. {e}")
+    except subprocess.TimeoutExpired:
+        logging.error(f"Error: Timeout occurred while checking the web page at {url}.")
+    return False

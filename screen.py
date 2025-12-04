@@ -28,7 +28,6 @@ from ks_includes.KlippyGtk import KlippyGtk
 from ks_includes.printer import Printer
 from ks_includes.widgets.keyboard import Keyboard
 from ks_includes.config import KlipperScreenConfig
-from ks_includes.ai.detection_manager import AIDetectionManager
 from panels.base_panel import BasePanel
 
 logging.getLogger("urllib3").setLevel(logging.WARNING)
@@ -112,7 +111,6 @@ class KlipperScreen(Gtk.Window):
         self.confirm = None
         self.panels_reinit = []
         self.manual_settings = {}
-        self.ai_pause_active = False  # 标记是否处于AI暂停状态
 
         configfile = os.path.normpath(os.path.expanduser(args.configfile))
 
@@ -326,20 +324,13 @@ class KlipperScreen(Gtk.Window):
                 self._remove_current_panel()
             if panel_name not in self.panels:
                 try:
-                    panel_instance = self._load_panel(panel).Panel(self, title, **kwargs)
-                    # Handle special case for ai_pause panel to pass extra_data
-                    if panel == "ai_pause" and "extra_data" in kwargs:
-                        panel_instance.extra_data = kwargs["extra_data"]
-                    self.panels[panel_name] = panel_instance
+                    self.panels[panel_name] = self._load_panel(panel).Panel(self, title, **kwargs)
                 except Exception as e:
                     self.show_error_modal(f"Unable to load panel {panel}", f"{e}\n\n{traceback.format_exc()}")
                     return
             elif panel_name in self.panels_reinit:
                 logging.info("Reinitializing panel")
                 self.panels[panel_name].__init__(self, title, **kwargs)
-                # Handle special case for ai_pause panel to pass extra_data during reinit
-                if panel == "ai_pause" and "extra_data" in kwargs:
-                    self.panels[panel_name].extra_data = kwargs["extra_data"]
                 self.panels_reinit.remove(panel_name)
             self._cur_panels.append(panel_name)
             self.attach_panel(panel_name)
@@ -706,10 +697,6 @@ class KlipperScreen(Gtk.Window):
         self.initialized = False
         self.reinit_count = 0
         self._init_printer(_("Firmware has disconnected"), remove=True)
-        
-        # Notify AI manager
-        if hasattr(self, 'ai_manager') and self.ai_manager:
-            self.ai_manager.on_printer_state_changed("disconnected")
 
     def state_error(self):
         self.close_screensaver()
@@ -722,41 +709,15 @@ class KlipperScreen(Gtk.Window):
         self.printer_initializing(msg + "\n" + state, remove=True)
 
     def state_paused(self):
-        # 先检查AI暂停状态，避免被state_printing()清理
-        is_ai_pause = self.ai_pause_active
-        
         self.state_printing()
-        
-        # 如果是AI暂停状态，跳过extrude面板显示（不恢复标志位）
-        if is_ai_pause:
-            logging.info("AI暂停状态中，跳过extrude面板显示")
-
-            self.show_panel("ai_pause", _("AI Detection Alert"))            
-            # 仍然通知AI管理器状态变化
-            if hasattr(self, 'ai_manager') and self.ai_manager:
-                self.ai_manager.on_printer_state_changed("paused")
-            return
-            
         if self._config.get_main_config().getboolean("auto_open_extrude", fallback=True):
             self.show_panel("extrude", _("Extrude"))
-        
-        # Notify AI manager
-        if hasattr(self, 'ai_manager') and self.ai_manager:
-            self.ai_manager.on_printer_state_changed("paused")
 
     def state_printing(self):            
         self.close_screensaver()
-        
-        # 清理AI暂停状态
-        self.ai_pause_active = False
-        
         for dialog in self.dialogs:
             self.gtk.remove_dialog(dialog)
         self.show_panel("job_status", _("Printing"), remove_all=True)
-        
-        # Notify AI manager
-        if hasattr(self, 'ai_manager') and self.ai_manager:
-            self.ai_manager.on_printer_state_changed("printing")
 
     def state_ready(self, wait=True):
         # Do not return to main menu if completing a job, timeouts/user input will return
@@ -778,16 +739,15 @@ class KlipperScreen(Gtk.Window):
                 self._ws.klippy.gcode_script(script)
 
         self.load_klipper_config()
-        
-        # Notify AI manager
-        if hasattr(self, 'ai_manager') and self.ai_manager:
-            self.ai_manager.on_printer_state_changed("ready")
         if self.klippy_config is not None and self.setup_init == 0:
             self.setup_init = self.klippy_config.getint("Variables", "setup_step", fallback=0)
 
         if self.setup_init == 1:
-            # Always show language selection first
-            self.show_panel("setup_wizard", _("Choose Language"), remove_all=True)
+            if self.check_image_files():
+                self.is_show_manual = True
+                self.show_panel("manual", _("Manual"), remove_all=True)
+            else :
+                self.show_panel("setup_wizard", _("Choose Language"), remove_all=True)
         elif self.auto_check:
             self.show_panel("self_check", _("Self-check"), remove_all=True)
         self.auto_check = False
@@ -905,7 +865,7 @@ class KlipperScreen(Gtk.Window):
             self.printer.process_update({'webhooks': {'state': "ready"}})
         elif action == "notify_status_update" and self.printer.state != "shutdown":
             self.printer.process_update(data)
-            if 'manual_probe' in data and data['manual_probe']['is_active'] and 'zcalibrate' not in self._cur_panels:
+            if 'manual_probe' in data and data['manual_probe']['is_active'] and 'zcalibrate' not in self._cur_panels and 'zendstop' not in self._cur_panels:
                 if self.setup_init == 0:
                     self.show_panel("zcalibrate", _('Z Calibrate'))
         elif action == "notify_filelist_changed":
@@ -1137,36 +1097,8 @@ class KlipperScreen(Gtk.Window):
         self.initializing = False
         self.printer.process_update(data['result']['status'])
         self.log_notification("Printer Initialized", 1)
-        
-        # Initialize AI Detection Manager
-        self.init_ai_manager()
-        
         return False
 
-    def init_ai_manager(self):
-        """Initialize AI Detection Manager"""
-        try:
-            self.ai_manager = AIDetectionManager(self, self._config)
-            logging.info("AI Detection Manager initialized successfully")
-        except Exception as e:
-            logging.error(f"Failed to initialize AI Detection Manager: {e}")
-            self.ai_manager = None
-    
-    def update_ai_status(self, status, defect_type=None, confidence=None, result=None):
-        """Update AI status display - called by result handler"""
-        try:
-            # This method can be called by the AI result handler to update status displays
-            # For now, we can log the status update
-            logging.debug(f"AI status update: {status}, defect: {defect_type}, confidence: {confidence}")
-            
-            # Update any panels that have AI status display capability
-            for panel_name in self._cur_panels:
-                if hasattr(self.panels.get(panel_name), 'update_ai_status'):
-                    self.panels[panel_name].update_ai_status(status, defect_type, confidence, result)
-                    
-        except Exception as e:
-            logging.error(f"Failed to update AI status: {e}")
-    
     def init_tempstore(self):
         tempstore = self.apiclient.send_request("server/temperature_store")
         if tempstore and 'result' in tempstore and tempstore['result']:

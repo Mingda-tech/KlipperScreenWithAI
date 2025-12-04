@@ -32,12 +32,20 @@ class Panel(ScreenPanel):
                     self.distances = dis
                     self.distance = self.distances[0]
 
+        macros = self._printer.get_config_section_list("gcode_macro ")
+        self.force_move = any("FORCE_MOVE" in macro.upper() for macro in macros)
+
         self.settings = {}
         self.menu = ['move_menu']
-        z_up_image = "bed_down"
-        z_down_image = "bed_up"
-        z_up_label = _("Lower")
-        z_down_label = _("Raise")
+        z_up_image = "z-farther"
+        z_down_image = "z-closer"
+        z_up_label = _("Raise") 
+        z_down_label = _("Lower")
+        if True:
+            z_up_image = "bed_down"
+            z_down_image = "bed_up"
+            z_up_label = _("Lower")
+            z_down_label = _("Raise")
         self.buttons = {
             'x+': self._gtk.Button("arrow-right", "X+", "color1"),
             'x-': self._gtk.Button("arrow-left", "X-", "color1"),
@@ -111,8 +119,12 @@ class Panel(ScreenPanel):
                 grid.attach(self.buttons['x-'], 2, 1, 1, 1)
             grid.attach(self.buttons['y+'], 1, 0, 1, 1)
             grid.attach(self.buttons['y-'], 1, 1, 1, 1)
-            grid.attach(self.buttons['z-'], 3, 0, 1, 1)
-            grid.attach(self.buttons['z+'], 3, 1, 1, 1)
+            if True:
+                grid.attach(self.buttons['z-'], 3, 0, 1, 1)
+                grid.attach(self.buttons['z+'], 3, 1, 1, 1)
+            else:
+                grid.attach(self.buttons['z+'], 3, 0, 1, 1)
+                grid.attach(self.buttons['z-'], 3, 1, 1, 1)
 
         distgrid = Gtk.Grid()
         for j, i in enumerate(self.distances):
@@ -181,6 +193,15 @@ class Panel(ScreenPanel):
         self.labels[f"{distance}"].get_style_context().add_class("distbutton_active")
         self.distance = distance
 
+    def _build_z_movement_script(self, axis, dist, speed):
+        """构建Z轴移动的G代码脚本"""
+        return [
+            f"SET_KINEMATIC_POSITION_Z Z=10.0",
+            f"{KlippyGcodes.MOVE_RELATIVE}",
+            f"G1 {axis}{dist} F{speed * 60}",
+            "M400",
+            f"{KlippyGcodes.MOVE_ABSOLUTE}"
+        ]
 
     def _execute_movement(self, widget, axis, script, distance, show_confirm=True):
         """执行移动命令，根据距离决定是否需要确认"""
@@ -203,8 +224,9 @@ class Panel(ScreenPanel):
 
     def _show_move_confirmation(self, axis, distance, script_data):
         """显示移动确认对话框"""
+        sign = "+" if float(distance) > 0 else ""
         label = Gtk.Label()
-        label.set_label(_("Force move: ") + f"{axis}{distance}mm?")
+        label.set_label(_("Force move: ") + f"{axis}{sign}{distance}mm?")
         label.set_hexpand(True)
         label.set_halign(Gtk.Align.CENTER)
         label.set_vexpand(True)
@@ -249,19 +271,28 @@ class Panel(ScreenPanel):
                 logging.error(f"Invalid axis: {axis}")
                 return
             
-            # 统一使用G1命令处理所有轴，不区分XYZ
-            # 先设置坐标，暂停500ms，然后使用G1移动
-            main_movement_script_list = [
-                f"SET_KINEMATIC_POSITION {axis}=10.0",
-                "G4 P500",
-                f"{KlippyGcodes.MOVE_RELATIVE}",
-                f"G1 {axis}{dist} F{axis_config['speed'] * 60}",
-                "M400",
-                f"{KlippyGcodes.MOVE_ABSOLUTE}"
-            ]
+            # 构建主要的移动命令
+            # main_movement_script_list 将包含一个或多个G-code命令字符串
+            main_movement_script_list = []
+            if self.force_move:
+                if axis == 'Z':
+                    # _build_z_movement_script 返回一个命令列表
+                    main_movement_script_list = self._build_z_movement_script(axis, dist, 2)
+                else:
+                    # 对于 X/Y 轴，这是一个单独的命令字符串，将其放入列表中
+                    main_movement_script_list = [
+                        f"FORCE_MOVE_BACE STEPPER={axis_config['stepper']} DISTANCE={dist} "
+                        f"VELOCITY={axis_config['speed']} ACCEL={self.DEFAULT_ACCEL}"
+                    ]
+            else:
+                # 这是一个单独的命令字符串，将其放入列表中
+                main_movement_script_list = [
+                    f"FORCE_MOVE STEPPER={axis_config['stepper']} DISTANCE={dist} "
+                    f"VELOCITY={axis_config['speed']} ACCEL={self.DEFAULT_ACCEL}"
+                ]
             
             # _execute_movement 方法可以处理命令列表，它会在内部将列表连接成一个脚本字符串
-            self._execute_movement(widget, axis, main_movement_script_list, dist)
+            self._execute_movement(widget, axis, main_movement_script_list, self.distance)
 
         except Exception as e:
             logging.exception(f"Error during axis movement: {str(e)}")
