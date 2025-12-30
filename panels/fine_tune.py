@@ -1,9 +1,6 @@
 import logging
 import re
 import gi
-import subprocess
-import mpv
-from contextlib import suppress
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
@@ -24,9 +21,6 @@ class Panel(ScreenPanel):
     extruder_target = 0
     def __init__(self, screen, title):
         super().__init__(screen, title)
-        self.mpv = None
-        self.current_cam = None
-        self.video_overlay = None
         if self.ks_printer_cfg is not None:
             bs = self.ks_printer_cfg.get("z_babystep_values", "0.02, 0.1")
             if re.match(r'^[0-9,\.\s]+$', bs):
@@ -109,60 +103,18 @@ class Panel(ScreenPanel):
             grid.attach(self.labels['extrudefactor'], 2, 4, 1, 1)
             grid.attach(extgrid, 0, 5, 3, 1)
         else:
-            # 添加摄像头支持
-            # 创建一个固定容器来放置摄像头区域
-            self.camera_fixed = Gtk.Fixed()
-            
-            # 创建视频显示区域（EventBox用于捕获点击事件）
-            self.video_eventbox = Gtk.EventBox()
-            self.video_eventbox.set_size_request(int(self._screen.width * 0.4), -1)
-            self.video_eventbox.connect("button-press-event", self.on_video_clicked)
-            self.video_eventbox.set_visible(False)  # 初始隐藏
-            
-            # 创建摄像头按钮区域
-            camera_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-            for i, cam in enumerate(self._printer.cameras):
-                if not cam["enabled"] or (cam["name"] != 'webcaml' and cam["name"] != 'webcamr'):
-                # if not cam["enabled"] or cam["name"] != 'webcam':
-                    continue
-                logging.info(cam)
-                cam['button'] = self._gtk.Button(
-                    image_name="camera", label=cam["name"], style=f"color{i % 4 + 1}",
-                    scale=self.bts, position=Gtk.PositionType.LEFT, lines=1
-                )
-                cam['button'].set_hexpand(True)
-                cam['button'].set_vexpand(True)
-                cam['button'].connect("clicked", self.toggle_camera, cam)
-                cam['playing'] = False
-                camera_box.add(cam['button'])
-
-            self.scroll = self._gtk.ScrolledWindow()
-            self.scroll.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
-            self.scroll.add(camera_box)
-            
-            # 使用Stack来切换按钮和视频显示
-            self.camera_stack = Gtk.Stack()
-            self.camera_stack.add_named(self.scroll, "buttons")
-            self.camera_stack.add_named(self.video_eventbox, "video")
-            self.camera_stack.set_visible_child_name("buttons")
-            
-            # 设置摄像头占40% (2/5)，操作区域占60% (3/5)
-            self.camera_stack.set_size_request(int(self._screen.width * 0.4), -1)
-            grid.set_column_homogeneous(False)
-            
-            grid.attach(self.camera_stack, 0, 0, 1, 4)  # 摄像头占据左侧
-            grid.attach(self.labels['zoffset'], 1, 0, 1, 1)
-            grid.attach(self.labels['z-'], 1, 1, 1, 1)
-            grid.attach(self.labels['z+'], 1, 2, 1, 1)
-            grid.attach(zgrid, 1, 3, 1, 1)
-            grid.attach(self.labels['speedfactor'], 2, 0, 1, 1)
-            grid.attach(self.labels['speed+'], 2, 1, 1, 1)
-            grid.attach(self.labels['speed-'], 2, 2, 1, 1)
-            grid.attach(spdgrid, 2, 3, 1, 1)
-            grid.attach(self.labels['extrudefactor'], 3, 0, 1, 1)
-            grid.attach(self.labels['extrude+'], 3, 1, 1, 1)
-            grid.attach(self.labels['extrude-'], 3, 2, 1, 1)
-            grid.attach(extgrid, 3, 3, 1, 1)
+            grid.attach(self.labels['zoffset'], 0, 0, 1, 1)
+            grid.attach(self.labels['z-'], 0, 1, 1, 1)
+            grid.attach(self.labels['z+'], 0, 2, 1, 1)
+            grid.attach(zgrid, 0, 3, 1, 1)
+            grid.attach(self.labels['speedfactor'], 1, 0, 1, 1)
+            grid.attach(self.labels['speed+'], 1, 1, 1, 1)
+            grid.attach(self.labels['speed-'], 1, 2, 1, 1)
+            grid.attach(spdgrid, 1, 3, 1, 1)
+            grid.attach(self.labels['extrudefactor'], 2, 0, 1, 1)
+            grid.attach(self.labels['extrude+'], 2, 1, 1, 1)
+            grid.attach(self.labels['extrude-'], 2, 2, 1, 1)
+            grid.attach(extgrid, 2, 3, 1, 1)
 
         self.labels['z+'].connect("clicked", self.change_babystepping, "+")
         self.labels['zoffset'].connect("clicked", self.change_babystepping, "reset")
@@ -274,117 +226,5 @@ class Panel(ScreenPanel):
             self.labels[f"edelta{self.e_delta}"].get_style_context().remove_class("distbutton_active")
             self.e_delta = delta
 
-    def on_video_clicked(self, widget, event):
-        """点击视频区域时关闭摄像头"""
-        logging.info("Video area clicked, stopping camera")
-        if self.current_cam:
-            self.stop_camera()
-        return True
-
-    def stop_camera(self):
-        """停止摄像头播放"""
-        if self.mpv:
-            try:
-                self.mpv.terminate()
-            except Exception as e:
-                logging.exception(f"Error terminating mpv: {e}")
-            self.mpv = None
-        
-        if self.current_cam:
-            self.current_cam['playing'] = False
-            self.current_cam = None
-        
-        # 切换回按钮视图
-        if hasattr(self, 'camera_stack'):
-            self.camera_stack.set_visible_child_name("buttons")
-        
-        logging.info("Camera stopped")
-
-    def toggle_camera(self, widget, cam):
-        # 如果正在播放，则停止
-        if cam.get('playing', False):
-            self.stop_camera()
-            return
-        
-        # 开始播放
-        url = cam['stream_url']
-        if url.startswith('/'):
-            logging.info("camera URL is relative")
-            endpoint = self._screen.apiclient.endpoint.split(':')
-            url = f"{endpoint[0]}:{endpoint[1]}{url}"
-        
-        if check_web_page_access(url) == False:
-            self._screen.show_popup_message(_("Please wait for the camera initialization to complete."), level=1)
-            return
-
-        vf = ""
-        if cam["flip_horizontal"]:
-            vf += "hflip,"
-        if cam["flip_vertical"]:
-            vf += "vflip,"
-        vf += f"rotate:{cam['rotation']*3.14159/180}"
-        logging.info(f"video filters: {vf}")
-
-        # 先停止之前的播放
-        if self.mpv:
-            self.mpv.terminate()
-        
-        try:
-            # 切换到视频视图
-            self.camera_stack.set_visible_child_name("video")
-            
-            # 获取EventBox的window id用于嵌入视频
-            self.video_eventbox.realize()
-            wid = str(self.video_eventbox.get_window().get_xid())
-            
-            self.mpv = mpv.MPV(log_handler=self.log, vo='gpu,wlshm,xv,x11', wid=wid)
-            self.mpv.vf = vf
-
-            with suppress(Exception):
-                self.mpv.profile = 'sw-fast'
-
-            # LOW LATENCY PLAYBACK
-            with suppress(Exception):
-                self.mpv.profile = 'low-latency'
-            self.mpv.untimed = True
-            self.mpv.audio = 'no'
-
-            logging.debug(f"Camera URL: {url}")
-            self.mpv.loop = True
-            self.mpv.play(url)
-            
-            cam['playing'] = True
-            self.current_cam = cam
-            logging.info(f"Started camera {cam['name']}")
-        except Exception as e:
-            logging.exception(f"Error starting camera: {e}")
-            self._screen.show_popup_message(_("Failed to start camera"))
-            if self.mpv:
-                self.mpv.terminate()
-                self.mpv = None
-            cam['playing'] = False
-            self.camera_stack.set_visible_child_name("buttons")
-
-    def log(self, loglevel, component, message):
-        logging.debug(f'[{loglevel}] {component}: {message}')
-        if loglevel == 'error' and 'No Xvideo support found' not in message:
-            self._screen.show_popup_message(f'{message}')
-
     def deactivate(self):
-        self.stop_camera()
-
-
-def check_web_page_access(url):
-    try:
-        result = subprocess.run(["curl", "-I", url], check=True, capture_output=True, text=True, timeout=10)
-        status_code = result.stdout.splitlines()[0].split()[1]
-        if status_code == "200":
-            logging.info(f"The web page at {url} is accessible. Status code: {status_code}")
-            return True
-        else:
-            logging.warning(f"Warning: The web page at {url} returned status code {status_code}")
-    except subprocess.CalledProcessError as e:
-        logging.error(f"Error: The web page at {url} is not accessible. {e}")
-    except subprocess.TimeoutExpired:
-        logging.error(f"Error: Timeout occurred while checking the web page at {url}.")
-    return False
+        pass

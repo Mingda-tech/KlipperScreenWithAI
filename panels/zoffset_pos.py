@@ -1,11 +1,9 @@
 import re
 import logging
 import gi
-import mpv
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, Pango
-from contextlib import suppress
 from ks_includes.KlippyGcodes import KlippyGcodes
 from ks_includes.screen_panel import ScreenPanel
 
@@ -16,7 +14,6 @@ class Panel(ScreenPanel):
 
     def __init__(self, screen, title):
         super().__init__(screen, title)
-        self.mpv = None
 
         if self.ks_printer_cfg is not None:
             dis = self.ks_printer_cfg.get("move_distances", '0.1, 1')
@@ -120,33 +117,11 @@ class Panel(ScreenPanel):
         bottomgrid = self._gtk.HomogeneousGrid()
         bottomgrid.set_direction(Gtk.TextDirection.LTR)
         bottomgrid.attach(self.labels['move_dist'], 0, 0, 3, 1)
-        # if not self._screen.vertical_mode:
-        #     bottomgrid.attach(adjust, 3, 0, 1, 2)
-
-        # Camera buttons
-        camera_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        for i, cam in enumerate(self._printer.cameras):
-            if not cam["enabled"] or cam["name"] != "webcaml":
-                continue
-            logging.info(cam)
-            cam[cam["name"]] = self._gtk.Button(
-                image_name="camera", label=cam["name"], style=f"color{i % 4 + 1}",
-                scale=self.bts, position=Gtk.PositionType.LEFT, lines=1
-            )
-            cam[cam["name"]].set_hexpand(True)
-            cam[cam["name"]].set_vexpand(True)
-            cam[cam["name"]].connect("clicked", self.play_camera, cam)
-            camera_box.add(cam[cam["name"]])
-
-        self.scroll = self._gtk.ScrolledWindow()
-        self.scroll.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
-        self.scroll.add(camera_box)
 
         self.labels['move_menu'] = self._gtk.HomogeneousGrid()
-        self.labels['move_menu'].attach(self.scroll, 0, 0, 2, 6)
-        self.labels['move_menu'].attach(grid, 2, 0, 2, 3)
-        self.labels['move_menu'].attach(bottomgrid, 2, 3, 2, 1)
-        self.labels['move_menu'].attach(distgrid, 2, 4, 2, 2)
+        self.labels['move_menu'].attach(grid, 0, 0, 2, 3)
+        self.labels['move_menu'].attach(bottomgrid, 0, 3, 2, 1)
+        self.labels['move_menu'].attach(distgrid, 0, 4, 2, 2)
 
         self.content.add(self.labels['move_menu'])
 
@@ -321,76 +296,8 @@ class Panel(ScreenPanel):
             script
         )
 
-    def play_camera(self, widget, cam):
-        url = cam['stream_url']
-        if url.startswith('/'):
-            logging.info("camera URL is relative")
-            endpoint = self._screen.apiclient.endpoint.split(':')
-            url = f"{endpoint[0]}:{endpoint[1]}{url}"
-        if '/webrtc' in url:
-            self._screen.show_popup_message(_('WebRTC is not supported by the backend trying Stream'))
-            url = url.replace('/webrtc', '/stream')
-        vf = ""
-        if cam["flip_horizontal"]:
-            vf += "hflip,"
-        if cam["flip_vertical"]:
-            vf += "vflip,"
-        vf += f"rotate:{cam['rotation'] * 3.14159 / 180}"
-        logging.info(f"video filters: {vf}")
-
-        if self.mpv:
-            self.mpv.terminate()
-        self.mpv = mpv.MPV(fullscreen=True, log_handler=self.log, vo='gpu,wlshm,xv,x11', 
-                          wid=str(widget.get_property("window").get_xid()))
-
-        self.mpv.vf = vf
-
-        with suppress(Exception):
-            self.mpv.profile = 'sw-fast'
-
-        # LOW LATENCY PLAYBACK
-        with suppress(Exception):
-            self.mpv.profile = 'low-latency'
-        self.mpv.untimed = True
-        self.mpv.audio = 'no'
-
-        logging.debug(f"Camera URL: {url}")
-        self.mpv.loop = True
-        self.mpv.play(url)
-
-        try:
-            self.mpv.wait_until_playing()
-        except mpv.ShutdownError:
-            logging.info('Exiting camera view due to ShutdownError')
-            return
-        except Exception as e:
-            logging.exception(f"Unexpected error during playback: {e}")
-            return
-
-    def stop_playback(self):
-        logging.info("Stopping video playback")
-        if self.mpv:
-            try:
-                self.mpv.terminate()
-                logging.info("MPV player terminated")
-            except Exception as e:
-                logging.exception(f"Error during MPV termination: {e}")
-            finally:
-                self.mpv = None
-
-    def log(self, loglevel, component, message):
-        logging.debug(f'[{loglevel}] {component}: {message}')
-        if loglevel == 'error' and 'No Xvideo support found' not in message and 'youtube-dl' not in message:
-            self._screen.show_popup_message(f'{message}')
-
     def activate(self):
         pass
 
     def deactivate(self):
-        if self.mpv:
-            try:
-                self.mpv.terminate()
-            except Exception as e:
-                logging.exception(f"Error terminating MPV: {e}")
-            finally:
-                self.mpv = None                
+        pass
