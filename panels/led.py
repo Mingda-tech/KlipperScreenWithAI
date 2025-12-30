@@ -24,11 +24,12 @@ class Panel(ScreenPanel):
         self.scales = {}
         self.buttons = []
         self.leds = self._printer.get_leds()
-        self.current_led = None 
-        for l in self.leds:
-            if 'lighting' in l.lower():
-                self.current_led = l
-                break
+        self.current_led = None
+        self.led_switches = {}
+        # for l in self.leds:
+        #     if 'lighting' in l.lower():
+        #         self.current_led = l
+        #         break
         self.open_selector(None, self.current_led)
 
     def color_available(self, idx):
@@ -57,31 +58,89 @@ class Panel(ScreenPanel):
     #     return True
 
     def open_selector(self, widget=None, led=None):
-        # for child in self.content.get_children():
-        #     self.content.remove(child)
+        for child in self.content.get_children():
+            self.content.remove(child)
         if led is not None:
-        #     self.content.add(self.led_selector())
-        # else:
             self.content.add(self.color_selector(led))
+        else:
+            self.content.add(self.led_selector())
         self.content.show_all()
 
     def led_selector(self):
         self.current_led = None
-        columns = 3 if self._screen.vertical_mode else 4
-        grid = self._gtk.HomogeneousGrid()
-        for i, led in enumerate(self.leds):
-            name = led.split()[1] if len(led.split()) > 1 else led
-            button = self._gtk.Button(None, name.upper(), style=f"color{(i % 4) + 1}")
-            button.connect("clicked", self.open_selector, led)
-            grid.attach(button, (i % columns), int(i / columns), 1, 1)
+        self.led_switches = {}
+        self.set_title(_("LEDs"))
+        
         scroll = self._gtk.ScrolledWindow()
-        scroll.add(grid)
+        box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
+        
+        for led in self.leds:
+            row = self.create_led_row(led)
+            box.add(row)
+            
+        scroll.add(box)
         return scroll
+
+    def create_led_row(self, led):
+        name = led.split()[1] if len(led.split()) > 1 else led
+        
+        row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        row.set_hexpand(True)
+        row.set_valign(Gtk.Align.CENTER)
+        
+        label = Gtk.Label(label=name.upper())
+        label.set_halign(Gtk.Align.START)
+        label.set_hexpand(True)
+        row.add(label)
+        
+        # Switch
+        switch = Gtk.Switch()
+        switch.set_valign(Gtk.Align.CENTER)
+        
+        is_on = False
+        if led in self._printer.data and "color_data" in self._printer.data[led]:
+             try:
+                 if any(c > 0 for c in self._printer.data[led]["color_data"][0]):
+                     is_on = True
+             except:
+                 pass
+        switch.set_active(is_on)
+        switch.connect("notify::active", self.on_switch_toggled, led)
+        self.led_switches[led] = switch
+        row.add(switch)
+        
+        # Color Button
+        color_btn = self._gtk.Button("color", _("Color"), "color1")
+        color_btn.set_hexpand(False)
+        color_btn.connect("clicked", self.open_selector, led)
+        row.add(color_btn)
+        
+        return row
+
+    def on_switch_toggled(self, switch, gparam, led):
+        if switch.get_active():
+            self.set_led_color_simple(led, [1.0, 1.0, 1.0, 1.0])
+        else:
+            self.set_led_color_simple(led, [0.0, 0.0, 0.0, 0.0])
+
+    def set_led_color_simple(self, led, color_data):
+        name = led.split()[1] if len(led.split()) > 1 else led
+        self._screen._send_action(None, "printer.gcode.script",
+                                  {"script": KlippyGcodes.set_led_color(name, color_data)})
 
     def color_selector(self, led):
         logging.info(led)
         self.current_led = led
         self.set_title(f"{self.current_led}")
+
+        main_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=5)
+        back_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+        back_btn = self._gtk.Button("back", _("Back"), "color3")
+        back_btn.set_hexpand(False)
+        back_btn.connect("clicked", lambda x: self.open_selector(None, None))
+        back_box.add(back_btn)
+        main_box.add(back_box)
+
         grid = self._gtk.HomogeneousGrid()
         self.color_order = self._printer.get_led_color_order(led)
         if self.color_order is None:
@@ -153,7 +212,8 @@ class Panel(ScreenPanel):
         #     grid.attach(box, 0, 1, 3, 1)
         # else:
         #     grid.attach(box, 3, 0, 2, 1)
-        return grid
+        main_box.add(grid)
+        return main_box
 
     def on_draw(self, da, ctx, color=None):
         if color is None:
@@ -179,9 +239,25 @@ class Panel(ScreenPanel):
     def process_update(self, action, data):
         if action != 'notify_status_update':
             return
-        if self.current_led in data and "color_data" in data[self.current_led]:
-            self.update_scales(data[self.current_led]["color_data"][0])
-            self.preview.queue_draw()
+        if self.current_led:
+            if self.current_led in data and "color_data" in data[self.current_led]:
+                self.update_scales(data[self.current_led]["color_data"][0])
+                self.preview.queue_draw()
+        else:
+            for led in self.led_switches:
+                if led in data and "color_data" in data[led]:
+                    switch = self.led_switches[led]
+                    is_on = False
+                    try:
+                        if any(c > 0 for c in data[led]["color_data"][0]):
+                            is_on = True
+                    except:
+                        pass
+                    
+                    if switch.get_active() != is_on:
+                        switch.handler_block_by_func(self.on_switch_toggled)
+                        switch.set_active(is_on)
+                        switch.handler_unblock_by_func(self.on_switch_toggled)
 
     def update_scales(self, color_data):
         for idx in self.scales:

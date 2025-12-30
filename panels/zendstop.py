@@ -2,7 +2,6 @@ import logging
 import gi
 import os
 import subprocess
-import mpv
 from contextlib import suppress
 
 gi.require_version("Gtk", "3.0")
@@ -82,29 +81,7 @@ class Panel(ScreenPanel):
         distances.pack_start(self.widgets['move_dist'], True, True, 0)
         distances.pack_start(distgrid, True, True, 0)
 
-        # 添加摄像头支持
-        self.mpv = None
-        box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        for i, cam in enumerate(self._printer.cameras):
-            if not cam["enabled"] or cam["name"] != 'webcaml':
-            # if not cam["enabled"] or cam["name"] != 'webcam':
-                continue
-            logging.info(cam)
-            cam[cam["name"]] = self._gtk.Button(
-                image_name="camera", label=_("Start"), style=f"color{i % 4 + 1}",
-                scale=self.bts, position=Gtk.PositionType.LEFT, lines=1
-            )
-            cam[cam["name"]].set_hexpand(True)
-            cam[cam["name"]].set_vexpand(True)
-            cam[cam["name"]].connect("clicked", self.play, cam)
-            box.add(cam[cam["name"]])
-
-        self.scroll = self._gtk.ScrolledWindow()
-        self.scroll.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
-        self.scroll.add(box)
-
         grid = Gtk.Grid()
-        grid.set_column_homogeneous(False)  # 改为非均匀分布以支持2:3比例
         if self._screen.vertical_mode:
             grid.attach(self.buttons['zpos'], 0, 1, 1, 1)
             grid.attach(self.buttons['zneg'], 0, 2, 1, 1)
@@ -114,21 +91,17 @@ class Panel(ScreenPanel):
             grid.attach(self.buttons['cancel'], 1, 2, 1, 1)
             grid.attach(distances, 0, 3, 2, 1)
         else:
-            # 设置列宽比例：摄像头占2份，操作区域占3份
-            self.scroll.set_size_request(int(self._screen.width * 0.4), -1)  # 摄像头占40% (2/5)
-            
             if True:
-                grid.attach(self.buttons['zneg'], 1, 0, 1, 1)
-                grid.attach(self.buttons['zpos'], 1, 1, 1, 1)
+                grid.attach(self.buttons['zneg'], 0, 0, 1, 1)
+                grid.attach(self.buttons['zpos'], 0, 1, 1, 1)
             else:            
-                grid.attach(self.buttons['zpos'], 1, 0, 1, 1)
-                grid.attach(self.buttons['zneg'], 1, 1, 1, 1)
-            grid.attach(self.buttons['start'], 2, 0, 1, 1)
-            grid.attach(pos, 2, 1, 1, 1)
-            grid.attach(self.buttons['complete'], 3, 0, 1, 1)
-            grid.attach(self.buttons['cancel'], 3, 1, 1, 1)
-            grid.attach(distances, 1, 2, 3, 1)
-            grid.attach(self.scroll, 0, 0, 1, 3)  # 摄像头占据左侧
+                grid.attach(self.buttons['zpos'], 0, 0, 1, 1)
+                grid.attach(self.buttons['zneg'], 0, 1, 1, 1)
+            grid.attach(self.buttons['start'], 1, 0, 1, 1)
+            grid.attach(pos, 1, 1, 1, 1)
+            grid.attach(self.buttons['complete'], 2, 0, 1, 1)
+            grid.attach(self.buttons['cancel'], 2, 1, 1, 1)
+            grid.attach(distances, 0, 2, 3, 1)
         self.content.add(grid)
 
     def start_calibration(self, widget, method):
@@ -215,74 +188,6 @@ class Panel(ScreenPanel):
         self.buttons['cancel'].set_sensitive(False)
         self.buttons['cancel'].get_style_context().remove_class('color2')
 
-    def play(self, widget, cam):
-        url = cam['stream_url']
-        if url.startswith('/'):
-            logging.info("camera URL is relative")
-            endpoint = self._screen.apiclient.endpoint.split(':')
-            url = f"{endpoint[0]}:{endpoint[1]}{url}"
-        vf = ""
-        if cam["flip_horizontal"]:
-            vf += "hflip,"
-        if cam["flip_vertical"]:
-            vf += "vflip,"
-        vf += f"rotate:{cam['rotation']*3.14159/180}"
-        logging.info(f"video filters: {vf}")
-
-        if check_web_page_access(url) == False:
-            self._screen.show_popup_message(_("Please wait for the camera initialization to complete."), level=1)
-            return
-
-        if self.mpv:
-            self.mpv.terminate()
-        
-        self.mpv = mpv.MPV(fullscreen=True, log_handler=self.log, vo='gpu,wlshm,xv,x11', wid=str(widget.get_property("window").get_xid()))
-        self.mpv.vf = vf
-
-        with suppress(Exception):
-            self.mpv.profile = 'sw-fast'
-
-        # LOW LATENCY PLAYBACK
-        with suppress(Exception):
-            self.mpv.profile = 'low-latency'
-        self.mpv.untimed = True
-        self.mpv.audio = 'no'
-
-        logging.debug(f"Camera URL: {url}")
-        self.mpv.loop = True
-        self.mpv.play(url)
-
-        try:
-            self.mpv.wait_until_playing()
-        except mpv.ShutdownError:
-            logging.info('Exiting Fullscreen')
-            return
-        except Exception as e:
-            logging.exception(e)
-            return
-
-    def log(self, loglevel, component, message):
-        logging.debug(f'[{loglevel}] {component}: {message}')
-        if loglevel == 'error' and 'No Xvideo support found' not in message:
-            self._screen.show_popup_message(f'{message}')
-
     def deactivate(self):
-        if self.mpv:
-            self.mpv.terminate()
-            self.mpv = None
+        pass
 
-
-def check_web_page_access(url):
-    try:
-        result = subprocess.run(["curl", "-I", url], check=True, capture_output=True, text=True, timeout=10)
-        status_code = result.stdout.splitlines()[0].split()[1]
-        if status_code == "200":
-            logging.info(f"The web page at {url} is accessible. Status code: {status_code}")
-            return True
-        else:
-            logging.warning(f"Warning: The web page at {url} returned status code {status_code}")
-    except subprocess.CalledProcessError as e:
-        logging.error(f"Error: The web page at {url} is not accessible. {e}")
-    except subprocess.TimeoutExpired:
-        logging.error(f"Error: Timeout occurred while checking the web page at {url}.")        
-    return False

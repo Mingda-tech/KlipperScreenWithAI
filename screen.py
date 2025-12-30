@@ -884,18 +884,26 @@ class KlipperScreen(Gtk.Window):
             self.printer.process_power_update(data)
             self.panels['splash_screen'].check_power_status()
         elif action == "notify_gcode_response" and self.printer.state not in ["error", "shutdown"]:
+            logging.info(f"gcode_response data: [{data}]")
             if not (data.startswith("B:") or data.startswith("T:")):
                 if "RESPOND TYPE=" in data:
                     msg_start = data.find("MSG=")
                     if msg_start != -1:
                         msg = data[msg_start+5:-1] if data.endswith('"') else data[msg_start+5:]
-                        translated_msg = _(msg)
-                        level = 3 if "TYPE=error" in data else 2 if "TYPE=warning" in data else 1
-                        self.show_popup_message(translated_msg, level)
+                        logging.info(f"RESPOND msg extracted: [{msg}]")
+                        if "Water pump fault" in msg:
+                            self.show_water_pump_fault_dialog()
+                        else:
+                            translated_msg = _(msg)
+                            level = 3 if "TYPE=error" in data else 2 if "TYPE=warning" in data else 1
+                            self.show_popup_message(translated_msg, level)
                 elif data.startswith("echo: "):
                     self.show_popup_message(_(data[6:]), 1)
                 elif data.startswith("!! "):
-                    self.show_popup_message(_(data[3:]), 3)
+                    if "Water pump fault" in data:
+                        self.show_water_pump_fault_dialog()
+                    else:
+                        self.show_popup_message(_(data[3:]), 3)
                 elif "unknown" in data.lower() and \
                         not ("TESTZ" in data or "MEASURE_AXES_NOISE" in data or "ACCELEROMETER_QUERY" in data):
                     self.show_popup_message(_(data))
@@ -913,6 +921,24 @@ class KlipperScreen(Gtk.Window):
         self.base_panel.process_update(*args)
         if self._cur_panels and hasattr(self.panels[self._cur_panels[-1]], "process_update"):
             self.panels[self._cur_panels[-1]].process_update(*args)
+
+    def show_water_pump_fault_dialog(self):
+        buttons = [
+            {"name": _("OK"), "response": Gtk.ResponseType.OK}
+        ]
+        label = Gtk.Label()
+        label.set_markup(f"<span foreground='red'><b>{_('Water pump fault')}</b>\n\n{_('Please check the water pump and cooling system.')}</span>")
+        label.set_hexpand(True)
+        label.set_halign(Gtk.Align.CENTER)
+        label.set_vexpand(True)
+        label.set_valign(Gtk.Align.CENTER)
+        label.set_line_wrap(True)
+        label.set_line_wrap_mode(Pango.WrapMode.WORD_CHAR)
+
+        dialog = self.gtk.Dialog(_("Warning"), buttons, label, self._water_pump_fault_response)
+
+    def _water_pump_fault_response(self, dialog, response_id):
+        self.gtk.remove_dialog(dialog)
 
     def _confirm_send_action(self, widget, text, method, params=None, save_button=True):
         buttons = [
