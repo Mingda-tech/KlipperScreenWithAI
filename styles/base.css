@@ -644,3 +644,64 @@ trough progress {
 }
 
 .graph_label {border-left-width: .4em; border-left-style: solid;}
+
+/* ============ Feeder Panel Styles ============ */
+
+.feeder_stage_frame {
+    border: .15em solid @lines;
+    border-radius: .5em;
+    margin: .25em;
+    padding: .5em;
+}
+
+.feeder_stage_frame label {
+    font-size: 0.9em;
+}
+
+.feeder_arrow {
+    font-size: 1.5em;
+    color: @color3;
+    font-weight: bold;
+}
+
+.feeder_pressure_box {
+    padding: .5em 1em;
+    margin: .5em 0;
+    border: .1em solid @lines;
+    border-radius: .5em;
+}
+
+.feeder_pressure_value {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 0 .5em;
+}
+
+.sensor_on {
+    color: #4caf50;
+    font-size: 1.2em;
+}
+
+.sensor_off {
+    color: #666666;
+    font-size: 1.2em;
+}
+
+.sensor_warning {
+    color: @warning;
+    font-size: 1.2em;
+}
+
+.feeder_level_bar {
+    min-height: 1.5em;
+}
+
+.feeder_level_bar trough {
+    min-height: 1.5em;
+    border-radius: .25em;
+}
+
+.feeder_level_bar progress {
+    background-color: @color3;
+    border-radius: .25em;
+}

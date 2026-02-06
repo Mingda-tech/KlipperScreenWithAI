@@ -879,6 +879,9 @@ class KlipperScreen(Gtk.Window):
                 self.show_popup_message(data['message'], 3)
                 if "KlipperScreen" in data['message']:
                     self.restart_ks()
+        elif action == "notify_feeder_status_changed":
+            # 送料模块状态更新 - 由 feeder panel 的 process_update 处理
+            pass
         elif action == "notify_power_changed":
             logging.debug("Power status changed: %s", data)
             self.printer.process_power_update(data)
