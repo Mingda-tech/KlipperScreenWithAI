@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KlipperScreen\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-27 18:24-0300\n"
+"POT-Creation-Date: 2026-04-19 21:04-0700\n"
 "PO-Revision-Date: 2024-07-26 19:09+0000\n"
 "Last-Translator: Jegert Uusküla <jegertuuskula@gmail.com>\n"
 "Language-Team: Estonian <https://hosted.weblate.org/projects/klipperscreen/"
@@ -15,20 +15,32 @@ msgstr ""
 "X-Generator: Weblate 5.7-dev\n"
 
 #, python-format
+msgid "%s triggered."
+msgstr ""
+
+#, python-format
 msgid "%s will be updated to version"
 msgstr "%s uuendatakse versioonile"
 
 msgid "(default)"
 msgstr "(vaikimisi)"
 
-msgid "24 Hour Time"
-msgstr "24-tunnine aeg"
-
 msgid "A FIRMWARE_RESTART may fix the issue."
 msgstr "Probleemi võib lahendada FIRMWARE_RESTART."
 
 msgid "ADXL Not Configured"
 msgstr "ADXL ei ole seadistatud"
+
+#, fuzzy
+msgid "AI Detection"
+msgstr "Filamendi tuvastamine"
+
+#, fuzzy
+msgid "AI Status"
+msgstr "Töö staatus"
+
+msgid "AI service offline. Detection unavailable."
+msgstr ""
 
 msgid "Abort"
 msgstr "Katkesta"
@@ -39,8 +51,17 @@ msgstr "Kiirendus:"
 msgid "Accept"
 msgstr "Nõustu"
 
+msgid "Active Extruder"
+msgstr "Aktiivne Ekstruuder"
+
+msgid "Active Extruder:"
+msgstr "Aktiivne Ekstruuder:"
+
 msgid "Add profile"
 msgstr "Lisa profiil"
+
+msgid "Adjust Zprobe Pos"
+msgstr ""
 
 msgid "All"
 msgstr "Kõik"
@@ -48,13 +69,11 @@ msgstr "Kõik"
 msgid "Apply"
 msgstr "Rakenda"
 
-#, python-format
-msgid "Apply %s%.3f offset to Endstop?"
-msgstr "Rakenda %s%.3f nihe lõpp-punktile?"
+msgid "Apply Z offset to Endstop?"
+msgstr "Rakenda Z-nihe lõpplülitile?"
 
-#, python-format
-msgid "Apply %s%.3f offset to Probe?"
-msgstr "Rakenda %s%.3f nihe andurile?"
+msgid "Apply Z offset to Probe?"
+msgstr "Rakenda Z-nihe sondile?"
 
 msgid "Archived"
 msgstr "Arhiveeritud"
@@ -77,11 +96,40 @@ msgstr "Kas olete kindel, et soovite süsteemi taaskäivitada?"
 msgid "Are you sure you wish to shutdown the system?"
 msgstr "Kas olete kindel, et soovite süsteemi sulgeda?"
 
-msgid "Asks for confirmation before stopping"
-msgstr "Küsib kinnitust enne peatamist"
+msgid "Are you sure?"
+msgstr ""
 
 msgid "Auto"
 msgstr "Automaatne"
+
+#, fuzzy
+msgid "Auto Align"
+msgstr "Automaatne tasandamine"
+
+#, fuzzy
+msgid "Auto Align XY"
+msgstr "Automaatne tasandamine"
+
+#, fuzzy
+msgid "Auto Detect"
+msgstr "Filamendi tuvastamine"
+
+#, python-format
+msgid ""
+"Auto-alignment complete!\n"
+"Offset X: %(x).3f  Y: %(y).3f"
+msgstr ""
+
+#, fuzzy
+msgid "Auto-alignment failed."
+msgstr "Filamendi automaattäitmine lubatud"
+
+#, fuzzy
+msgid "Auto-alignment is unavailable."
+msgstr "Filamendi automaattäitmine lubatud"
+
+msgid "Auto-alignment timed out."
+msgstr ""
 
 msgid "Auto-calibrate"
 msgstr "Automaatne kalibreerimine"
@@ -89,20 +137,28 @@ msgstr "Automaatne kalibreerimine"
 msgid "Auto-close notifications"
 msgstr "Teatiste automaatne sulgemine"
 
-msgid "Auto-open Extrude On Pause"
-msgstr "Pausi ajal ekstrusiooni automaatne avamine"
-
 msgid "Auto-scroll"
 msgstr "Automaatne kerimine"
 
 msgid "Bed Level"
 msgstr "Voodi tase"
 
-msgid "Bed Mesh"
-msgstr "Voodi võrk"
+#, fuzzy
+msgid "Bed Lower"
+msgstr "Langeda"
 
-msgid "Both"
-msgstr "Mõlemad"
+msgid "Bed Temp:"
+msgstr "Aluse Temp:"
+
+msgid "Bed Temperature"
+msgstr "Aluse Temperatuur"
+
+#, fuzzy
+msgid "Bed screw configuration:"
+msgstr "Salvesta konfiguratsioon?"
+
+msgid "Brightest"
+msgstr ""
 
 msgid "Calibrate"
 msgstr "Kalibreeri"
@@ -134,12 +190,6 @@ msgstr "Tühistamine"
 msgid "Cannot connect to Moonraker"
 msgstr "Ei saa ühendust Moonrakeriga"
 
-msgid "Changes how the interface looks"
-msgstr "Muutused liidese välimuses"
-
-msgid "Changes how the time remaining is calculated"
-msgstr "Muutused järelejäänud aja arvutamises"
-
 msgid "Channel"
 msgstr "Kanal"
 
@@ -149,26 +199,48 @@ msgstr "Kontrollige ADXL juhtmeid"
 msgid "Checking for updates, please wait..."
 msgstr "Uuenduste kontrollimine, palun oodake..."
 
+msgid "Checking..."
+msgstr ""
+
+msgid "Choose Language"
+msgstr "Valige keel"
+
+msgid "Choose Timezone"
+msgstr "Valige ajavöönd"
+
+msgid "Choose a language"
+msgstr "Valige keel"
+
+msgid "Choose a timezone"
+msgstr "Valige ajavöönd"
+
 msgid "Clear"
 msgstr "Kustuta"
 
 msgid "Close"
 msgstr "Sulge"
 
-msgid "Close messages after a timeout"
-msgstr "Sõnumite sulgemine pärast ajalõppu"
-
 msgid "Complete"
 msgstr "Lõpetatud"
+
+msgid "Confidence"
+msgstr ""
+
+msgid "Confirm"
+msgstr "Kinnita"
 
 msgid "Confirm Emergency Stop"
 msgstr "Kinnitage hädapidur"
 
+#, fuzzy
+msgid "Confirm Movement"
+msgstr "Kinnita asend"
+
+msgid "Confirm Pos"
+msgstr "Kinnita asend"
+
 msgid "Connected"
 msgstr "Ühendatud"
-
-msgid "Connecting"
-msgstr "Ühendamine"
 
 #, python-format
 msgid "Connecting to %s"
@@ -177,29 +249,48 @@ msgstr "Ühendamine %s-ga"
 msgid "Connection failed"
 msgstr "Ühendamine ebaõnnestus"
 
-msgid "Console"
-msgstr "Konsool"
-
 msgid "Cooldown"
 msgstr "Jahutus"
 
-msgid "Couldn't add network"
-msgstr "Võrgu lisamine ebaõnnestus"
+msgid "Copy Print"
+msgstr "Kopeeri printimine"
 
-msgid "Current"
-msgstr "Praegune"
+msgid "Couldn't get the calibration camera position."
+msgstr "Kalibreerimise kaamera positsiooni ei õnnestunud saada."
 
-msgid "Current percentage and graph line"
-msgstr "Praegune protsent ja graafiku joon"
+#, fuzzy
+msgid "Couldn't get the calibration switch position."
+msgstr "Kalibreerimise kaamera positsiooni ei õnnestunud saada."
+
+#, fuzzy
+msgid "Current language: "
+msgstr "Praegune keel:"
+
+msgid "Current nozzle height difference: "
+msgstr ""
+
+msgid "Current nozzle height difference: ?"
+msgstr ""
+
+#, fuzzy
+msgid "Current timezone: "
+msgstr "Praegune ajavöönd:"
 
 msgid "DPMS has failed to load and has been disabled"
 msgstr "DPMS-i laadimine ebaõnnestus ja see on keelatud"
 
+msgid "Dangerous nozzle height difference: "
+msgstr ""
+
 msgid "Date"
 msgstr "Kuupäev"
 
-msgid "Delete"
-msgstr "Kustuta"
+msgid "Defect"
+msgstr ""
+
+#, python-format
+msgid "Defect detected: %s"
+msgstr "Tuvastati defekt: %s"
 
 msgid "Delete Directory?"
 msgstr "Kustuta kataloog?"
@@ -207,21 +298,17 @@ msgstr "Kustuta kataloog?"
 msgid "Delete File?"
 msgstr "Kustuta fail?"
 
+msgid "Deselect"
+msgstr ""
+
 msgid "Disable Motors"
 msgstr "Keela mootorid"
-
-msgid "Disable for 12hs with am / pm"
-msgstr "Keela 12 tunniks koos am/pm-ga"
-
-msgid "Disconnect"
-msgstr "Ühendu lahti"
 
 msgid "Distance (mm)"
 msgstr "Kaugus (mm)"
 
-#, python-format
-msgid "Do you want to forget or disconnect %s?"
-msgstr "Kas soovite %s unustada või lahti ühendada?"
+msgid "Do not touch the printer during self-check."
+msgstr "Ärge puudutage printerit isekontrolli ajal."
 
 #, python-format
 msgid "Do you want to recover %s?"
@@ -233,59 +320,49 @@ msgstr "Möödunud:"
 msgid "Emergency Stop"
 msgstr "Hädapidur"
 
-msgid "Enable screen power management"
-msgstr "Luba ekraani energiakontroll"
+#, fuzzy
+msgid "Enabled"
+msgstr "pole lubatud"
 
 msgid "Error"
 msgstr "Viga"
 
-msgid "Error clearing active spool"
+#, fuzzy
+msgid "Error reading recovery file"
 msgstr "Viga aktiivse pooli tühjendamisel"
 
-msgid "Error getting active spool"
-msgstr "Viga aktiivse pooli hankimisel"
-
-msgid "Error setting active spool"
-msgstr "Viga aktiivse pooli seadistamisel"
-
-msgid "Error trying to fetch spools"
-msgstr "Viga poolide toomise katsel"
-
-msgid "Error: Couldn't get a position to probe"
-msgstr "Viga: ei saanud sondi positsiooni"
-
-msgid "Estimated Time"
-msgstr "Eeldatav aeg"
+msgid "Error writing configuration"
+msgstr "Viga konfiguratsiooni kirjutamisel"
 
 msgid "Estimated Time Method"
 msgstr "Eeldatav aja meetod"
 
-msgid "Example"
-msgstr "Näide"
-
 msgid "Exclude Object"
 msgstr "Välista objekt"
-
-msgid "Extra Large"
-msgstr "Eriti suur"
 
 msgid "Extrude"
 msgstr "Ekstrudeeri"
 
-msgid "Extruders"
-msgstr "Ekstruderid"
+msgid "Extruder switch when filament run out"
+msgstr "Ekstrudeerija vahetus, kui filament otseneb"
 
-msgid "Extrusion +"
+#, fuzzy
+msgid "Extrusion"
 msgstr "Ekstrusioon +"
 
-msgid "Extrusion -"
-msgstr "Ekstrusioon -"
+#, fuzzy
+msgid "Extrusion Detection"
+msgstr "Ekstrusioon +"
 
-msgid "Failed to delete connection"
-msgstr "Ühenduse kustutamine ebaõnnestus"
+msgid "First Layer"
+msgstr "Esimene kiht"
 
-msgid "Failed to initialize"
-msgstr "Initsialiseerimine ebaõnnestus"
+msgid "First Layer Detection"
+msgstr "Esimese kihi tuvastus"
+
+#, fuzzy
+msgid "Failed to resume print"
+msgstr "Malli salvestamine ebaõnnestus"
 
 msgid "Failed, adjust position first"
 msgstr "Ebaõnnestus, kohandage kõigepealt positsiooni"
@@ -293,8 +370,8 @@ msgstr "Ebaõnnestus, kohandage kõigepealt positsiooni"
 msgid "Fan"
 msgstr "Ventilaator"
 
-msgid "Filament"
-msgstr "Filament"
+msgid "Filament Box Power"
+msgstr "Filamendikasti toide"
 
 msgid "Filament Used"
 msgstr "Kasutatud filament"
@@ -314,6 +391,12 @@ msgstr "Fail"
 msgid "File:"
 msgstr "Fail:"
 
+msgid "Filename"
+msgstr "Failinimi"
+
+msgid "Filename:"
+msgstr "Failinimi:"
+
 msgid "Filter"
 msgstr "Filter"
 
@@ -329,26 +412,62 @@ msgstr "Lõpeta"
 msgid "Firmware Restart"
 msgstr "Püsivara taaskäivitamine"
 
+#, fuzzy
+msgid "Firmware has disconnected"
+msgstr "Klipper on lahti ühendatud"
+
+#, fuzzy
+msgid "Firmware has encountered an error."
+msgstr "Klipperil tekkis viga."
+
+#, fuzzy
+msgid "Firmware has shutdown"
+msgstr "Klipper on välja lülitatud"
+
+#, fuzzy
+msgid "Firmware is attempting to start"
+msgstr "Klipper püüab käivituda"
+
+#, fuzzy
+msgid "Firmware will reboot"
+msgstr "Klipper taaskäivitub"
+
+#, fuzzy
+msgid "Flow +"
+msgstr "Vool:"
+
+#, fuzzy
+msgid "Flow -"
+msgstr "Vool:"
+
 msgid "Flow:"
 msgstr "Vool:"
 
 msgid "Flowrate:"
 msgstr "Voolukiirus:"
 
-msgid "Font Size"
-msgstr "Fondi suurus"
+#, fuzzy
+msgid "Force Cancel"
+msgstr "Tühista"
 
-msgid "Forget"
-msgstr "Unusta"
+msgid "Force Move"
+msgstr "Sundjuhtimine"
+
+msgid "Force move: "
+msgstr "Sundjuhtimine:"
+
+msgid "Foreign Object"
+msgstr ""
+
+msgid "Foreign Object Detection"
+msgstr ""
 
 msgid "Full Update"
 msgstr "Täisuuendus"
 
-msgid "Gcodes"
-msgstr "G-koodid"
-
-msgid "Getting IP address"
-msgstr "IP-aadressi hankimine"
+#, fuzzy
+msgid "General Detection"
+msgstr "Filamendi tuvastamine"
 
 msgid "Go Back"
 msgstr "Mine tagasi"
@@ -356,11 +475,15 @@ msgstr "Mine tagasi"
 msgid "Height:"
 msgstr "Kõrgus:"
 
+msgid "Hidden"
+msgstr "Peidetud"
+
+#, fuzzy
+msgid "Hidden Network"
+msgstr "Võrk"
+
 msgid "Hide"
 msgstr "Peida"
-
-msgid "Hide sensors in Temp."
-msgstr "Peida andurid temperatuuri all"
 
 msgid "Hide temp."
 msgstr "Peida temp."
@@ -383,8 +506,9 @@ msgstr "Kodu Y"
 msgid "Home Z"
 msgstr "Kodu Z"
 
-msgid "Host"
-msgstr "Host"
+#, fuzzy
+msgid "Homing the printer..."
+msgstr "Printeri initsialiseerimine..."
 
 msgid "Hostname"
 msgstr "Hosti nimi"
@@ -392,8 +516,10 @@ msgstr "Hosti nimi"
 msgid "ID"
 msgstr "ID"
 
-msgid "Icon Theme"
-msgstr "Ikoonide teema"
+msgid ""
+"If your calibration device is under the PEI, please lift the PEI after "
+"homing."
+msgstr ""
 
 msgid "Initializing printer..."
 msgstr "Printeri initsialiseerimine..."
@@ -404,20 +530,17 @@ msgstr "Algata PID kalibreerimine jaoks:"
 msgid "Input Shaper"
 msgstr "Sisendvormija"
 
-msgid "Insufficient privileges"
-msgstr "Ebapiisavad õigused"
-
 msgid "Interface"
 msgstr "Liides"
+
+msgid "Interval (s)"
+msgstr ""
 
 msgid "Invalid"
 msgstr "Kehtetu"
 
 msgid "Invalid password"
 msgstr "Kehtetu parool"
-
-msgid "Inversely affects the icon size"
-msgstr "Mõjutab pöördeliselt ikooni suurust"
 
 msgid "Invert X"
 msgstr "Pööra X"
@@ -431,30 +554,6 @@ msgstr "Pööra Z"
 msgid "It may take more than 5 minutes depending on the heater power."
 msgstr "See võib võtta rohkem kui 5 minutit, sõltuvalt kütteseadme võimsusest."
 
-msgid "It's possible that the configuration is not correct"
-msgstr "On võimalik, et konfiguratsioon ei ole õige"
-
-msgid "Job Status"
-msgstr "Töö staatus"
-
-msgid "Klipper Restart"
-msgstr "Klipperi taaskäivitamine"
-
-msgid "Klipper has disconnected"
-msgstr "Klipper on lahti ühendatud"
-
-msgid "Klipper has encountered an error."
-msgstr "Klipperil tekkis viga."
-
-msgid "Klipper has shutdown"
-msgstr "Klipper on välja lülitatud"
-
-msgid "Klipper is attempting to start"
-msgstr "Klipper püüab käivituda"
-
-msgid "Klipper will reboot"
-msgstr "Klipper taaskäivitub"
-
 msgid ""
 "LOAD_FILAMENT/UNLOAD_FILAMENT are hidden and should be used from extrude"
 msgstr ""
@@ -464,17 +563,15 @@ msgstr ""
 msgid "Language"
 msgstr "Keel"
 
-msgid "Large"
-msgstr "Suur"
-
-msgid "Last Duration"
-msgstr "Viimane kestus"
-
 msgid "Last Used"
 msgstr "Viimati kasutatud"
 
-msgid "Layer Height"
-msgstr "Kihi kõrgus"
+#, fuzzy
+msgid "Last used"
+msgstr "Viimati kasutatud"
+
+msgid "Latest Detection Result"
+msgstr ""
 
 msgid "Layer:"
 msgstr "Kiht:"
@@ -482,32 +579,42 @@ msgstr "Kiht:"
 msgid "Leds"
 msgstr "LEDid"
 
+#, python-format
+msgid "Left Extruder: %s%.3f"
+msgstr "Vasak ekstruuder: %s%.3f"
+
+msgid "Left Extruder: Not adjusted"
+msgstr "Vasak ekstruuder: Reguleerimata"
+
+#, fuzzy, python-format
+msgid "Left extruder position: (%(x).2f, %(y).2f, %(z).2f)"
+msgstr "vasaku ekstruderi pos: (%.3f, %.3f, %.3f)"
+
 msgid "Left:"
 msgstr "Vasakul:"
 
-msgid "Limits"
-msgstr "Piirangud"
+#, fuzzy
+msgid "Leveling"
+msgstr "Automaatne tasandamine"
 
 msgid "Load"
 msgstr "Laadimine"
 
-msgid "Loading..."
-msgstr "Laadimine..."
-
-msgid "Lost Connection to Moonraker"
-msgstr "Ühendus Moonrakeriga katkes"
+msgid "Lower"
+msgstr "Langeda"
 
 msgid "Lower Nozzle"
 msgstr "Alumine otsik"
 
-msgid "Macro shortcut on sidebar"
-msgstr "Makro otsetee külgribal"
-
-msgid "Macros"
-msgstr "Makrod"
+#, python-format
+msgid "Macro %s is undefined. Please check whether ai_setting.cfg is loaded."
+msgstr ""
 
 msgid "Main Menu"
 msgstr "Peamenüü"
+
+msgid "Manual"
+msgstr "Manuaalne"
 
 msgid "Material"
 msgstr "Materjal"
@@ -518,14 +625,12 @@ msgstr "Maks"
 msgid "Max Acceleration"
 msgstr "Maksimaalne kiirendus"
 
+#, fuzzy
+msgid "Max Acceleration to Deceleration"
+msgstr "Maksimaalne kiirendus"
+
 msgid "Max Velocity"
 msgstr "Maksimaalne kiirus"
-
-msgid "Max:"
-msgstr "Maksimaalne:"
-
-msgid "Maximum"
-msgstr "Maksimaalne"
 
 msgid "Measure Both"
 msgstr "Mõõda mõlemad"
@@ -536,20 +641,20 @@ msgstr "Mõõda X"
 msgid "Measure Y"
 msgstr "Mõõda Y"
 
-msgid "Medium"
-msgstr "Keskmine"
-
-msgid "Memory"
-msgstr "Mälu"
-
 msgid "Menu"
 msgstr "Menüü"
 
-msgid "Minimum Cruise Ratio"
-msgstr "Minimaalne kruiisisuhe"
+msgid "Mesh calibrate"
+msgstr "Võrgu kalibreerimine"
 
-msgid "Minimum:"
-msgstr "Minimaalne:"
+msgid "Mirror Print"
+msgstr "Peegelprintimine"
+
+msgid "Missing required information"
+msgstr "Puudub vajalik informatsioon"
+
+msgid "Missing required recovery data"
+msgstr "Puuduvad vajalikud taastamisandmed"
 
 msgid "Modified"
 msgstr "Muudetud"
@@ -569,17 +674,17 @@ msgstr "Liigutuskaugus (mm)"
 msgid "Name"
 msgstr "Nimi"
 
+msgid "Need home axis"
+msgstr "Vaja koduasendisse viimist"
+
+msgid "Need reboot, relaunch immediately?"
+msgstr ""
+
+msgid "Need to recalculate the offset value."
+msgstr "Tuleb ümber arvutada nihke väärtus."
+
 msgid "Network"
 msgstr "Võrk"
-
-msgid "Network connected"
-msgstr "Võrk on ühendatud"
-
-msgid "Network disconnected"
-msgstr "Võrk on lahti ühendatud"
-
-msgid "Network not found"
-msgstr "Võrku ei leitud"
 
 msgid "Never"
 msgstr "Mitte kunagi"
@@ -587,20 +692,45 @@ msgstr "Mitte kunagi"
 msgid "New"
 msgstr "Uus"
 
+msgid "New nozzle height difference is: "
+msgstr ""
+
+msgid "New nozzle height difference: "
+msgstr ""
+
+msgid "New nozzle height difference: ?"
+msgstr ""
+
+#, fuzzy
+msgid "No calibration camera found."
+msgstr "Kalibreerimise kaamera positsiooni ei õnnestunud saada."
+
+#, fuzzy
+msgid "No camera URL available."
+msgstr "Teave puudub"
+
+msgid "No detection results yet"
+msgstr ""
+
 msgid "No elegible macros:"
 msgstr "Sobivaid makrosid pole:"
 
 msgid "No info available"
 msgstr "Teave puudub"
 
-msgid "No mesh has been loaded"
-msgstr "Võrku ei ole laaditud"
+msgid "No power loss recovery data found"
+msgstr "Voolukatkestuse taastamisandmeid ei leitud"
 
 msgid "No wireless interface has been found"
 msgstr "Juhtmeta liidest ei leitud"
 
-msgid "Not all screens support this"
-msgstr "Mitte kõik ekraanid ei toeta seda"
+msgid "Normal"
+msgstr ""
+
+msgid ""
+"Not supported for auto-detection, it needs to be configured in "
+"klipperscreen.conf"
+msgstr ""
 
 msgid "Not working or not configured"
 msgstr "Ei tööta või ei ole seadistatud"
@@ -614,11 +744,20 @@ msgstr "Teavituste logi tühi"
 msgid "Notifications"
 msgstr "Teavitused"
 
-msgid "Nozzle diameter"
-msgstr "Düüsi läbimõõt"
+msgid "Nozzle Temp:"
+msgstr "Düüsi Temp:"
 
-msgid "Only for the move panel"
-msgstr "Ainult liigutuspaneelile"
+msgid "Nozzle Temperature"
+msgstr "Düüsi Temperatuur"
+
+msgid "Offline"
+msgstr ""
+
+msgid "Online"
+msgstr ""
+
+msgid "Only one extruder does not require calibration."
+msgstr "Ainult üks ekstruuder ei vaja kalibreerimist."
 
 #, python-format
 msgid "Outdated by %d"
@@ -627,10 +766,11 @@ msgstr "Aegunud %d võrra"
 msgid "PSK for"
 msgstr "PSK jaoks"
 
+#, fuzzy
 msgid "Package will be updated"
-
-msgstr "Pakett uuendatakse"
-
+msgid_plural "Packages will be updated"
+msgstr[0] "Pakett uuendatakse"
+msgstr[1] "Pakett uuendatakse"
 
 msgid "Part Fan"
 msgstr "Osaventilaator"
@@ -641,35 +781,72 @@ msgstr "Parool salvestatud"
 msgid "Pause"
 msgstr "Paus"
 
+msgid "Pause Print on Defect"
+msgstr ""
+
 msgid "Paused"
 msgstr "Pausil"
 
 msgid "Perform a full upgrade?"
 msgstr "Kas sooritada täisuuendus?"
 
-msgid "Pins"
-msgstr "Nõelad"
+msgid ""
+"Please click the Z raise button to raise the Z axis to remove the foam "
+"around the bottom of the case."
+msgstr ""
+"Palun klõpsake Z tõstmise nuppu, et tõsta Z-telge ja eemaldada vaht korpuse "
+"põhja ümber."
+
+#, fuzzy
+msgid "Please confirm the left extruder position first."
+msgstr "Palun kinnitage vasakpoolse ekstruuderi asukoht."
+
+#, fuzzy
+msgid "Please confirm the right extruder position."
+msgstr "Palun kinnitage vasakpoolse ekstruuderi asukoht."
+
+#, fuzzy
+msgid "Please observe if the nozzle is positioned above the probe."
+msgstr "Vihje: Veenduge, et düüs oleks umbes 0.1mm mudelist kõrgemal"
 
 msgid "Please recompile and flash the micro-controller."
 msgstr "Palun kompileerige ja välgake mikro-kontroller."
 
-msgid "Please wait"
-msgstr "Palun oodake"
+msgid "Please remove the extruder foam and take out the door handle."
+msgstr "Palun eemaldage ekstruderi vaht ja võtke välja uksekäepide."
+
+#, fuzzy
+msgid "Please switch to the left extruder first."
+msgstr "Palun kinnitage vasakpoolse ekstruuderi asukoht."
+
+msgid "Please wait for the camera initialization to complete."
+msgstr "Palun oodake, kuni kaamera algkäivitamine on lõppenud."
+
+msgid ""
+"Please wait for the camera's fill light to light up for 5 seconds before "
+"clicking 'Start'"
+msgstr ""
+"Palun oodake, kuni kaamera täitevalgus süttib 5 sekundiks, enne kui vajutate "
+"'Start'."
+
+#, fuzzy
+msgid "Please wait until the bed and nozzle is heated before calibrating."
+msgstr "Palun oodake, kuni voodi ja düüs on kalibreerimise jaoks kuumutatud."
 
 msgid "Power"
 msgstr "Võimsus"
 
+msgid "Power Loss Recovery"
+msgstr "Voolukatkestuse Taastamine"
+
 msgid "Power On Printer"
 msgstr "Printeri sisselülitamine"
 
-msgid "Pressure Advance"
-msgstr "Surveelisus"
+msgid "Preheat"
+msgstr ""
 
 msgid "Pressure Advance:"
 msgstr "Surveelisus:"
-
-msgid "Pressure advance"
-msgstr "Pressure advance"
 
 msgid "Print"
 msgstr "Prindi"
@@ -677,14 +854,24 @@ msgstr "Prindi"
 msgid "Print Control"
 msgstr "Prindi juhtimine"
 
-msgid "Printer"
-msgstr "Printer"
+msgid "Print Height"
+msgstr "Printimise Kõrgus"
 
-msgid "Printer Connections"
-msgstr "Printeri ühendused"
+msgid "Print Height:"
+msgstr "Printimise Kõrgus:"
+
+msgid "Print Time"
+msgstr "Printimise aeg"
+
+msgid "Print height is less than 1mm"
+msgstr "Printimise kõrgus on vähem kui 1mm"
 
 msgid "Printer Select"
 msgstr "Vali printer"
+
+#, fuzzy
+msgid "Printer is busy."
+msgstr "Printer"
 
 msgid "Printing"
 msgstr "Printimine"
@@ -701,6 +888,9 @@ msgstr "Abi küsimisel andke KlipperScreen.log.\n"
 msgid "Quad Gantry Level"
 msgstr "Neljandikurea tase"
 
+msgid "Raise"
+msgstr "Tõsta"
+
 msgid "Raise Nozzle"
 msgstr "Tõsta otsik"
 
@@ -713,14 +903,24 @@ msgstr "Taasta raskelt"
 msgid "Recover Soft"
 msgstr "Taasta pehmelt"
 
+msgid "Recovery File"
+msgstr "Taastefail"
+
 msgid "Reference"
 msgstr "Viide"
 
 msgid "Refresh"
 msgstr "Värskenda"
 
-msgid "Remove network"
-msgstr "Eemalda võrk"
+#, fuzzy
+msgid "Remaining length"
+msgstr "Tagasitõmbumise pikkus"
+
+msgid "Remaining weight"
+msgstr ""
+
+msgid "Remove Foam"
+msgstr "Eemalda vaht"
 
 msgid "Rename/Move:"
 msgstr "Nimeta ümber/Liiguta:"
@@ -730,12 +930,6 @@ msgstr "Taaskäivita"
 
 msgid "Resume"
 msgstr "Jätka"
-
-msgid "Retract"
-msgstr "Tagasi tõmbama"
-
-msgid "Retraction"
-msgstr "Tagasitõmbumine"
 
 msgid "Retraction Length"
 msgstr "Tagasitõmbumise pikkus"
@@ -749,14 +943,23 @@ msgstr "Proovi uuesti"
 msgid "Retrying"
 msgstr "Uuesti proovimine"
 
-msgid "Rotation invalid"
-msgstr "Pööramine kehtetu"
+#, fuzzy
+msgid "Right Extruder Z Offset"
+msgstr "Parem ekstruuder: %s%.3f"
+
+#, python-format
+msgid "Right Extruder: %s%.3f"
+msgstr "Parem ekstruuder: %s%.3f"
+
+msgid "Right Extruder: Not adjusted"
+msgstr "Parem ekstruuder: Reguleerimata"
+
+#, fuzzy, python-format
+msgid "Right extruder offset is (%(x).2f, %(y).2f)"
+msgstr "Parema ekstruderi nihe on (%.3f, %.3f, %.3f)"
 
 msgid "Save"
 msgstr "Salvesta"
-
-msgid "Save Config"
-msgstr "Salvesta konfiguratsioon"
 
 msgid "Save Z"
 msgstr "Salvesta Z"
@@ -767,9 +970,8 @@ msgstr "Salvesta konfiguratsioon?"
 msgid "Saved"
 msgstr "Salvestatud"
 
-#, python-format
-msgid "Saved offset: %s"
-msgstr "Salvestatud nihe: %s"
+msgid "Saved successfully!"
+msgstr "Edukalt salvestatud!"
 
 msgid "Screen DPMS"
 msgstr "Ekraani DPMS"
@@ -780,8 +982,15 @@ msgstr "Ekraani väljalülitamise aeg"
 msgid "Screws Adjust"
 msgstr "Kruvide reguleerimine"
 
-msgid "Screws not used:"
-msgstr "Kruvid ei ole kasutatud:"
+#, fuzzy
+msgid "Select"
+msgstr "Valige WiFi"
+
+msgid "Select WiFi"
+msgstr "Valige WiFi"
+
+msgid "Self-check"
+msgstr "Isekontroll"
 
 msgid "Send"
 msgstr "Saada"
@@ -795,14 +1004,8 @@ msgstr "Seaded"
 msgid "Show"
 msgstr "Näita"
 
-msgid "Show Heater Power"
-msgstr "Näita küttekeha võimsust"
-
-msgid "Show Scrollbars Buttons"
-msgstr "Näita kerimisriba nuppe"
-
-msgid "Show only devices that are able to be set"
-msgstr "Näita ainult seadmeid, mida saab seadistada"
+msgid "Shut down after printing completes"
+msgstr "Lülita välja pärast printimise lõppu"
 
 msgid "Shutdown"
 msgstr "Seiskamine"
@@ -816,11 +1019,12 @@ msgstr "Lõikur"
 msgid "Slicer:"
 msgstr "Lõikur:"
 
-msgid "Small"
-msgstr "Väike"
+msgid "Spaghetti"
+msgstr ""
 
-msgid "Smooth time"
-msgstr "Silumise aeg"
+#, fuzzy
+msgid "Spaghetti Detection"
+msgstr "Filamendi tuvastamine"
 
 msgid "Speed (mm/s)"
 msgstr "Kiirus (mm/s)"
@@ -843,14 +1047,20 @@ msgstr "Valmisolek"
 msgid "Start"
 msgstr "Alusta"
 
+msgid "Starting WiFi Association"
+msgstr "WiFi ühenduse loomine"
+
+msgid "Starting dual nozzle height calibration..."
+msgstr ""
+
+msgid "Starting kTAMV auto-alignment..."
+msgstr ""
+
 msgid "Starting recovery for"
 msgstr "Taastamise alustamine"
 
 msgid "Starting update for"
 msgstr "Uuenduse alustamine"
-
-msgid "Swaps buttons if they are on top of each other, affects other panels"
-msgstr "Vahetab nuppe, kui need on üksteise peal, mõjutab teisi paneele"
 
 msgid "System"
 msgstr "Süsteem"
@@ -861,37 +1071,52 @@ msgstr "Süsteemi taaskäivitamine"
 msgid "System Shutdown"
 msgstr "Süsteemi seiskamine"
 
-msgid "System:"
-msgstr "Süsteem:"
-
 msgid "Temp (°C)"
 msgstr "Temperatuur (°C)"
 
 msgid "Temperature"
 msgstr "Temperatuur"
 
-msgid "The system doesn't meet the minimum requirement"
-msgstr "Süsteem ei vasta minimaalsetele nõudmistele"
+msgid "The nozzle temperature is too low, Are you sure you want to heat it?"
+msgstr ""
+"Düüsi temperatuur on liiga madal, kas olete kindel, et soovite seda "
+"kuumutada?"
 
-msgid "This panel supports up-to 9 screws in a 3x3 Grid"
-msgstr "See paneel toetab kuni 9 kruvi 3x3 võrgus"
+msgid "Time"
+msgstr ""
 
-msgid "This will affect screw positions and mesh graph"
-msgstr "See mõjutab kruvide asukohti ja võrgugraafikut"
-
-msgid "Timeout for screen black-out or power-off"
-msgstr "Ekraani pimenemise või väljalülitamise ajapiirang"
-
-msgid "Timeout for screen black-out or power-off during printing"
-msgstr "Ekraani pimenemise või väljalülitamise ajapiirang printimise ajal"
+msgid "Tip: Please ensure the nozzle is about 0.1mm above the model"
+msgstr "Vihje: Veenduge, et düüs oleks umbes 0.1mm mudelist kõrgemal"
 
 msgid "Total:"
 msgstr "Kokku:"
 
+msgid "Troubleshooting"
+msgstr "Tõrkeotsing"
+
+msgid "Turn off"
+msgstr "Lülita välja"
+
+msgid "Type"
+msgstr "Tüüp"
+
+#, fuzzy
+msgid "Unable to read the left extruder position."
+msgstr "Palun kinnitage vasakpoolse ekstruuderi asukoht."
+
+#, fuzzy
+msgid "Unable to read the right extruder position."
+msgstr "Palun kinnitage vasakpoolse ekstruuderi asukoht."
+
+#, fuzzy
+msgid "Unknown"
+msgstr "Tundmatu ventilaator"
+
 msgid "Unknown Heater"
 msgstr "Tundmatu küttekeha"
 
-msgid "Unknown security type"
+#, fuzzy
+msgid "Unknown screw position"
 msgstr "Tundmatu turvatüüp"
 
 msgid "Unload"
@@ -912,17 +1137,47 @@ msgstr "Uuenda"
 msgid "Updating"
 msgstr "Uuendamine"
 
-msgid "Useful for un-responsive touchscreens"
-msgstr "Kasulik mitte reageerivate puuteekraanide jaoks"
+msgid "Uploaded"
+msgstr "Üles laaditud"
+
+msgid "User Manual"
+msgstr "Kasutusjuhend"
+
+msgid "Voice Notify"
+msgstr "Häälteavitused"
+
+msgid ""
+"Warning: Current value is negative. This is dangerous and may damage the "
+"machine. Please recalibrate."
+msgstr ""
+
+msgid ""
+"Warning: Negative value detected. This is dangerous and may damage the "
+"machine. Please recalibrate."
+msgstr ""
+
+msgid "Warp Edge"
+msgstr ""
+
+#, fuzzy
+msgid "Warp Edge Detection"
+msgstr "Filamendi tuvastamine"
+
+msgid "Warp Head"
+msgstr ""
+
+#, fuzzy
+msgid "Warp Head Detection"
+msgstr "Filamendi tuvastamine"
 
 msgid "WebRTC is not supported by the backend trying Stream"
 msgstr "WebRTC-d ei toeta taustsüsteem, mis proovib voogu"
 
-msgid "Working"
-msgstr "Töötab"
-
 msgid "XY Move Speed (mm/s)"
 msgstr "XY liikumise kiirus (mm/s)"
+
+msgid "XY Offset"
+msgstr "XY nihke kalibreerimine"
 
 msgid "XY Speed (mm/s)"
 msgstr "XY kiirus (mm/s)"
@@ -930,8 +1185,22 @@ msgstr "XY kiirus (mm/s)"
 msgid "Z Calibrate"
 msgstr "Z kalibreerimine"
 
+msgid "Z Endstop"
+msgstr ""
+
+#, fuzzy
+msgid "Z Height Diff"
+msgstr "Kõrgus:"
+
 msgid "Z Move Speed (mm/s)"
 msgstr "Z liikumise kiirus (mm/s)"
+
+msgid "Z Offset"
+msgstr "Z nihke kalibreerimine"
+
+#, fuzzy
+msgid "Z Raise"
+msgstr "Tõsta"
 
 msgid "Z Speed (mm/s)"
 msgstr "Z kiirus (mm/s)"
@@ -939,26 +1208,26 @@ msgstr "Z kiirus (mm/s)"
 msgid "Z Tilt"
 msgstr "Z kalle"
 
+msgid "Z offset exceeds safe range"
+msgstr ""
+
 msgid "Z offset:"
 msgstr "Z nihe:"
 
+#, fuzzy
 msgid "commit"
+msgid_plural "commits"
+msgstr[0] "toiming"
+msgstr[1] "toiming"
 
-msgstr "toiming"
+msgid "dBm"
+msgstr "dBm"
 
-
-msgid "day"
-
-msgstr "päev"
-
-
-msgid "g"
-msgstr "g"
-
+#, fuzzy
 msgid "hour"
-
-msgstr "tund"
-
+msgid_plural "hours"
+msgstr[0] "tund"
+msgstr[1] "tund"
 
 msgid "macros that use 'rename_existing' are hidden"
 msgstr "Makrod, mis kasutavad 'rename_existing' on peidetud"
@@ -966,10 +1235,11 @@ msgstr "Makrod, mis kasutavad 'rename_existing' on peidetud"
 msgid "macros with a name starting with '_' are hidden"
 msgstr "Makrod, mille nimi algab '_' on peidetud"
 
+#, fuzzy
 msgid "minute"
-
-msgstr "minut"
-
+msgid_plural "minutes"
+msgstr[0] "minut"
+msgstr[1] "minut"
 
 msgid "mm"
 msgstr "mm"
@@ -983,833 +1253,841 @@ msgstr "mm/s²"
 msgid "mm³/s"
 msgstr "mm³/s"
 
-msgid "s"
-msgstr "s"
+#~ msgid "24 Hour Time"
+#~ msgstr "24-tunnine aeg"
 
-msgid "second"
+#, python-format
+#~ msgid "Apply %s%.3f offset to Endstop?"
+#~ msgstr "Rakenda %s%.3f nihe lõpp-punktile?"
 
-msgstr "sekund"
+#, python-format
+#~ msgid "Apply %s%.3f offset to Probe?"
+#~ msgstr "Rakenda %s%.3f nihe andurile?"
 
+#~ msgid "Asks for confirmation before stopping"
+#~ msgstr "Küsib kinnitust enne peatamist"
+
+#~ msgid "Auto-open Extrude On Pause"
+#~ msgstr "Pausi ajal ekstrusiooni automaatne avamine"
+
+#~ msgid "Bed Mesh"
+#~ msgstr "Voodi võrk"
+
+#~ msgid "Both"
+#~ msgstr "Mõlemad"
+
+#~ msgid "Changes how the interface looks"
+#~ msgstr "Muutused liidese välimuses"
+
+#~ msgid "Changes how the time remaining is calculated"
+#~ msgstr "Muutused järelejäänud aja arvutamises"
+
+#~ msgid "Close messages after a timeout"
+#~ msgstr "Sõnumite sulgemine pärast ajalõppu"
+
+#~ msgid "Connecting"
+#~ msgstr "Ühendamine"
+
+#~ msgid "Console"
+#~ msgstr "Konsool"
+
+#~ msgid "Couldn't add network"
+#~ msgstr "Võrgu lisamine ebaõnnestus"
+
+#~ msgid "Current"
+#~ msgstr "Praegune"
+
+#~ msgid "Current percentage and graph line"
+#~ msgstr "Praegune protsent ja graafiku joon"
+
+#~ msgid "Delete"
+#~ msgstr "Kustuta"
+
+#~ msgid "Disable for 12hs with am / pm"
+#~ msgstr "Keela 12 tunniks koos am/pm-ga"
+
+#~ msgid "Disconnect"
+#~ msgstr "Ühendu lahti"
+
+#, python-format
+#~ msgid "Do you want to forget or disconnect %s?"
+#~ msgstr "Kas soovite %s unustada või lahti ühendada?"
+
+#~ msgid "Enable screen power management"
+#~ msgstr "Luba ekraani energiakontroll"
+
+#~ msgid "Error getting active spool"
+#~ msgstr "Viga aktiivse pooli hankimisel"
+
+#~ msgid "Error setting active spool"
+#~ msgstr "Viga aktiivse pooli seadistamisel"
+
+#~ msgid "Error trying to fetch spools"
+#~ msgstr "Viga poolide toomise katsel"
+
+#~ msgid "Error: Couldn't get a position to probe"
+#~ msgstr "Viga: ei saanud sondi positsiooni"
+
+#~ msgid "Estimated Time"
+#~ msgstr "Eeldatav aeg"
+
+#~ msgid "Example"
+#~ msgstr "Näide"
+
+#~ msgid "Extra Large"
+#~ msgstr "Eriti suur"
+
+#~ msgid "Extruders"
+#~ msgstr "Ekstruderid"
+
+#~ msgid "Extrusion -"
+#~ msgstr "Ekstrusioon -"
+
+#~ msgid "Failed to delete connection"
+#~ msgstr "Ühenduse kustutamine ebaõnnestus"
+
+#~ msgid "Failed to initialize"
+#~ msgstr "Initsialiseerimine ebaõnnestus"
+
+#~ msgid "Filament"
+#~ msgstr "Filament"
+
+#~ msgid "Font Size"
+#~ msgstr "Fondi suurus"
+
+#~ msgid "Forget"
+#~ msgstr "Unusta"
+
+#~ msgid "Gcodes"
+#~ msgstr "G-koodid"
+
+#~ msgid "Getting IP address"
+#~ msgstr "IP-aadressi hankimine"
+
+#~ msgid "Hide sensors in Temp."
+#~ msgstr "Peida andurid temperatuuri all"
+
+#~ msgid "Host"
+#~ msgstr "Host"
+
+#~ msgid "Icon Theme"
+#~ msgstr "Ikoonide teema"
+
+#~ msgid "Insufficient privileges"
+#~ msgstr "Ebapiisavad õigused"
+
+#~ msgid "Inversely affects the icon size"
+#~ msgstr "Mõjutab pöördeliselt ikooni suurust"
+
+#~ msgid "It's possible that the configuration is not correct"
+#~ msgstr "On võimalik, et konfiguratsioon ei ole õige"
+
+#~ msgid "Klipper Restart"
+#~ msgstr "Klipperi taaskäivitamine"
+
+#~ msgid "Large"
+#~ msgstr "Suur"
+
+#~ msgid "Last Duration"
+#~ msgstr "Viimane kestus"
+
+#~ msgid "Layer Height"
+#~ msgstr "Kihi kõrgus"
+
+#~ msgid "Limits"
+#~ msgstr "Piirangud"
+
+#~ msgid "Loading..."
+#~ msgstr "Laadimine..."
+
+#~ msgid "Lost Connection to Moonraker"
+#~ msgstr "Ühendus Moonrakeriga katkes"
+
+#~ msgid "Macro shortcut on sidebar"
+#~ msgstr "Makro otsetee külgribal"
+
+#~ msgid "Macros"
+#~ msgstr "Makrod"
+
+#~ msgid "Max:"
+#~ msgstr "Maksimaalne:"
+
+#~ msgid "Maximum"
+#~ msgstr "Maksimaalne"
+
+#~ msgid "Medium"
+#~ msgstr "Keskmine"
+
+#~ msgid "Memory"
+#~ msgstr "Mälu"
+
+#~ msgid "Minimum Cruise Ratio"
+#~ msgstr "Minimaalne kruiisisuhe"
+
+#~ msgid "Minimum:"
+#~ msgstr "Minimaalne:"
+
+#~ msgid "Network connected"
+#~ msgstr "Võrk on ühendatud"
+
+#~ msgid "Network disconnected"
+#~ msgstr "Võrk on lahti ühendatud"
+
+#~ msgid "Network not found"
+#~ msgstr "Võrku ei leitud"
+
+#~ msgid "No mesh has been loaded"
+#~ msgstr "Võrku ei ole laaditud"
+
+#~ msgid "Not all screens support this"
+#~ msgstr "Mitte kõik ekraanid ei toeta seda"
+
+#~ msgid "Nozzle diameter"
+#~ msgstr "Düüsi läbimõõt"
+
+#~ msgid "Only for the move panel"
+#~ msgstr "Ainult liigutuspaneelile"
+
+#~ msgid "Pins"
+#~ msgstr "Nõelad"
+
+#~ msgid "Please wait"
+#~ msgstr "Palun oodake"
+
+#~ msgid "Pressure Advance"
+#~ msgstr "Surveelisus"
+
+#~ msgid "Pressure advance"
+#~ msgstr "Pressure advance"
+
+#~ msgid "Printer Connections"
+#~ msgstr "Printeri ühendused"
+
+#~ msgid "Remove network"
+#~ msgstr "Eemalda võrk"
+
+#~ msgid "Retract"
+#~ msgstr "Tagasi tõmbama"
+
+#~ msgid "Retraction"
+#~ msgstr "Tagasitõmbumine"
+
+#~ msgid "Rotation invalid"
+#~ msgstr "Pööramine kehtetu"
+
+#~ msgid "Save Config"
+#~ msgstr "Salvesta konfiguratsioon"
+
+#, python-format
+#~ msgid "Saved offset: %s"
+#~ msgstr "Salvestatud nihe: %s"
+
+#~ msgid "Screws not used:"
+#~ msgstr "Kruvid ei ole kasutatud:"
+
+#~ msgid "Show Heater Power"
+#~ msgstr "Näita küttekeha võimsust"
+
+#~ msgid "Show Scrollbars Buttons"
+#~ msgstr "Näita kerimisriba nuppe"
+
+#~ msgid "Show only devices that are able to be set"
+#~ msgstr "Näita ainult seadmeid, mida saab seadistada"
+
+#~ msgid "Small"
+#~ msgstr "Väike"
+
+#~ msgid "Smooth time"
+#~ msgstr "Silumise aeg"
+
+#~ msgid "Swaps buttons if they are on top of each other, affects other panels"
+#~ msgstr "Vahetab nuppe, kui need on üksteise peal, mõjutab teisi paneele"
+
+#~ msgid "System:"
+#~ msgstr "Süsteem:"
+
+#~ msgid "The system doesn't meet the minimum requirement"
+#~ msgstr "Süsteem ei vasta minimaalsetele nõudmistele"
+
+#~ msgid "This panel supports up-to 9 screws in a 3x3 Grid"
+#~ msgstr "See paneel toetab kuni 9 kruvi 3x3 võrgus"
+
+#~ msgid "This will affect screw positions and mesh graph"
+#~ msgstr "See mõjutab kruvide asukohti ja võrgugraafikut"
+
+#~ msgid "Timeout for screen black-out or power-off"
+#~ msgstr "Ekraani pimenemise või väljalülitamise ajapiirang"
+
+#~ msgid "Timeout for screen black-out or power-off during printing"
+#~ msgstr "Ekraani pimenemise või väljalülitamise ajapiirang printimise ajal"
+
+#~ msgid "Useful for un-responsive touchscreens"
+#~ msgstr "Kasulik mitte reageerivate puuteekraanide jaoks"
+
+#~ msgid "Working"
+#~ msgstr "Töötab"
+
+#~ msgid "day"
+#~ msgstr "päev"
+
+#~ msgid "g"
+#~ msgstr "g"
+
+#~ msgid "s"
+#~ msgstr "s"
+
+#~ msgid "second"
+#~ msgstr "sekund"
 
 #~ msgid "Are you sure you want to stop the calibration?"
 #~ msgstr "Kas olete kindel, et soovite kalibreerimise peatada?"
 
-#~ msgid "Mesh calibrate"
-#~ msgstr "Võrgu kalibreerimine"
-
-#~ msgid "Uploaded"
-#~ msgstr "Üles laaditud"
-
 #~ msgid "Ended official support in June 2023"
 #~ msgstr "Ametlik tugi lõppes juunis 2023"
-
-#~ msgid "Hidden"
-#~ msgstr "Peidetud"
 
 #~ msgid "KlipperScreen will drop support in June 2024"
 #~ msgstr "KlipperScreen lõpetab toe juunis 2024"
 
-#~ msgid "Print Time"
-#~ msgstr "Printimise aeg"
+#~ msgid "General"
+#~ msgstr "Üldine"
 
-#~ msgid "Starting WiFi Association"
-#~ msgstr "WiFi ühenduse loomine"
+#~ msgid "Cautions"
+#~ msgstr "Ettevaatusabinõud"
 
-#~ msgid "dBm"
-#~ msgstr "dBm"
+#~ msgid "Maintenance"
+#~ msgstr "Hooldus"
 
+#~ msgid "Calibration"
+#~ msgstr "Kalibreerimine"
 
-msgid "The nozzle temperature is too low, Are you sure you want to heat it?"
-msgstr "Düüsi temperatuur on liiga madal, kas olete kindel, et soovite seda kuumutada?"
+#~ msgid "Nozzle Heating"
+#~ msgstr "Düüsi kuumutamine"
 
-msgid "General"
-msgstr "Üldine"
+#~ msgid "Hot Bed Heating"
+#~ msgstr "Kuuma voodi kuumutamine"
 
-msgid "Turn off"
-msgstr "Lülita välja"
+#~ msgid "Nozzle Cooling Fan"
+#~ msgstr "Düüsi jahutusventilaator"
 
-msgid "Manual"
-msgstr "Käsiraamat"
+#~ msgid "Hotend Cooling Fan"
+#~ msgstr "Kuumendi jahutusventilaator"
 
-msgid "Troubleshooting"
-msgstr "Tõrkeotsing"
+#~ msgid "WiFi"
+#~ msgstr "WiFi"
 
-msgid "Cautions"
-msgstr "Ettevaatusabinõud"
+#~ msgid "Power loss recovery, is resume print?"
+#~ msgstr "Toitekatkestuse taastamine, kas jätkata printimist?"
 
-msgid "Maintenance"
-msgstr "Hooldus"
+#~ msgid "Skip All"
+#~ msgstr "Jäta kõik vahele"
 
-msgid "Calibration"
-msgstr "Kalibreerimine"
+#~ msgid "Please wait for the print job to end"
+#~ msgstr "Palun oodake, kuni printimine lõpeb"
 
-msgid "XY Offset"
-msgstr "XY nihke kalibreerimine"
+#~ msgid "Are you sure you wish to reset the printer?"
+#~ msgstr "Kas olete kindel, et soovite printeri lähtestada?"
 
-msgid "Z Offset"
-msgstr "Z nihke kalibreerimine"
+#~ msgid "Data will be deleted"
+#~ msgstr "Andmed kustutatakse"
 
-msgid "Only one extruder does not require calibration."
-msgstr "Ainult üks ekstruuder ei vaja kalibreerimist."
+#~ msgid "Reset Printer"
+#~ msgstr "Lähtesta printer"
 
-msgid "Please confirm left extruder position."
-msgstr "Palun kinnitage vasakpoolse ekstruuderi asukoht."
+#~ msgid "Resetting printer, will restart, please wait..."
+#~ msgstr "Printeri lähtestamine, see taaskäivitub, palun oodake..."
 
-msgid "Need to recalculate the offset value."
-msgstr "Tuleb ümber arvutada nihke väärtus."
-
-msgid "Error writing configuration"
-msgstr "Viga konfiguratsiooni kirjutamisel"
-
-msgid "Please wait for the camera initialization to complete."
-msgstr "Palun oodake, kuni kaamera algkäivitamine on lõppenud."
-
-msgid "Please wait for the camera's fill light to light up for 5 seconds before clicking 'Start'"
-msgstr "Palun oodake, kuni kaamera täitevalgus süttib 5 sekundiks, enne kui vajutate 'Start'."
-
-msgid "Couldn't get the calibration camera position."
-msgstr "Kalibreerimise kaamera positsiooni ei õnnestunud saada."
-
-msgid "Need home axis"
-msgstr "Vaja koduasendisse viimist"
-
-msgid "Choose Language"
-msgstr "Valige keel"
-
-msgid "Choose Timezone"
-msgstr "Valige ajavöönd"
-
-msgid "Select WiFi"
-msgstr "Valige WiFi"
-
-msgid "Self-check"
-msgstr "Isekontroll"
-
-msgid "Nozzle Heating"
-msgstr "Düüsi kuumutamine"
-
-msgid "Hot Bed Heating"
-msgstr "Kuuma voodi kuumutamine"
-
-msgid "Nozzle Cooling Fan"
-msgstr "Düüsi jahutusventilaator"
-
-msgid "Hotend Cooling Fan"
-msgstr "Kuumendi jahutusventilaator"
-
-msgid "Filament Detection"
-msgstr "Filamendi tuvastamine"
-
-msgid "Auto Leveling"
-msgstr "Automaatne tasandamine"
-
-msgid "WiFi"
-msgstr "WiFi"
-
-msgid "Power loss recovery, is resume print?"
-msgstr "Toitekatkestuse taastamine, kas jätkata printimist?"
-
-msgid "Please wait until the bed and nozzle are heated before calibrating."
-msgstr "Palun oodake, kuni voodi ja düüs on kalibreerimise jaoks kuumutatud."
-
-msgid "Current language:"
-msgstr "Praegune keel:"
-
-msgid "Skip All"
-msgstr "Jäta kõik vahele"
-
-msgid "Do not touch the printer during self-check."
-msgstr "Ärge puudutage printerit isekontrolli ajal."
-
-msgid "Confirm"
-msgstr "Kinnita"
-
-msgid "Current timezone:"
-msgstr "Praegune ajavöönd:"
-
-msgid "Choose a timezone"
-msgstr "Valige ajavöönd"
-
-msgid "Choose a language"
-msgstr "Valige keel"
-
-msgid "Please wait for the print job to end"
-msgstr "Palun oodake, kuni printimine lõpeb"
-
-msgid "Are you sure you wish to reset the printer?"
-msgstr "Kas olete kindel, et soovite printeri lähtestada?"
-
-msgid "Data will be deleted"
-msgstr "Andmed kustutatakse"
-
-msgid "Reset Printer"
-msgstr "Lähtesta printer"
-
-msgid "Resetting printer, will restart, please wait..."
-msgstr "Printeri lähtestamine, see taaskäivitub, palun oodake..."
-
-msgid "Reset"
-msgstr "Lähtesta"
-
-msgid "Confirm Pos"
-msgstr "Kinnita asend"
-
-msgid "Shut down after printing completes"
-msgstr "Lülita välja pärast printimise lõppu"
-
-msgid "Voice Notify"
-msgstr "Häälteavitused"
-
-msgid "Filament Box Power"
-msgstr "Filamendikasti toide"
-
-msgid "Saved successfully!"
-msgstr "Edukalt salvestatud!"
+#~ msgid "Reset"
+#~ msgstr "Lähtesta"
 
 # Feed Filament Box
-msgid "Edit"
-msgstr "Muuda"
+#~ msgid "Edit"
+#~ msgstr "Muuda"
 
-msgid "Filament Info"
-msgstr "Filamenti teave"
+#~ msgid "Filament Info"
+#~ msgstr "Filamenti teave"
 
-msgid "Not found"
-msgstr "Ei leitud"
+#~ msgid "Not found"
+#~ msgstr "Ei leitud"
 
-msgid "Vendor"
-msgstr "Tootja"
+#~ msgid "Vendor"
+#~ msgstr "Tootja"
 
-msgid "Type"
-msgstr "Tüüp"
+#~ msgid "Color"
+#~ msgstr "Värv"
 
-msgid "Color"
-msgstr "Värv"
+#~ msgid "Set Color"
+#~ msgstr "Määra värv"
 
-msgid "Set Color"
-msgstr "Määra värv"
+#~ msgid "Filament Settings"
+#~ msgstr "Filamenti seaded"
 
-msgid "Filament Settings"
-msgstr "Filamenti seaded"
+#~ msgid "Multi-Material Box"
+#~ msgstr "Mitme materjali kast"
 
-msgid "Multi-Material Box"
-msgstr "Mitme materjali kast"
+#~ msgid "Are you sure you wish to restart the firmware?"
+#~ msgstr "Kas olete kindel, et soovite püsivara taaskäivitada?"
 
-msgid "Are you sure you wish to restart the firmware?"
-msgstr "Kas olete kindel, et soovite püsivara taaskäivitada?"
+#~ msgid "Autofill filament disable"
+#~ msgstr "Keela filamendi automaattäitmine"
 
-msgid "Autofill filament disable"
-msgstr "Keela filamendi automaattäitmine"
+#~ msgid "Autofill filament: %s"
+#~ msgstr "Filamendi automaattäitmine: %s"
 
-msgid "Autofill filament enabled"
-msgstr "Filamendi automaattäitmine lubatud"
+#~ msgid "Backing up configuration files."
+#~ msgstr "Seadistusfailide varundamine."
 
-msgid "Autofill filament: %s"
-msgstr "Filamendi automaattäitmine: %s"
+#~ msgid "Calibrate Cutter Pos"
+#~ msgstr "Kalibreeri lõikuri asend"
 
-msgid "Backing up configuration files."
-msgstr "Seadistusfailide varundamine."
+#~ msgid "Couldn't get the calibration cutter position."
+#~ msgstr "Ei saanud lõikuri kalibreerimisasendit."
 
-msgid "Calibrate Cutter Pos"
-msgstr "Kalibreeri lõikuri asend"
+#~ msgid "Current filament indexes are:%s, active tool:%s"
+#~ msgstr "Praegused filamendi indeksid on:%s, aktiivne tööriist:%s"
 
-msgid "Couldn't get the calibration cutter position."
-msgstr "Ei saanud lõikuri kalibreerimisasendit."
+#~ msgid ""
+#~ "Current filament indexes are:%s, active tool:%s, resume_tool:%s, "
+#~ "pause_reason:%s"
+#~ msgstr ""
+#~ "Praegused filamendi indeksid on:%s, aktiivne tööriist:%s, "
+#~ "jätkamise_tööriist:%s, pausi_põhjus:%s"
 
-msgid "Current filament indexes are:%s, active tool:%s"
-msgstr "Praegused filamendi indeksid on:%s, aktiivne tööriist:%s"
+#~ msgid "Current value is %s"
+#~ msgstr "Praegune väärtus on %s"
 
-msgid "Current filament indexes are:%s, active tool:%s, resume_tool:%s, pause_reason:%s"
-msgstr "Praegused filamendi indeksid on:%s, aktiivne tööriist:%s, jätkamise_tööriist:%s, pausi_põhjus:%s"
+#~ msgid "Cut Filament Test"
+#~ msgstr "Filamendi lõikamise test"
 
-msgid "Current value is %s"
-msgstr "Praegune väärtus on %s"
+#~ msgid "Do you want to enable multi-material box?"
+#~ msgstr "Kas soovite lubada mitme materjali kasti?"
 
-msgid "Cut Filament Test"
-msgstr "Filamendi lõikamise test"
+#~ msgid "Do you want to use external filament?"
+#~ msgstr "Kas soovite kasutada välist filamenti?"
 
-msgid "Do you want to enable multi-material box?"
-msgstr "Kas soovite lubada mitme materjali kasti?"
+#~ msgid "Error: Offset values not found"
+#~ msgstr "Viga: Nihkeväärtusi ei leitud"
 
-msgid "Do you want to use external filament?"
-msgstr "Kas soovite kasutada välist filamenti?"
+#~ msgid "Error: Z offset value not found"
+#~ msgstr "Viga: Z-nihke väärtust ei leitud"
 
-msgid "Error: Offset values not found"
-msgstr "Viga: Nihkeväärtusi ei leitud"
+#~ msgid "External Filament"
+#~ msgstr "Väline filament"
 
-msgid "Error: Z offset value not found"
-msgstr "Viga: Z-nihke väärtust ei leitud"
+#~ msgid "Extruder not hot enough"
+#~ msgstr "Ekstruuder pole piisavalt kuum"
 
-msgid "External Filament"
-msgstr "Väline filament"
+#~ msgid "FEED error:External filament not removed"
+#~ msgstr "SÖÖTMISE viga: Välist filamenti pole eemaldatud"
 
-msgid "Extruder not hot enough"
-msgstr "Ekstruuder pole piisavalt kuum"
+#~ msgid "Filament %s not found"
+#~ msgstr "Filamenti %s ei leitud"
 
-msgid "FEED error:External filament not removed"
-msgstr "SÖÖTMISE viga: Välist filamenti pole eemaldatud"
+#~ msgid "Filament Sensor%s: No filament detected, canceling print"
+#~ msgstr "Filamendi andur%s: Filamenti ei tuvastatud, printimise tühistamine"
 
-msgid "Filament %s not found"
-msgstr "Filamenti %s ei leitud"
+#~ msgid "Filament Sensor%s: No filament detected, pausing print"
+#~ msgstr "Filamendi andur%s: Filamenti ei tuvastatud, printimise peatamine"
 
-msgid "Filament Sensor%s: No filament detected, canceling print"
-msgstr "Filamendi andur%s: Filamenti ei tuvastatud, printimise tühistamine"
+#~ msgid "Filament Sensor0: No filament detected, pausing print"
+#~ msgstr "Filamendi andur0: Filamenti ei tuvastatud, printimise peatamine"
 
-msgid "Filament Sensor%s: No filament detected, pausing print"
-msgstr "Filamendi andur%s: Filamenti ei tuvastatud, printimise peatamine"
+#~ msgid "Filament Sensor1: No filament detected, pausing print"
+#~ msgstr "Filamendi andur1: Filamenti ei tuvastatud, printimise peatamine"
 
-msgid "Filament Sensor0: No filament detected, pausing print"
-msgstr "Filamendi andur0: Filamenti ei tuvastatud, printimise peatamine"
+#~ msgid ""
+#~ "Filament detected! Please remove filament from the hotend before enabling "
+#~ "multi-material box."
+#~ msgstr ""
+#~ "Filament tuvastatud! Palun eemaldage filament kuumutist enne mitme "
+#~ "materjali kasti lubamist."
 
-msgid "Filament Sensor1: No filament detected, pausing print"
-msgstr "Filamendi andur1: Filamenti ei tuvastatud, printimise peatamine"
+#~ msgid "No valid params 'S'"
+#~ msgstr "Puuduvad kehtivad parameetrid 'S'"
 
-msgid "Filament detected! Please remove filament from the hotend before enabling multi-material box."
-msgstr "Filament tuvastatud! Palun eemaldage filament kuumutist enne mitme materjali kasti lubamist."
+#~ msgid "No"
+#~ msgstr "Ei"
 
-msgid "Missing required recovery data"
-msgstr "Puuduvad vajalikud taastamisandmed"
+#~ msgid "OK"
+#~ msgstr "OK"
 
-msgid "No power loss recovery data found"
-msgstr "Voolukatkestuse taastamisandmeid ei leitud"
+#~ msgid "Options"
+#~ msgstr "Valikud"
 
-msgid "No valid params 'S'"
-msgstr "Puuduvad kehtivad parameetrid 'S'"
+#~ msgid "Pause. The \"extruder\" extrude error!"
+#~ msgstr "Paus. \"Ekstruuderi\" väljutamise viga!"
 
-msgid "No"
-msgstr "Ei"
+#~ msgid "Please exit the filament from the nozzle first"
+#~ msgstr "Palun eemaldage esmalt filament düüsist"
 
-msgid "OK"
-msgstr "OK"
+#~ msgid ""
+#~ "Please fill in the voice number correctly: 0-start printing, 1-end "
+#~ "printing, 2-outage detected, 3-cancel printing, 4-pause printing"
+#~ msgstr ""
+#~ "Palun sisestage õige häälnumber: 0-alusta printimist, 1-lõpeta "
+#~ "printimine, 2-katkestus tuvastatud, 3-tühista printimine, 4-peata "
+#~ "printimine"
 
-msgid "Options"
-msgstr "Valikud"
+#~ msgid "Please select how you would like to proceed."
+#~ msgstr "Palun valige, kuidas soovite jätkata."
 
-msgid "Pause. The \"extruder\" extrude error!"
-msgstr "Paus. \"Ekstruuderi\" väljutamise viga!"
+#~ msgid "Power loss recovery, resuming print."
+#~ msgstr "Voolukatkestusest taastumine, printimise jätkamine."
 
-msgid "Please exit the filament from the nozzle first"
-msgstr "Palun eemaldage esmalt filament düüsist"
+#~ msgid "Power loss, saving print states."
+#~ msgstr "Voolukatkestus, printimise olekute salvestamine."
 
-msgid "Please fill in the voice number correctly: 0-start printing, 1-end printing, 2-outage detected, 3-cancel printing, 4-pause printing"
-msgstr "Palun sisestage õige häälnumber: 0-alusta printimist, 1-lõpeta printimine, 2-katkestus tuvastatud, 3-tühista printimine, 4-peata printimine"
+#~ msgid "Press feedsys button"
+#~ msgstr "Vajutage söötmissüsteemi nuppu"
 
-msgid "Please select how you would like to proceed."
-msgstr "Palun valige, kuidas soovite jätkata."
+#~ msgid "Print resumed from power loss position"
+#~ msgstr "Printimine jätkub voolukatkestuse asukohast"
 
-msgid "Power loss recovery, resuming print."
-msgstr "Voolukatkestusest taastumine, printimise jätkamine."
+#~ msgid "Printer not homed"
+#~ msgstr "Printer pole lähtestatud"
 
-msgid "Power loss, saving print states."
-msgstr "Voolukatkestus, printimise olekute salvestamine."
+#~ msgid "RESUME error:autofill no fil"
+#~ msgstr "JÄTKAMISE viga: automaattäitmisel pole filamenti"
 
-msgid "Press feedsys button"
-msgstr "Vajutage söötmissüsteemi nuppu"
+#~ msgid "RESUME error:no fil"
+#~ msgstr "JÄTKAMISE viga: filament puudub"
 
-msgid "Print resumed from power loss position"
-msgstr "Printimine jätkub voolukatkestuse asukohast"
+#~ msgid "RESUME error:residual fil"
+#~ msgstr "JÄTKAMISE viga: jääkfilament"
 
-msgid "Printer not homed"
-msgstr "Printer pole lähtestatud"
+#~ msgid "Recovery data: Z=%s, File=%s, Pos=%s"
+#~ msgstr "Taastamisandmed: Z=%s, Fail=%s, Pos=%s"
 
-msgid "RESUME error:autofill no fil"
-msgstr "JÄTKAMISE viga: automaattäitmisel pole filamenti"
+#~ msgid "Save & Restart"
+#~ msgstr "Salvesta ja taaskäivita"
 
-msgid "RESUME error:no fil"
-msgstr "JÄTKAMISE viga: filament puudub"
+#~ msgid "T%s direct feed"
+#~ msgstr "T%s otsesöötmine"
 
-msgid "RESUME error:residual fil"
-msgstr "JÄTKAMISE viga: jääkfilament"
+#~ msgid "T0 direct feed"
+#~ msgstr "T0 otsesöötmine"
 
-msgid "Recovery data: Z=%s, File=%s, Pos=%s"
-msgstr "Taastamisandmed: Z=%s, Fail=%s, Pos=%s"
+#~ msgid "T0 need exit filament"
+#~ msgstr "T0 vajab filamendi eemaldamist"
 
-msgid "Save & Restart"
-msgstr "Salvesta ja taaskäivita"
+#~ msgid "T1 direct feed"
+#~ msgstr "T1 otsesöötmine"
 
-msgid "T%s direct feed"
-msgstr "T%s otsesöötmine"
+#~ msgid "T1 need exit filament"
+#~ msgstr "T1 vajab filamendi eemaldamist"
 
-msgid "T0 direct feed"
-msgstr "T0 otsesöötmine"
+#~ msgid "T2 direct feed"
+#~ msgstr "T2 otsesöötmine"
 
-msgid "T0 need exit filament"
-msgstr "T0 vajab filamendi eemaldamist"
+#~ msgid "T2 need exit filament"
+#~ msgstr "T2 vajab filamendi eemaldamist"
 
-msgid "T1 direct feed"
-msgstr "T1 otsesöötmine"
+#~ msgid "T3 direct feed"
+#~ msgstr "T3 otsesöötmine"
 
-msgid "T1 need exit filament"
-msgstr "T1 vajab filamendi eemaldamist"
+#~ msgid "T3 need exit filament"
+#~ msgstr "T3 vajab filamendi eemaldamist"
 
-msgid "T2 direct feed"
-msgstr "T2 otsesöötmine"
+#~ msgid "The \"extruder\" extrude error!"
+#~ msgstr "\"Ekstruuderi\" väljutamise viga!"
 
-msgid "T2 need exit filament"
-msgstr "T2 vajab filamendi eemaldamist"
+#~ msgid "The current toolheade is T%s"
+#~ msgstr "Praegune tööriistapea on T%s"
 
-msgid "T3 direct feed"
-msgstr "T3 otsesöötmine"
+#~ msgid "The current toolheade is T0"
+#~ msgstr "Praegune tööriistapea on T0"
 
-msgid "T3 need exit filament"
-msgstr "T3 vajab filamendi eemaldamist"
+#~ msgid "The current toolheade is T1"
+#~ msgstr "Praegune tööriistapea on T1"
 
-msgid "The \"extruder\" extrude error!"
-msgstr "\"Ekstruuderi\" väljutamise viga!"
+#~ msgid "The current toolheade is T2"
+#~ msgstr "Praegune tööriistapea on T2"
 
-msgid "The current toolheade is T%s"
-msgstr "Praegune tööriistapea on T%s"
+#~ msgid "The current toolheade is T3"
+#~ msgstr "Praegune tööriistapea on T3"
 
-msgid "The current toolheade is T0"
-msgstr "Praegune tööriistapea on T0"
+#~ msgid "The filament_box_%s no filament"
+#~ msgstr "Filamendikastis_%s pole filamenti"
 
-msgid "The current toolheade is T1"
-msgstr "Praegune tööriistapea on T1"
+#~ msgid "The motor is wrong."
+#~ msgstr "Mootor on vigane."
 
-msgid "The current toolheade is T2"
-msgstr "Praegune tööriistapea on T2"
+#~ msgid "There is a residual filament, Please remove and continue"
+#~ msgstr "Esineb jääkfilament, palun eemaldage see ja jätkake"
 
-msgid "The current toolheade is T3"
-msgstr "Praegune tööriistapea on T3"
+#~ msgid "There's a residual filament in box %s"
+#~ msgstr "Kastis %s on jääkfilament"
 
-msgid "The filament_box_%s no filament"
-msgstr "Filamendikastis_%s pole filamenti"
+#~ msgid "There's a residual filament in box 1"
+#~ msgstr "Kastis 1 on jääkfilament"
 
-msgid "The motor is wrong."
-msgstr "Mootor on vigane."
+#~ msgid "There's a residual filament in box 2"
+#~ msgstr "Kastis 2 on jääkfilament"
 
-msgid "There is a residual filament, Please remove and continue"
-msgstr "Esineb jääkfilament, palun eemaldage see ja jätkake"
+#~ msgid "There's a residual filament in box 3"
+#~ msgstr "Kastis 3 on jääkfilament"
 
-msgid "There's a residual filament in box %s"
-msgstr "Kastis %s on jääkfilament"
+#~ msgid "There's a residual filament in box 4"
+#~ msgstr "Kastis 4 on jääkfilament"
 
-msgid "There's a residual filament in box 1"
-msgstr "Kastis 1 on jääkfilament"
+#~ msgid "Unknown filament"
+#~ msgstr "Tundmatu filament"
 
-msgid "There's a residual filament in box 2"
-msgstr "Kastis 2 on jääkfilament"
+#~ msgid "Use external filament, please manually exit"
+#~ msgstr "Kasutage välist filamenti, palun eemaldage käsitsi"
 
-msgid "There's a residual filament in box 3"
-msgstr "Kastis 3 on jääkfilament"
+#~ msgid "Warning"
+#~ msgstr "Hoiatus"
 
-msgid "There's a residual filament in box 4"
-msgstr "Kastis 4 on jääkfilament"
+#~ msgid "Yes"
+#~ msgstr "Jah"
 
-msgid "Unknown fan"
-msgstr "Tundmatu ventilaator"
+#~ msgid "auto shutdown error"
+#~ msgstr "Automaatse väljalülitamise viga"
 
-msgid "Unknown filament"
-msgstr "Tundmatu filament"
+#~ msgid "bed_mash:%s"
+#~ msgstr "aluse_võrk:%s"
 
-msgid "Use external filament, please manually exit"
-msgstr "Kasutage välist filamenti, palun eemaldage käsitsi"
+#~ msgid "clean pause_reason"
+#~ msgstr "puhasta pausi_põhjus"
 
-msgid "Warning"
-msgstr "Hoiatus"
+#~ msgid "cut filament"
+#~ msgstr "lõika filament"
 
-msgid "Yes"
-msgstr "Jah"
+#~ msgid "cutter press!"
+#~ msgstr "lõikuri vajutus!"
 
-msgid "auto shutdown error"
-msgstr "Automaatse väljalülitamise viga"
+#~ msgid "cutter release!"
+#~ msgstr "lõikuri vabastus!"
 
-msgid "bed_mash:%s"
-msgstr "aluse_võrk:%s"
+#~ msgid "feed busy"
+#~ msgstr "söötmine hõivatud"
 
-msgid "clean pause_reason"
-msgstr "puhasta pausi_põhjus"
+#~ msgid "feed error"
+#~ msgstr "söötmise viga"
 
-msgid "cut filament"
-msgstr "lõika filament"
+#~ msgid "feed finish"
+#~ msgstr "söötmine lõpetatud"
 
-msgid "cutter press!"
-msgstr "lõikuri vajutus!"
+#~ msgid "filament not removed"
+#~ msgstr "filament pole eemaldatud"
 
-msgid "cutter release!"
-msgstr "lõikuri vabastus!"
+#~ msgid "filament pause reason"
+#~ msgstr "filamendi peatamise põhjus"
 
-msgid "feed busy"
-msgstr "söötmine hõivatud"
+#~ msgid "filament press"
+#~ msgstr "filamendi vajutus"
 
-msgid "feed error"
-msgstr "söötmise viga"
+#~ msgid "filament release"
+#~ msgstr "filamendi vabastus"
 
-msgid "feed finish"
-msgstr "söötmine lõpetatud"
+#~ msgid "filament remove"
+#~ msgstr "filamendi eemaldamine"
 
-msgid "filament not removed"
-msgstr "filament pole eemaldatud"
+#~ msgid "filament runout"
+#~ msgstr "filament otsas"
 
-msgid "filament pause reason"
-msgstr "filamendi peatamise põhjus"
+#~ msgid "filament%s:%s"
+#~ msgstr "filament%s:%s"
 
-msgid "filament press"
-msgstr "filamendi vajutus"
+#~ msgid "flush filament"
+#~ msgstr "tühjenda filament"
 
-msgid "filament release"
-msgstr "filamendi vabastus"
+#~ msgid "motion sensor insert"
+#~ msgstr "liikumisanduri sisestamine"
 
-msgid "filament remove"
-msgstr "filamendi eemaldamine"
+#~ msgid "motion sensor runout"
+#~ msgstr "liikumisandur otsas"
 
-msgid "filament runout"
-msgstr "filament otsas"
+#~ msgid "motor_%s press"
+#~ msgstr "mootor_%s vajutus"
 
-msgid "filament%s:%s"
-msgstr "filament%s:%s"
+#~ msgid "motor_%s release"
+#~ msgstr "mootor_%s vabastus"
 
-msgid "flush filament"
-msgstr "tühjenda filament"
+#~ msgid "motor_1 press"
+#~ msgstr "mootor_1 vajutus"
 
-msgid "motion sensor insert"
-msgstr "liikumisanduri sisestamine"
+#~ msgid "motor_1 release"
+#~ msgstr "mootor_1 vabastus"
 
-msgid "motion sensor runout"
-msgstr "liikumisandur otsas"
+#~ msgid "motor_2 press"
+#~ msgstr "mootor_2 vajutus"
 
-msgid "motor_%s press"
-msgstr "mootor_%s vajutus"
+#~ msgid "motor_2 release"
+#~ msgstr "mootor_2 vabastus"
 
-msgid "motor_%s release"
-msgstr "mootor_%s vabastus"
+#~ msgid "motor_3 press"
+#~ msgstr "mootor_3 vajutus"
 
-msgid "motor_1 press"
-msgstr "mootor_1 vajutus"
+#~ msgid "motor_3 release"
+#~ msgstr "mootor_3 vabastus"
 
-msgid "motor_1 release"
-msgstr "mootor_1 vabastus"
+#~ msgid "motor_4 press"
+#~ msgstr "mootor_4 vajutus"
 
-msgid "motor_2 press"
-msgstr "mootor_2 vajutus"
+#~ msgid "motor_4 release"
+#~ msgstr "mootor_4 vabastus"
 
-msgid "motor_2 release"
-msgstr "mootor_2 vabastus"
+#~ msgid "no bed_mash name"
+#~ msgstr "aluse_võrgu nimi puudub"
 
-msgid "motor_3 press"
-msgstr "mootor_3 vajutus"
+#~ msgid "no bed_mash"
+#~ msgstr "aluse_võrk puudub"
 
-msgid "motor_3 release"
-msgstr "mootor_3 vabastus"
+#~ msgid "press button%s"
+#~ msgstr "vajuta nuppu%s"
 
-msgid "motor_4 press"
-msgstr "mootor_4 vajutus"
+#~ msgid "press button1"
+#~ msgstr "vajuta nuppu1"
 
-msgid "motor_4 release"
-msgstr "mootor_4 vabastus"
+#~ msgid "press button2"
+#~ msgstr "vajuta nuppu2"
 
-msgid "no bed_mash name"
-msgstr "aluse_võrgu nimi puudub"
+#~ msgid "press button3"
+#~ msgstr "vajuta nuppu3"
 
-msgid "no bed_mash"
-msgstr "aluse_võrk puudub"
+#~ msgid "press button4"
+#~ msgstr "vajuta nuppu4"
 
-msgid "no enabled"
-msgstr "pole lubatud"
+#~ msgid "remove filament"
+#~ msgstr "eemalda filament"
 
-msgid "press button%s"
-msgstr "vajuta nuppu%s"
+#~ msgid "residual filament%s"
+#~ msgstr "jääkfilament%s"
 
-msgid "press button1"
-msgstr "vajuta nuppu1"
+#~ msgid "residual filament0"
+#~ msgstr "jääkfilament0"
 
-msgid "press button2"
-msgstr "vajuta nuppu2"
+#~ msgid "residual filament1"
+#~ msgstr "jääkfilament1"
 
-msgid "press button3"
-msgstr "vajuta nuppu3"
+#~ msgid "residual filament2"
+#~ msgstr "jääkfilament2"
 
-msgid "press button4"
-msgstr "vajuta nuppu4"
+#~ msgid "residual filament3"
+#~ msgstr "jääkfilament3"
 
-msgid "remove filament"
-msgstr "eemalda filament"
+#~ msgid "resume:%s"
+#~ msgstr "jätka:%s"
 
-msgid "residual filament%s"
-msgstr "jääkfilament%s"
+#~ msgid "resume_tool:%s pause_reason:%s"
+#~ msgstr "jätkamise_tööriist:%s pausi_põhjus:%s"
 
-msgid "residual filament0"
-msgstr "jääkfilament0"
+#~ msgid "Manual Calibration"
+#~ msgstr "Käsitsi kalibreerimine"
 
-msgid "residual filament1"
-msgstr "jääkfilament1"
+#~ msgid "Auto Calibration"
+#~ msgstr "Automaatne kalibreerimine"
 
-msgid "residual filament2"
-msgstr "jääkfilament2"
+#~ msgid "Calibration successful!"
+#~ msgstr "Kalibreerimine õnnestus!"
 
-msgid "residual filament3"
-msgstr "jääkfilament3"
+#~ msgid "Auto calibration failed. Please clean the nozzle and try again."
+#~ msgstr ""
+#~ "Automaatne kalibreerimine ebaõnnestus. Palun puhastage düüs ja proovige "
+#~ "uuesti."
 
-msgid "resume:%s"
-msgstr "jätka:%s"
+#~ msgid ""
+#~ "Auto calibration is not available. Please install required dependencies."
+#~ msgstr ""
+#~ "Automaatne kalibreerimine pole saadaval. Palun installige vajalikud "
+#~ "sõltuvused."
 
-msgid "resume_tool:%s pause_reason:%s"
-msgstr "jätkamise_tööriist:%s pausi_põhjus:%s"
+#~ msgid "Left extruder template saved"
+#~ msgstr "Vasaku ekstruderi mall salvestatud"
 
-msgid "Copy Print"
-msgstr "Kopeeri printimine"
+#~ msgid "Right extruder template saved"
+#~ msgstr "Parema ekstruderi mall salvestatud"
 
-msgid "Mirror Print"
-msgstr "Peegelprintimine"
+#~ msgid "No template images found. Please perform manual calibration first."
+#~ msgstr ""
+#~ "Malli pilte ei leitud. Palun teostage esmalt käsitsi kalibreerimine."
 
-msgid "Manual Calibration"
-msgstr "Käsitsi kalibreerimine"
+#~ msgid "Getting image of left extruder"
+#~ msgstr "Vasaku ekstruderi pildi hankimine"
 
-msgid "Auto Calibration"
-msgstr "Automaatne kalibreerimine"
+#~ msgid "Getting image of right extruder"
+#~ msgstr "Parema ekstruderi pildi hankimine"
 
-msgid "Calibration successful!"
-msgstr "Kalibreerimine õnnestus!"
+#~ msgid ""
+#~ "Left extruder calibration failed. Please clean the nozzle and try again."
+#~ msgstr ""
+#~ "Vasaku ekstruderi kalibreerimine ebaõnnestus. Palun puhastage düüs ja "
+#~ "proovige uuesti."
 
-msgid "Auto calibration failed. Please clean the nozzle and try again."
-msgstr "Automaatne kalibreerimine ebaõnnestus. Palun puhastage düüs ja proovige uuesti."
+#~ msgid ""
+#~ "Right extruder calibration failed. Please clean the nozzle and try again."
+#~ msgstr ""
+#~ "Parema ekstruderi kalibreerimine ebaõnnestus. Palun puhastage düüs ja "
+#~ "proovige uuesti."
 
-msgid "Auto calibration is not available. Please install required dependencies."
-msgstr "Automaatne kalibreerimine pole saadaval. Palun installige vajalikud sõltuvused."
+#~ msgid ""
+#~ "Please wait for the camera's fill light to light up for 5 seconds before "
+#~ "clicking 'Manual Calibration' or 'Auto Calibration'"
+#~ msgstr ""
+#~ "Palun oodake 5 sekundit, kuni kaamera täitevalgus süttib, enne kui "
+#~ "klõpsate 'Käsitsi kalibreerimine' või 'Automaatne kalibreerimine'"
 
-msgid "Left extruder template saved"
-msgstr "Vasaku ekstruderi mall salvestatud"
+#~ msgid "The door is open."
+#~ msgstr "Uks on avatud."
 
-msgid "Right extruder template saved"
-msgstr "Parema ekstruderi mall salvestatud"
+#~ msgid "The door is closed."
+#~ msgstr "Uks on suletud."
 
-msgid "Failed to save template"
-msgstr "Malli salvestamine ebaõnnestus"
+#~ msgid "Error getting origin offset values: %s"
+#~ msgstr "Viga algse nihke väärtuste hankimisel: %s"
 
-msgid "No template images found. Please perform manual calibration first."
-msgstr "Malli pilte ei leitud. Palun teostage esmalt käsitsi kalibreerimine."
+#~ msgid "Filament run out, pausing print"
+#~ msgstr "Filament otsas, peatan printimist"
 
-msgid "Getting image of left extruder"
-msgstr "Vasaku ekstruderi pildi hankimine"
+#~ msgid "Not in single extruder mode, pausing print"
+#~ msgstr "Mitte ühe ekstrudeerija režiimis, peatan printimist"
 
-msgid "Getting image of right extruder"
-msgstr "Parema ekstruderi pildi hankimine"
+#~ msgid "Current sensor not configured, pausing print"
+#~ msgstr "Praegune sensor pole seadistatud, peatan printimist"
 
-msgid "Left extruder calibration failed. Please clean the nozzle and try again."
-msgstr "Vasaku ekstruderi kalibreerimine ebaõnnestus. Palun puhastage düüs ja proovige uuesti."
+#~ msgid "Other sensor not configured, pausing print"
+#~ msgstr "Muud sensored pole seadistatud, peatan printimist"
 
-msgid "Right extruder calibration failed. Please clean the nozzle and try again."
-msgstr "Parema ekstruderi kalibreerimine ebaõnnestus. Palun puhastage düüs ja proovige uuesti."
+#~ msgid "Current extruder has filament, continuing print"
+#~ msgstr "Praegune ekstrudeerija hulgab filaments, jätkan printimist"
 
-msgid "left extruder pos: (%.3f, %.3f, %.3f)"
-msgstr "vasaku ekstruderi pos: (%.3f, %.3f, %.3f)"
+#~ msgid "Both extruders out of filament, pausing print"
+#~ msgstr "Mõlemad ekstrudeerijad on filamenti otsas, peatan printimist"
 
-msgid "Right extruder offset is (%.3f, %.3f, %.3f)"
-msgstr "Parema ekstruderi nihe on (%.3f, %.3f, %.3f)"
+#~ msgid "Filament run out, switching extruder"
+#~ msgstr "Filament otsas, vahetan ekstrudeerija"
 
-msgid "Please wait for the camera's fill light to light up for 5 seconds before clicking 'Manual Calibration' or 'Auto Calibration'"
-msgstr "Palun oodake 5 sekundit, kuni kaamera täitevalgus süttib, enne kui klõpsate 'Käsitsi kalibreerimine' või 'Automaatne kalibreerimine'"
+#~ msgid "Switching to left extruder"
+#~ msgstr "Vahetan vasakule ekstrudeerijale"
 
-msgid "The door is open."
-msgstr "Uks on avatud."
+#~ msgid "Switching to right extruder"
+#~ msgstr "Vahetan paremale ekstrudeerijale"
 
-msgid "The door is closed."
-msgstr "Uks on suletud."
+#~ msgid "Extruder switch complete, resuming print"
+#~ msgstr "Ekstrudeerija vahetus lõpule jõudnud, jätkan printimist"
 
-msgid "Error getting origin offset values: %s"
-msgstr "Viga algse nihke väärtuste hankimisel: %s"
+#~ msgid "Auto extruder switch already enabled"
+#~ msgstr "Automaatne ekstrudeerija vahetus juba lubatud"
 
-msgid "Raise"
-msgstr "Tõsta"
+#~ msgid ""
+#~ "Auto extruder switch enabled, this feature only works when printing with "
+#~ "a single extruder"
+#~ msgstr ""
+#~ "Automaatne ekstrudeerija vahetus lubatud; see funktsioon töötab ainult "
+#~ "ühe ekstrudeerija printimisel"
 
-msgid "Lower"
-msgstr "Langeda"
+#~ msgid "Auto extruder switch already disabled"
+#~ msgstr "Automaatne ekstrudeerija vahetus juba keelatud"
 
-msgid "Filament run out, pausing print"
-msgstr "Filament otsas, peatan printimist"
+#~ msgid "Auto extruder switch disabled"
+#~ msgstr "Automaatne ekstrudeerija vahetus keelatud"
 
-msgid "Not in single extruder mode, pausing print"
-msgstr "Mitte ühe ekstrudeerija režiimis, peatan printimist"
+#~ msgid "Filament Sensor0: No filament detected, canceling print."
+#~ msgstr "Filamentisensor 0: Filamenti ei tuvastatud, tühistan printimist."
 
-msgid "Current sensor not configured, pausing print"
-msgstr "Praegune sensor pole seadistatud, peatan printimist"
+#~ msgid "Filament Sensor1: No filament detected, canceling print."
+#~ msgstr "Filamentisensor 1: Filamenti ei tuvastatud, tühistan printimist."
 
-msgid "Other sensor not configured, pausing print"
-msgstr "Muud sensored pole seadistatud, peatan printimist"
-
-msgid "Current extruder has filament, continuing print"
-msgstr "Praegune ekstrudeerija hulgab filaments, jätkan printimist"
-
-msgid "Both extruders out of filament, pausing print"
-msgstr "Mõlemad ekstrudeerijad on filamenti otsas, peatan printimist"
-
-msgid "Filament run out, switching extruder"
-msgstr "Filament otsas, vahetan ekstrudeerija"
-
-msgid "Switching to left extruder"
-msgstr "Vahetan vasakule ekstrudeerijale"
-
-msgid "Switching to right extruder"
-msgstr "Vahetan paremale ekstrudeerijale"
-
-msgid "Extruder switch complete, resuming print"
-msgstr "Ekstrudeerija vahetus lõpule jõudnud, jätkan printimist"
-
-msgid "Auto extruder switch already enabled"
-msgstr "Automaatne ekstrudeerija vahetus juba lubatud"
-
-msgid "Auto extruder switch enabled, this feature only works when printing with a single extruder"
-msgstr "Automaatne ekstrudeerija vahetus lubatud; see funktsioon töötab ainult ühe ekstrudeerija printimisel"
-
-msgid "Auto extruder switch already disabled"
-msgstr "Automaatne ekstrudeerija vahetus juba keelatud"
-
-msgid "Auto extruder switch disabled"
-msgstr "Automaatne ekstrudeerija vahetus keelatud"
-
-msgid "Extruder switch when filament run out"
-msgstr "Ekstrudeerija vahetus, kui filament otseneb"
-
-msgid "Filament Sensor0: No filament detected, canceling print."
-msgstr "Filamentisensor 0: Filamenti ei tuvastatud, tühistan printimist."
-
-msgid "Filament Sensor1: No filament detected, canceling print."
-msgstr "Filamentisensor 1: Filamenti ei tuvastatud, tühistan printimist."
-
-msgid "Active Extruder"
-msgstr "Aktiivne Ekstruuder"
-
-msgid "Active Extruder:"
-msgstr "Aktiivne Ekstruuder:"
-
-msgid "Bed Temp:"
-msgstr "Aluse Temp:"
-
-msgid "Bed Temperature"
-msgstr "Aluse Temperatuur"
-
-msgid "Filename"
-msgstr "Failinimi"
-
-msgid "Filename:"
-msgstr "Failinimi:"
-
-msgid "Missing required information"
-msgstr "Puudub vajalik informatsioon"
-
-msgid "Nozzle Temp:"
-msgstr "Düüsi Temp:"
-
-msgid "Nozzle Temperature"
-msgstr "Düüsi Temperatuur"
-
-msgid "Power Loss Recovery"
-msgstr "Voolukatkestuse Taastamine"
-
-msgid "Print Height"
-msgstr "Printimise Kõrgus"
-
-msgid "Print Height:"
-msgstr "Printimise Kõrgus:"
-
-msgid "Print height is less than 1mm"
-msgstr "Printimise kõrgus on vähem kui 1mm"
-
-msgid "Recovery File"
-msgstr "Taastefail"
-
-msgid "Resume Print"
-msgstr "Jätka Printimist"
-
-msgid "Tip: Please ensure the nozzle is about 0.1mm above the model"
-msgstr "Vihje: Veenduge, et düüs oleks umbes 0.1mm mudelist kõrgemal"
-
-msgid "Force Move"
-msgstr "Sundjuhtimine"
-
-msgid "Force move: "
-msgstr "Sundjuhtimine:"
-
-msgid "Apply Z offset to Probe?"
-msgstr "Rakenda Z-nihe sondile?"
-
-msgid "Left Extruder: %s%.3f"
-msgstr "Vasak ekstruuder: %s%.3f"
-
-msgid "Left Extruder: Not adjusted"
-msgstr "Vasak ekstruuder: Reguleerimata"
-
-msgid "Right Extruder: %s%.3f"
-msgstr "Parem ekstruuder: %s%.3f"
-
-msgid "Right Extruder: Not adjusted"
-msgstr "Parem ekstruuder: Reguleerimata"
-
-msgid "Apply Z offset to Endstop?"
-msgstr "Rakenda Z-nihe lõpplülitile?"
-
-msgid "Remove Foam"
-msgstr "Eemalda vaht"
-
-msgid "Please remove the extruder foam and take out the door handle."
-msgstr "Palun eemaldage ekstruderi vaht ja võtke välja uksekäepide."
-
-msgid "Please click the Z raise button to raise the Z axis to remove the foam around the bottom of the case."
-msgstr "Palun klõpsake Z tõstmise nuppu, et tõsta Z-telge ja eemaldada vaht korpuse põhja ümber."
-
-msgid "Print Issue Detected!"
-msgstr "Tuvastatud printimisprobleemi!"
-
-msgid "No prediction image available"
-msgstr "Prognoosipilt pole saadaval"
-
-msgid "Print resumed"
-msgstr "Printimine jätkatud"
-
-msgid "Failed to resume print"
-msgstr "Printimise jätkamine ebaõnnestus"
-
-msgid "Print cancelled"
-msgstr "Printimine tühistatud"
-
-msgid "Failed to cancel print"
-msgstr "Printimise tühistamine ebaõnnestus"
-
-msgid "Configure basic AI service settings. Enable the AI service to monitor your prints and adjust the confidence threshold for detection sensitivity."
-msgstr "Seadistage AI-teenuse põhiseaded. Lubage AI-teenus oma väljatrükkide jälgimiseks ja kohandage usaldusläve tuvastustundlikkuse jaoks."
-
-
-msgid "AI Detection Alert"
-msgstr "AI Tuvastushoiatus"
-
-msgid "AI Monitor"
-msgstr "AI Monitor"
-
-msgid "AI Settings"
-msgstr "AI Seaded"
-
-msgid "Detected defect: %s (Confidence: %.1f%%)"
-msgstr "Tuvastatud defekt: %s (Kindlus: %.1f%%)"
-
-msgid "AI Detection Error: %s"
-msgstr "AI tuvastamise viga: %s"
-
-msgid "AI Detection Service"
-msgstr "AI Tuvastamisteenus"
-
-msgid "AI Server URL"
-msgstr "AI Serveri URL"
-
-msgid "Confidence Threshold (%)"
-msgstr "Usaldusväärsuse lävi (%)"
-
-msgid "Detection Interval (seconds)"
-msgstr "Tuvastamise intervall (sekundid)"
-
-msgid "Auto Pause on Detection"
-msgstr "Automaatne paus tuvastusel"
-
-msgid "Enabled Defect Types"
-msgstr "Lubatud defektitüübid"
-
-msgid "Camera Source"
-msgstr "Kaamera allikas"
-
-msgid "Camera URL"
-msgstr "Kaamera URL"
-
-msgid "Continue Detection While Paused"
-msgstr "Jätka tuvastamist pausi ajal"
-
-msgid "Sound Notification"
-msgstr "Heliteade"
-
+#~ msgid "Resume Print"
+#~ msgstr "Jätka Printimist"

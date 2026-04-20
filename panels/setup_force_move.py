@@ -24,15 +24,8 @@ class Panel(ScreenPanel):
                 logging.info("Setup Force Move: Z axis is not homed. Enabling stepper_z.")
                 self._screen._send_action(None, "printer.gcode.script", {"script": "SET_STEPPER_ENABLE STEPPER=stepper_z ENABLE=1"})
                 self._screen._send_action(None, "printer.gcode.script", {"script": "G4 P2000"})
-        
-        self.base_path = os.path.join(klipperscreendir, "ks_includes", "locales")
-        self.current_lang = self._config.get_main_config().get("language", "en")
-        self.printer_model = self.get_printer_model()
-        self.image_path = self.get_image_path("remove_foam2.jpg")
-        
-        # Only initialize UI if image exists
-        if os.path.exists(self.image_path):
-            self.init_ui()
+        self.image_path = os.path.join(klipperscreendir, "ks_includes", "locales", "en", "manual", "remove_foam2.jpg")
+        self.init_ui()
 
     def init_ui(self):
         grid = self._gtk.HomogeneousGrid()
@@ -42,9 +35,11 @@ class Panel(ScreenPanel):
         prev_btn.connect("clicked", self.on_previous_click)
         grid.attach(prev_btn, 0, 0, 1, 1)
         
-
-        z_up_image = "bed_down"
-        z_up_label = _("Bed Lower")
+        z_up_image = "z-farther"
+        z_up_label = _("Z Raise")
+        if "MD_400D" in self._printer.get_gcode_macros():
+            z_up_image = "bed_down"
+            z_up_label = _("Bed Lower")
             
         self.z_raise_btn = self._gtk.Button(z_up_image, None, "color3", scale=.66)
         self.z_raise_btn.connect("clicked", self.move_z_up)
@@ -90,21 +85,25 @@ class Panel(ScreenPanel):
         dist = 70.0
         speed = 2  # Z speed in mm/s
         
-        # 统一使用G1命令，不管是否归位
-        logging.info(f"Moving Z up by {dist}mm at {speed}mm/s")
-        
-        # 构建统一的命令序列：设置坐标 -> 暂停 -> 使用G1移动
-        script_commands = [
-            "SET_KINEMATIC_POSITION Z=10.0",
-            "G4 P500",
-            "G91",  # 相对移动模式
-            f"G1 Z{dist} F{speed * 60}",
-            "M400",  # 等待移动完成
-            "G90"   # 绝对移动模式
-        ]
-        
-        self._screen._send_action(None, "printer.gcode.script",
-            {"script": "\n".join(script_commands)})
+        # Check if Z is homed
+        toolhead_status = self._printer.get_stat("toolhead")
+        if toolhead_status:
+            homed_axes = toolhead_status.get("homed_axes", "").upper()
+            if "Z" in homed_axes:
+                # Use normal G-code if homed
+                logging.info(f"Moving Z up by {dist}mm at {speed}mm/s (homed)")
+                self._screen._send_action(None, "printer.gcode.script", 
+                    {"script": f"G91\nG0 Z{dist} F{speed*60}\nG90"})
+            else:
+                # Use force move if not homed
+                logging.info(f"Force moving Z up by {dist}mm at {speed}mm/s (not homed)")
+                if dist >= 2:
+                    accel = 60
+                    self._screen._send_action(None, "printer.gcode.script",
+                        {"script": f"FORCE_MOVE STEPPER=stepper_z DISTANCE={dist} VELOCITY={speed} ACCEL={accel}"})
+                else:
+                    self._screen._send_action(None, "printer.gcode.script",
+                        {"script": f"FORCE_MOVE STEPPER=stepper_z DISTANCE={dist} VELOCITY={speed}"})
         
         # Disable the z_raise button after clicking
         self.z_raise_btn.set_sensitive(False)
@@ -141,38 +140,6 @@ class Panel(ScreenPanel):
             # If image not found, show a placeholder
             self.image.set_from_icon_name("image-missing", Gtk.IconSize.DIALOG)
     
-    def get_printer_model(self):
-        # 获取打印机型号
-        if "MD_1000D" in self._printer.available_commands:
-            return "1000D"
-        elif "MD_600D" in self._printer.available_commands:
-            return "600D"
-        elif "MD_600PRO" in self._printer.available_commands:
-            return "600PRO"
-        elif "MD_1000PRO" in self._printer.available_commands:
-            return "1000PRO"
-        elif "MD_400D" in self._printer.available_commands:
-            return "400D"
-        return None  # 没有识别到的机型
-    
-    def get_image_path(self, image_name):
-        # 如果没有识别到机型，直接返回不存在的路径
-        if self.printer_model is None:
-            return ""
-            
-        # 首先尝试获取当前语言和机型的图片路径
-        lang_model_path = os.path.join(self.base_path, self.current_lang, "manual", self.printer_model, image_name)
-        if os.path.exists(lang_model_path):
-            return lang_model_path
-        
-        # 如果当前语言的图片不存在，尝试使用英语图片
-        en_model_path = os.path.join(self.base_path, "en", "manual", self.printer_model, image_name)
-        if os.path.exists(en_model_path):
-            return en_model_path
-            
-        # 如果都不存在，返回空路径
-        return ""
-
     def scale_image(self, filename, new_width, new_height):
         # Load the image from the file
         pixbuf = GdkPixbuf.Pixbuf.new_from_file(filename)

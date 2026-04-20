@@ -41,7 +41,7 @@ class Panel(ScreenPanel):
         z_down_image = "z-closer"
         z_up_label = _("Raise") 
         z_down_label = _("Lower")
-        if True:
+        if "MD_400D" in self._printer.get_gcode_macros():
             z_up_image = "bed_down"
             z_down_image = "bed_up"
             z_up_label = _("Lower")
@@ -119,7 +119,7 @@ class Panel(ScreenPanel):
                 grid.attach(self.buttons['x-'], 2, 1, 1, 1)
             grid.attach(self.buttons['y+'], 1, 0, 1, 1)
             grid.attach(self.buttons['y-'], 1, 1, 1, 1)
-            if True:
+            if "MD_400D" in self._printer.get_gcode_macros():
                 grid.attach(self.buttons['z-'], 3, 0, 1, 1)
                 grid.attach(self.buttons['z+'], 3, 1, 1, 1)
             else:
@@ -224,9 +224,8 @@ class Panel(ScreenPanel):
 
     def _show_move_confirmation(self, axis, distance, script_data):
         """显示移动确认对话框"""
-        sign = "+" if float(distance) > 0 else ""
         label = Gtk.Label()
-        label.set_label(_("Force move: ") + f"{axis}{sign}{distance}mm?")
+        label.set_label(_("Force move: ") + f"{axis}{distance}mm?")
         label.set_hexpand(True)
         label.set_halign(Gtk.Align.CENTER)
         label.set_vexpand(True)
@@ -292,7 +291,7 @@ class Panel(ScreenPanel):
                 ]
             
             # _execute_movement 方法可以处理命令列表，它会在内部将列表连接成一个脚本字符串
-            self._execute_movement(widget, axis, main_movement_script_list, self.distance)
+            self._execute_movement(widget, axis, main_movement_script_list, dist)
 
         except Exception as e:
             logging.exception(f"Error during axis movement: {str(e)}")

@@ -17,15 +17,17 @@ class Panel(ScreenPanel):
         self.load_filament = any("LOAD_FILAMENT" in macro.upper() for macro in macros)
         self.unload_filament = any("UNLOAD_FILAMENT" in macro.upper() for macro in macros)
 
-        self.speeds = ['100', '200']
-        self.distances = ['1000', '2500', '5000', '10000']
+        self.preheat_temp = 240
+        self.speeds = ['2', '5']
+        self.distances = ['10', '25', '50', '100']
         if self.ks_printer_cfg is not None:
-            dis = self.ks_printer_cfg.get("extrude_distances", '1000, 2500, 5000, 10000')
+            self.preheat_temp = int(self.ks_printer_cfg.get("extrude_preheat_temp", "240"))
+            dis = self.ks_printer_cfg.get("extrude_distances", '10, 25, 50, 100')
             if re.match(r'^[0-9,\s]+$', dis):
                 dis = [str(i.strip()) for i in dis.split(',')]
                 if 1 < len(dis) < 5:
                     self.distances = dis
-            vel = self.ks_printer_cfg.get("extrude_speeds", '100, 200')
+            vel = self.ks_printer_cfg.get("extrude_speeds", '2, 5')
             if re.match(r'^[0-9,\s]+$', vel):
                 vel = [str(i.strip()) for i in vel.split(',')]
                 if 1 < len(vel) < 5:
@@ -40,7 +42,6 @@ class Panel(ScreenPanel):
             'retract': self._gtk.Button("retract", _("Unload"), "color1"),
             'temperature': self._gtk.Button("heat-up", _("Preheat"), "color4"),
             'spoolman': self._gtk.Button("spoolman", "Spoolman", "color3"),
-            'waste_chute': self._gtk.Button("move", _("Waste Chute"), "color1"),
         }
         self.buttons['extrude'].connect("clicked", self.extrude, "+")
         self.buttons['load'].connect("clicked", self.load_unload, "+")
@@ -54,7 +55,6 @@ class Panel(ScreenPanel):
             "name": "Spoolman",
             "panel": "spoolman"
         })
-        self.buttons['waste_chute'].connect("clicked", self.move_to_waste_chute)
         extgrid = self._gtk.HomogeneousGrid()
         limit = 5
         i = 0
@@ -148,28 +148,26 @@ class Panel(ScreenPanel):
         grid = Gtk.Grid()
         grid.set_column_homogeneous(True)
         grid.attach(extgrid, 0, 0, 4, 1)
+
         if self._screen.vertical_mode:
             grid.attach(self.buttons['extrude'], 0, 1, 2, 1)
             grid.attach(self.buttons['retract'], 2, 1, 2, 1)
             grid.attach(self.buttons['load'], 0, 2, 2, 1)
             if self.unload_filament:
-                grid.attach(self.buttons['unload'], 2, 2, 2, 1)
+                grid.attach(self.buttons['retract'], 2, 2, 2, 1)
             else:
                 grid.attach(self.buttons['temperature'], 2, 2, 2, 1)
-            grid.attach(self.buttons['waste_chute'], 0, 3, 4, 1)
-            grid.attach(distbox, 0, 4, 4, 1)
-            grid.attach(speedbox, 0, 5, 4, 1)
-            grid.attach(sensors, 0, 6, 4, 1)
+            grid.attach(distbox, 0, 3, 4, 1)
+            grid.attach(speedbox, 0, 4, 4, 1)
+            grid.attach(sensors, 0, 5, 4, 1)
         else:
             grid.attach(self.buttons['extrude'], 0, 2, 2, 1)
             if self.unload_filament:
-                grid.attach(self.buttons['unload'], 2, 2, 1, 1)
-                grid.attach(self.buttons['waste_chute'], 3, 2, 1, 1)
+                grid.attach(self.buttons['retract'], 2, 2, 2, 1)
             else:
                 grid.attach(self.buttons['temperature'], 2, 2, 2, 1)
             grid.attach(distbox, 0, 3, 2, 1)
             grid.attach(speedbox, 2, 3, 2, 1)
-            grid.attach(sensors, 0, 4, 4, 1)
             grid.attach(sensors, 0, 4, 4, 1)
 
         self.content.add(grid)
@@ -249,7 +247,7 @@ class Panel(ScreenPanel):
     def extrude(self, widget, direction):
         temp = self._printer.get_dev_stat(self.current_extruder, "temperature")
         if temp < 190:
-            script = {"script": "M104 S240"}
+            script = {"script": f"M104 S{self.preheat_temp}"}
             self._screen._confirm_send_action(None,
                                               _("The nozzle temperature is too low, Are you sure you want to heat it?"),
                                               "printer.gcode.script", script, save_button=False)
@@ -275,11 +273,6 @@ class Panel(ScreenPanel):
             else:
                 self._screen._send_action(widget, "printer.gcode.script",
                                           {"script": f"LOAD_FILAMENT SPEED={self.speed * 60}"})
-
-    def move_to_waste_chute(self, widget):
-        logging.info("Moving to waste chute")
-        self._screen._send_action(widget, "printer.gcode.script",
-                                  {"script": "MOVE_TO_WASTE_CHUTE"})
 
     def enable_disable_fs(self, switch, gparams, name, x):
         if switch.get_active():

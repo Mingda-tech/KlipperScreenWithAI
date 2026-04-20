@@ -1,8 +1,5 @@
 import logging
 import gi
-import os
-import subprocess
-from contextlib import suppress
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
@@ -36,7 +33,7 @@ class Panel(ScreenPanel):
         z_down_image = "z-closer"
         z_up_label = _("Raise")  
         z_down_label = _("Lower")
-        if True:
+        if "MD_400D" in self._printer.get_gcode_macros():
             z_up_image = "bed_down"
             z_down_image = "bed_up"
             z_up_label = _("Lower")
@@ -53,12 +50,22 @@ class Panel(ScreenPanel):
         self.buttons['complete'].connect("clicked", self.accept)
         self.buttons['cancel'].connect("clicked", self.abort)
 
-        # 检查是否有CALIBRATE_Z_OFFSET命令
-        if "CALIBRATE_Z_OFFSET" in self._printer.available_commands:
-            self.buttons['start'].connect("clicked", self.start_calibration, "endstop")
+        functions = []
+        pobox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+
+
+        if "Z_ENDSTOP_CALIBRATE" in self._printer.available_commands:
+            self._add_button("Endstop", "endstop", pobox)
+            functions.append("endstop")
+
+        self.labels['popover'] = Gtk.Popover()
+        self.labels['popover'].add(pobox)
+        self.labels['popover'].set_position(Gtk.PositionType.BOTTOM)
+
+        if len(functions) > 1:
+            self.buttons['start'].connect("clicked", self.on_popover_clicked)
         else:
-            # 如果没有CALIBRATE_Z_OFFSET命令，禁用开始按钮
-            self.buttons['start'].set_sensitive(False)
+            self.buttons['start'].connect("clicked", self.start_calibration, functions[0])
 
         distgrid = Gtk.Grid()
         for j, i in enumerate(self.distances):
@@ -82,6 +89,7 @@ class Panel(ScreenPanel):
         distances.pack_start(distgrid, True, True, 0)
 
         grid = Gtk.Grid()
+        grid.set_column_homogeneous(True)
         if self._screen.vertical_mode:
             grid.attach(self.buttons['zpos'], 0, 1, 1, 1)
             grid.attach(self.buttons['zneg'], 0, 2, 1, 1)
@@ -91,7 +99,7 @@ class Panel(ScreenPanel):
             grid.attach(self.buttons['cancel'], 1, 2, 1, 1)
             grid.attach(distances, 0, 3, 2, 1)
         else:
-            if True:
+            if "MD_400D" in self._printer.get_gcode_macros():
                 grid.attach(self.buttons['zneg'], 0, 0, 1, 1)
                 grid.attach(self.buttons['zpos'], 0, 1, 1, 1)
             else:            
@@ -104,13 +112,23 @@ class Panel(ScreenPanel):
             grid.attach(distances, 0, 2, 3, 1)
         self.content.add(grid)
 
+    def _add_button(self, label, method, pobox):
+        popover_button = self._gtk.Button(label=label)
+        popover_button.connect("clicked", self.start_calibration, method)
+        pobox.pack_start(popover_button, True, True, 5)
+
+    def on_popover_clicked(self, widget):
+        self.labels['popover'].set_relative_to(widget)
+        self.labels['popover'].show_all()
+
     def start_calibration(self, widget, method):
+        self.labels['popover'].popdown()
         self.buttons['start'].set_sensitive(False)
         self._screen._ws.klippy.gcode_script("G28")
         if method == "endstop":
             if "MD_1000D" in self._printer.available_commands:
                 self._screen._ws.klippy.gcode_script("G1 Y200")
-            self._screen._ws.klippy.gcode_script("CALIBRATE_Z_OFFSET")
+            self._screen._ws.klippy.gcode_script("Z_ENDSTOP_CALIBRATE")
 
     def activate(self):
         if self._printer.get_stat("manual_probe", "is_active"):
@@ -187,7 +205,3 @@ class Panel(ScreenPanel):
         self.buttons['complete'].get_style_context().remove_class('color3')
         self.buttons['cancel'].set_sensitive(False)
         self.buttons['cancel'].get_style_context().remove_class('color2')
-
-    def deactivate(self):
-        pass
-

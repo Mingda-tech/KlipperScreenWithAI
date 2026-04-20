@@ -14,7 +14,7 @@ import configparser
 import threading
 
 gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk, Gdk, GLib, Pango
+from gi.repository import Gtk, Gdk, GLib, Pango, GdkPixbuf
 from importlib import import_module
 from jinja2 import Environment
 from signal import SIGTERM
@@ -53,6 +53,30 @@ PRINTER_BASE_STATUS_OBJECTS = [
 ]
 
 klipperscreendir = pathlib.Path(__file__).parent.resolve()
+AI_DETECTION_BASE_DIR = "/home/mingda/ai-detection"
+AI_DETECTION_DISPLAY_NAMES = {
+    "spaghetti": "Spaghetti Detection",
+    "spaghetti detection": "Spaghetti Detection",
+    "warphead": "Warp Head Detection",
+    "warp head": "Warp Head Detection",
+    "warp head detection": "Warp Head Detection",
+    "toolessandtoomuch": "First Layer Detection",
+    "extrusion": "First Layer Detection",
+    "extrusion detection": "First Layer Detection",
+    "first layer": "First Layer Detection",
+    "first layer detection": "First Layer Detection",
+    "warpedgesandnonstick": "Warp Edge Detection",
+    "warp edge": "Warp Edge Detection",
+    "warp edge detection": "Warp Edge Detection",
+    "foreignbody": "Foreign Object Detection",
+    "foreign body": "Foreign Object Detection",
+    "foreign body detection": "Foreign Object Detection",
+    "foreign object": "Foreign Object Detection",
+    "foreign object detection": "Foreign Object Detection",
+    "coco80": "General Detection",
+    "general": "General Detection",
+    "general detection": "General Detection",
+}
 
 
 def set_text_direction(lang=None):
@@ -109,6 +133,8 @@ class KlipperScreen(Gtk.Window):
         self.apiclient = None
         self.dialogs = []
         self.confirm = None
+        self.ai_detection_dialog = None
+        self.ai_detection_last_signature = None
         self.panels_reinit = []
         self.manual_settings = {}
 
@@ -743,11 +769,8 @@ class KlipperScreen(Gtk.Window):
             self.setup_init = self.klippy_config.getint("Variables", "setup_step", fallback=0)
 
         if self.setup_init == 1:
-            if self.check_image_files():
-                self.is_show_manual = True
-                self.show_panel("manual", _("Manual"), remove_all=True)
-            else :
-                self.show_panel("setup_wizard", _("Choose Language"), remove_all=True)
+            # Always show language selection first
+            self.show_panel("setup_wizard", _("Choose Language"), remove_all=True)
         elif self.auto_check:
             self.show_panel("self_check", _("Self-check"), remove_all=True)
         self.auto_check = False
@@ -865,7 +888,7 @@ class KlipperScreen(Gtk.Window):
             self.printer.process_update({'webhooks': {'state': "ready"}})
         elif action == "notify_status_update" and self.printer.state != "shutdown":
             self.printer.process_update(data)
-            if 'manual_probe' in data and data['manual_probe']['is_active'] and 'zcalibrate' not in self._cur_panels and 'zendstop' not in self._cur_panels:
+            if 'manual_probe' in data and data['manual_probe']['is_active'] and 'zcalibrate' not in self._cur_panels:
                 if self.setup_init == 0:
                     self.show_panel("zcalibrate", _('Z Calibrate'))
         elif action == "notify_filelist_changed":
@@ -879,34 +902,23 @@ class KlipperScreen(Gtk.Window):
                 self.show_popup_message(data['message'], 3)
                 if "KlipperScreen" in data['message']:
                     self.restart_ks()
-        elif action == "notify_feeder_status_changed":
-            # 送料模块状态更新 - 由 feeder panel 的 process_update 处理
-            pass
         elif action == "notify_power_changed":
             logging.debug("Power status changed: %s", data)
             self.printer.process_power_update(data)
             self.panels['splash_screen'].check_power_status()
         elif action == "notify_gcode_response" and self.printer.state not in ["error", "shutdown"]:
-            logging.info(f"gcode_response data: [{data}]")
             if not (data.startswith("B:") or data.startswith("T:")):
                 if "RESPOND TYPE=" in data:
                     msg_start = data.find("MSG=")
                     if msg_start != -1:
                         msg = data[msg_start+5:-1] if data.endswith('"') else data[msg_start+5:]
-                        logging.info(f"RESPOND msg extracted: [{msg}]")
-                        if "Water pump fault" in msg:
-                            self.show_water_pump_fault_dialog()
-                        else:
-                            translated_msg = _(msg)
-                            level = 3 if "TYPE=error" in data else 2 if "TYPE=warning" in data else 1
-                            self.show_popup_message(translated_msg, level)
+                        translated_msg = _(msg)
+                        level = 3 if "TYPE=error" in data else 2 if "TYPE=warning" in data else 1
+                        self.show_popup_message(translated_msg, level)
                 elif data.startswith("echo: "):
                     self.show_popup_message(_(data[6:]), 1)
                 elif data.startswith("!! "):
-                    if "Water pump fault" in data:
-                        self.show_water_pump_fault_dialog()
-                    else:
-                        self.show_popup_message(_(data[3:]), 3)
+                    self.show_popup_message(_(data[3:]), 3)
                 elif "unknown" in data.lower() and \
                         not ("TESTZ" in data or "MEASURE_AXES_NOISE" in data or "ACCELEROMETER_QUERY" in data):
                     self.show_popup_message(_(data))
@@ -918,6 +930,8 @@ class KlipperScreen(Gtk.Window):
                         "printer.gcode.script",
                         script
                     )
+        elif action == "notify_ai_detection_result":
+            self._handle_ai_detection_result(data)
         self.process_update(action, data)
 
     def process_update(self, *args):
@@ -925,23 +939,128 @@ class KlipperScreen(Gtk.Window):
         if self._cur_panels and hasattr(self.panels[self._cur_panels[-1]], "process_update"):
             self.panels[self._cur_panels[-1]].process_update(*args)
 
-    def show_water_pump_fault_dialog(self):
-        buttons = [
-            {"name": _("OK"), "response": Gtk.ResponseType.OK}
-        ]
+    def _ai_detection_result_signature(self, result):
+        if not isinstance(result, dict):
+            return None
+        detections = result.get("detections", [])
+        first_detection = detections[0] if isinstance(detections, list) and detections else {}
+        if not isinstance(first_detection, dict):
+            first_detection = {}
+        return (
+            result.get("timestamp"),
+            result.get("model_name"),
+            result.get("defect_type"),
+            result.get("has_defect"),
+            result.get("confidence"),
+            first_detection.get("confidence"),
+            result.get("output_path"),
+        )
+
+    def _resolve_ai_detection_output_path(self, result):
+        if not isinstance(result, dict):
+            return None
+
+        output_path = result.get("output_path")
+        if not output_path:
+            return None
+
+        output_path = str(output_path).strip()
+        if not output_path:
+            return None
+
+        candidates = [output_path]
+        normalized_output_path = output_path.lstrip("/\\")
+        prefixed_path = os.path.join(AI_DETECTION_BASE_DIR, normalized_output_path)
+        if prefixed_path not in candidates:
+            candidates.append(prefixed_path)
+
+        for path in candidates:
+            if os.path.exists(path) and os.access(path, os.R_OK):
+                return path
+        return None
+
+    def _load_ai_detection_pixbuf(self, image_path):
+        if not image_path:
+            return None
+
+        max_width = int(self.width * 0.85)
+        max_height = int(self.height * 0.55)
+        try:
+            return GdkPixbuf.Pixbuf.new_from_file_at_scale(image_path, max_width, max_height, True)
+        except Exception as e:
+            logging.warning(f"AI detection: failed to load prediction image {image_path}: {e}")
+            return None
+
+    def _translate_ai_detection_name(self, raw_name):
+        if raw_name is None:
+            return _("Unknown")
+
+        value = str(raw_name).strip()
+        if not value:
+            return _("Unknown")
+
+        translated_name = AI_DETECTION_DISPLAY_NAMES.get(value.casefold())
+        if translated_name is not None:
+            return _(translated_name)
+        return value
+
+    def _close_ai_detection_dialog(self, dialog=None, response_id=None):
+        if dialog is None:
+            dialog = self.ai_detection_dialog
+        if dialog is None:
+            return
+
+        if dialog is self.ai_detection_dialog:
+            self.ai_detection_dialog = None
+        self.gtk.remove_dialog(dialog)
+
+    def _show_ai_detection_dialog(self, result):
+        dtype = self._translate_ai_detection_name(result.get("model_name", result.get("defect_type")))
+        message = _("Defect detected: %s") % dtype
+        image_path = self._resolve_ai_detection_output_path(result)
+        pixbuf = self._load_ai_detection_pixbuf(image_path)
+
+        content = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
+        content.set_hexpand(True)
+        content.set_vexpand(True)
+
         label = Gtk.Label()
-        label.set_markup(f"<span foreground='red'><b>{_('Water pump fault')}</b>\n\n{_('Please check the water pump and cooling system.')}</span>")
-        label.set_hexpand(True)
-        label.set_halign(Gtk.Align.CENTER)
-        label.set_vexpand(True)
-        label.set_valign(Gtk.Align.CENTER)
+        label.set_markup(f"<big><b>{GLib.markup_escape_text(message)}</b></big>")
+        label.set_halign(Gtk.Align.START)
+        label.set_xalign(0)
         label.set_line_wrap(True)
         label.set_line_wrap_mode(Pango.WrapMode.WORD_CHAR)
+        content.pack_start(label, False, False, 0)
 
-        dialog = self.gtk.Dialog(_("Warning"), buttons, label, self._water_pump_fault_response)
+        if pixbuf is not None:
+            image = Gtk.Image.new_from_pixbuf(pixbuf)
+            image.set_halign(Gtk.Align.CENTER)
+            frame = Gtk.Frame()
+            frame.set_hexpand(True)
+            frame.set_vexpand(True)
+            frame.add(image)
+            content.pack_start(frame, True, True, 0)
 
-    def _water_pump_fault_response(self, dialog, response_id):
-        self.gtk.remove_dialog(dialog)
+        buttons = [{"name": _("Close"), "response": Gtk.ResponseType.CANCEL}]
+        self._close_ai_detection_dialog()
+        self.ai_detection_dialog = self.gtk.Dialog(
+            _("AI Detection"), buttons, content, self._close_ai_detection_dialog
+        )
+
+    def _handle_ai_detection_result(self, result):
+        if not isinstance(result, dict):
+            return
+        if not result.get("has_defect", False):
+            self.ai_detection_last_signature = None
+            self._close_ai_detection_dialog()
+            return
+
+        signature = self._ai_detection_result_signature(result)
+        if signature == self.ai_detection_last_signature:
+            return
+
+        self.ai_detection_last_signature = signature
+        self._show_ai_detection_dialog(result)
 
     def _confirm_send_action(self, widget, text, method, params=None, save_button=True):
         buttons = [
@@ -1333,4 +1452,3 @@ if __name__ == "__main__":
     except Exception as ex:
         logging.exception(f"Fatal error in main loop:\n{ex}\n\n{traceback.format_exc()}")
         sys.exit(1)
-

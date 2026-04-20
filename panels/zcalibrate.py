@@ -26,7 +26,7 @@ class Panel(ScreenPanel):
         z_down_image = "z-closer"
         z_up_label = _("Raise")  
         z_down_label = _("Lower")
-        if True:
+        if "MD_400D" in self._printer.get_gcode_macros():
             z_up_image = "bed_down"
             z_down_image = "bed_up"
             z_up_label = _("Lower")
@@ -118,14 +118,12 @@ class Panel(ScreenPanel):
             grid.attach(self.buttons['cancel'], 1, 2, 1, 1)
             grid.attach(distances, 0, 3, 2, 1)
         else:
-            if True:
+            if "MD_400D" in self._printer.get_gcode_macros():
                 grid.attach(self.buttons['zneg'], 0, 0, 1, 1)
                 grid.attach(self.buttons['zpos'], 0, 1, 1, 1)
             else:            
                 grid.attach(self.buttons['zpos'], 0, 0, 1, 1)
                 grid.attach(self.buttons['zneg'], 0, 1, 1, 1)
-            grid.attach(self.buttons['zneg'], 0, 0, 1, 1)
-            grid.attach(self.buttons['zpos'], 0, 1, 1, 1)
             grid.attach(self.buttons['start'], 1, 0, 1, 1)
             grid.attach(pos, 1, 1, 1, 1)
             grid.attach(self.buttons['complete'], 2, 0, 1, 1)
