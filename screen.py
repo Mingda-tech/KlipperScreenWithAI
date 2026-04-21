@@ -53,7 +53,7 @@ PRINTER_BASE_STATUS_OBJECTS = [
 ]
 
 klipperscreendir = pathlib.Path(__file__).parent.resolve()
-AI_DETECTION_BASE_DIR = "/home/mingda/ai-detection"
+AI_DETECTION_BASE_DIR = "/home/mingda/ai_detection"
 AI_DETECTION_DISPLAY_NAMES = {
     "spaghetti": "Spaghetti Detection",
     "spaghetti detection": "Spaghetti Detection",

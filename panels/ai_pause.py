@@ -15,7 +15,7 @@ class Panel(ScreenPanel):
         
         
         # 预测图片输出路径
-        self.output_path = "/home/mingda/ai-detection/output"
+        self.output_path = "/home/mingda/ai_detection/output"
         
         # 创建主布局 - 垂直布局，按高度比例分配
         main = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
