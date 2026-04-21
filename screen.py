@@ -77,6 +77,15 @@ AI_DETECTION_DISPLAY_NAMES = {
     "general": "General Detection",
     "general detection": "General Detection",
 }
+AI_DETECTION_RESULT_ACTIONS = {
+    "notify_ai_detection_result",
+    "notify_detection_complete",
+    "notify_ai_detection_detection_complete",
+}
+AI_DETECTION_DEFECT_ACTIONS = {
+    "notify_defect_detected",
+    "notify_ai_detection_defect_detected",
+}
 
 
 def set_text_direction(lang=None):
@@ -930,8 +939,11 @@ class KlipperScreen(Gtk.Window):
                         "printer.gcode.script",
                         script
                     )
-        elif action == "notify_ai_detection_result":
-            self._handle_ai_detection_result(data)
+        ai_detection_result = self._normalize_ai_detection_notification(action, data)
+        if ai_detection_result is not None:
+            self._handle_ai_detection_result(ai_detection_result)
+            action = "notify_ai_detection_result"
+            data = ai_detection_result
         self.process_update(action, data)
 
     def process_update(self, *args):
@@ -955,6 +967,79 @@ class KlipperScreen(Gtk.Window):
             first_detection.get("confidence"),
             result.get("output_path"),
         )
+
+    def _get_primary_ai_detection(self, result):
+        if not isinstance(result, dict):
+            return {}
+        detections = result.get("detections", [])
+        if not isinstance(detections, list) or not detections:
+            return {}
+        valid_detections = [detection for detection in detections if isinstance(detection, dict)]
+        if not valid_detections:
+            return {}
+        return max(valid_detections, key=lambda detection: detection.get("confidence", 0))
+
+    def _normalize_ai_detection_notification(self, action, data):
+        if action not in AI_DETECTION_RESULT_ACTIONS and action not in AI_DETECTION_DEFECT_ACTIONS:
+            return None
+        if not isinstance(data, dict):
+            logging.warning(
+                "AI detection: ignored notification %s because payload is not a dict: %s",
+                action,
+                type(data).__name__,
+            )
+            return None
+
+        logging.info(
+            "AI detection: received notification action=%s keys=%s",
+            action,
+            sorted(data.keys()),
+        )
+
+        normalized = dict(data)
+        detections = normalized.get("detections", [])
+        if not isinstance(detections, list):
+            detections = []
+        normalized["detections"] = detections
+
+        if not any(key in normalized for key in ("has_defect", "model_name", "defect_type", "output_path", "detections")):
+            logging.warning(
+                "AI detection: ignored notification %s because payload has no recognizable result fields: %s",
+                action,
+                normalized,
+            )
+            return None
+
+        primary_detection = self._get_primary_ai_detection(normalized)
+        if action in AI_DETECTION_DEFECT_ACTIONS:
+            normalized["has_defect"] = True
+        else:
+            normalized["has_defect"] = bool(normalized.get("has_defect", bool(detections)))
+
+        if not normalized.get("model_name") and normalized.get("defect_type"):
+            normalized["model_name"] = normalized.get("defect_type")
+
+        if not normalized.get("defect_type"):
+            normalized["defect_type"] = (
+                primary_detection.get("class_name")
+                or normalized.get("model_name")
+            )
+
+        if ("confidence" not in normalized or normalized.get("confidence") is None) and primary_detection:
+            normalized["confidence"] = primary_detection.get("confidence")
+
+        logging.info(
+            "AI detection: normalized action=%s has_defect=%s model_name=%s defect_type=%s detections=%s confidence=%s output_path=%s",
+            action,
+            normalized.get("has_defect"),
+            normalized.get("model_name"),
+            normalized.get("defect_type"),
+            len(detections),
+            normalized.get("confidence"),
+            normalized.get("output_path"),
+        )
+
+        return normalized
 
     def _resolve_ai_detection_output_path(self, result):
         if not isinstance(result, dict):
@@ -1049,17 +1134,37 @@ class KlipperScreen(Gtk.Window):
 
     def _handle_ai_detection_result(self, result):
         if not isinstance(result, dict):
+            logging.warning("AI detection: ignored result because it is not a dict: %s", type(result).__name__)
             return
         if not result.get("has_defect", False):
+            logging.info(
+                "AI detection: result is normal, dialog will be closed. model_name=%s defect_type=%s confidence=%s",
+                result.get("model_name"),
+                result.get("defect_type"),
+                result.get("confidence"),
+            )
             self.ai_detection_last_signature = None
             self._close_ai_detection_dialog()
             return
 
         signature = self._ai_detection_result_signature(result)
         if signature == self.ai_detection_last_signature:
+            logging.info(
+                "AI detection: duplicate abnormal result suppressed. model_name=%s defect_type=%s confidence=%s",
+                result.get("model_name"),
+                result.get("defect_type"),
+                result.get("confidence"),
+            )
             return
 
         self.ai_detection_last_signature = signature
+        logging.info(
+            "AI detection: abnormal result received, showing dialog. model_name=%s defect_type=%s confidence=%s output_path=%s",
+            result.get("model_name"),
+            result.get("defect_type"),
+            result.get("confidence"),
+            result.get("output_path"),
+        )
         self._show_ai_detection_dialog(result)
 
     def _confirm_send_action(self, widget, text, method, params=None, save_button=True):
