@@ -440,6 +440,12 @@ class Panel(ScreenPanel):
         if not dt_info:
             logging.error(f"AI detection: unknown defect type: {defect_type}")
             return
+        if not self._is_detection_enabled(defect_type):
+            self._screen.show_popup_message(
+                _("'%s' is disabled in AI detection settings. Please enable it first.") % _(dt_info['name']),
+                level=2,
+            )
+            return
         macro = dt_info['macro']
         if macro not in self._printer.get_gcode_macros():
             logging.warning(f"AI detection: macro not found: {macro}")
@@ -484,6 +490,7 @@ class Panel(ScreenPanel):
                     "server/ai_detection/settings",
                     json={"categories": categories})
                 if result:
+                    GLib.idle_add(self._set_detection_settings, categories)
                     GLib.idle_add(self._screen.show_popup_message, _("Saved"), 1)
                     GLib.idle_add(self._update_auto_detect_timers, categories)
                 else:
@@ -503,6 +510,16 @@ class Panel(ScreenPanel):
 
     def _supports_interval_setting(self, defect_type):
         return defect_type != "foreignBody"
+
+    def _is_detection_enabled(self, defect_type):
+        category = self.settings.get(defect_type)
+        if isinstance(category, dict) and 'enabled' in category:
+            return bool(category.get('enabled'))
+        return True
+
+    def _set_detection_settings(self, categories):
+        if isinstance(categories, dict):
+            self.settings = categories
 
     def _translate_detection_name(self, raw_name):
         if raw_name is None:
