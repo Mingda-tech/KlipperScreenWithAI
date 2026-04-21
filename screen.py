@@ -1053,6 +1053,7 @@ class KlipperScreen(Gtk.Window):
         if not output_path:
             return None
 
+        logging.info("AI detection: raw output_path=%s", output_path)
         candidates = [output_path]
         normalized_output_path = output_path.lstrip("/\\")
         prefixed_path = os.path.join(AI_DETECTION_BASE_DIR, normalized_output_path)
@@ -1060,8 +1061,26 @@ class KlipperScreen(Gtk.Window):
             candidates.append(prefixed_path)
 
         for path in candidates:
+            exists = os.path.exists(path)
+            readable = os.access(path, os.R_OK) if exists else False
+            logging.info(
+                "AI detection: candidate path=%s exists=%s readable=%s",
+                path,
+                exists,
+                readable,
+            )
             if os.path.exists(path) and os.access(path, os.R_OK):
+                logging.info(
+                    "AI detection: resolved output image path %s from raw output_path=%s",
+                    path,
+                    output_path,
+                )
                 return path
+        logging.warning(
+            "AI detection: could not resolve output image path from raw output_path=%s candidates=%s",
+            output_path,
+            candidates,
+        )
         return None
 
     def _load_ai_detection_pixbuf(self, image_path):
