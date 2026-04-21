@@ -156,6 +156,19 @@ class Panel(ScreenPanel):
     def _has_gcode_command(self, command):
         return command in self._printer.available_commands or command in self._printer.get_gcode_macros()
 
+    def _prefer_endstop_z_save(self):
+        return bool(self._printer.get_config_section_list("load_cell ")) and self._has_gcode_command(
+            "Z_OFFSET_APPLY_ENDSTOP"
+        )
+
+    def _apply_zoffset_save_target(self, device):
+        if device == "probe":
+            if self._has_gcode_command("Z_OFFSET_APPLY_PROBE"):
+                self._screen._ws.klippy.gcode_script("Z_OFFSET_APPLY_PROBE")
+        elif device == "endstop":
+            if self._has_gcode_command("Z_OFFSET_APPLY_ENDSTOP"):
+                self._screen._ws.klippy.gcode_script("Z_OFFSET_APPLY_ENDSTOP")
+
     def _sync_current_zoffset(self):
         if self.current_extruder not in self._screen.manual_settings:
             return
@@ -407,7 +420,8 @@ class Panel(ScreenPanel):
         self.buttons['pause'].connect("clicked", self.pause)
         self.buttons['restart'].connect("clicked", self.restart)
         self.buttons['resume'].connect("clicked", self.resume)
-        self.buttons['save_offset_probe'].connect("clicked", self.save_offset, "probe")
+        if not self._prefer_endstop_z_save():
+            self.buttons['save_offset_probe'].connect("clicked", self.save_offset, "probe")
         if self._has_gcode_command("Z_OFFSET_APPLY_ENDSTOP"):
             self.buttons['save_offset_endstop'].connect("clicked", self.save_offset, "endstop")
 
@@ -505,10 +519,7 @@ class Panel(ScreenPanel):
                 logging.info(f"{script}")
                 
                 # Apply left extruder Z offset
-                if device == "probe":
-                    self._screen._ws.klippy.gcode_script("Z_OFFSET_APPLY_PROBE")
-                if self._has_gcode_command("Z_OFFSET_APPLY_ENDSTOP"):
-                    self._screen._ws.klippy.gcode_script("Z_OFFSET_APPLY_ENDSTOP")
+                self._apply_zoffset_save_target(device)
             else:
                 # Current extruder is left or left doesn't need adjustment
                 # Save right extruder offset to config file if adjusted
@@ -520,10 +531,7 @@ class Panel(ScreenPanel):
                 
                 # Apply left extruder Z offset if needed
                 if left_adjusted:
-                    if device == "probe":
-                        self._screen._ws.klippy.gcode_script("Z_OFFSET_APPLY_PROBE")
-                    if self._has_gcode_command("Z_OFFSET_APPLY_ENDSTOP"):
-                        self._screen._ws.klippy.gcode_script("Z_OFFSET_APPLY_ENDSTOP")                   
+                    self._apply_zoffset_save_target(device)
 
     def restart(self, widget):
         if self.filename:
@@ -914,7 +922,7 @@ class Panel(ScreenPanel):
                     self.buttons['button_grid'].attach(self.buttons["save_offset_endstop"], 0, 0, 1, 1)
                 else:
                     self.buttons['button_grid'].attach(Gtk.Label(), 0, 0, 1, 1)
-                if self._has_gcode_command("Z_OFFSET_APPLY_PROBE"):
+                if not self._prefer_endstop_z_save() and self._has_gcode_command("Z_OFFSET_APPLY_PROBE"):
                     self.buttons['button_grid'].attach(self.buttons["save_offset_probe"], 1, 0, 1, 1)
                 else:
                     self.buttons['button_grid'].attach(Gtk.Label(), 1, 0, 1, 1)
