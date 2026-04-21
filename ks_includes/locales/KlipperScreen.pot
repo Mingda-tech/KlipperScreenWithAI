@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-19 21:04-0700\n"
+"POT-Creation-Date: 2023-10-20 00:09-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,29 +19,19 @@ msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
 #, python-format
-msgid "%s triggered."
-msgstr ""
-
-#, python-format
 msgid "%s will be updated to version"
 msgstr ""
 
 msgid "(default)"
 msgstr ""
 
+msgid "24 Hour Time"
+msgstr ""
+
 msgid "A FIRMWARE_RESTART may fix the issue."
 msgstr ""
 
 msgid "ADXL Not Configured"
-msgstr ""
-
-msgid "AI Detection"
-msgstr ""
-
-msgid "AI Status"
-msgstr ""
-
-msgid "AI service offline. Detection unavailable."
 msgstr ""
 
 msgid "Abort"
@@ -53,16 +43,7 @@ msgstr ""
 msgid "Accept"
 msgstr ""
 
-msgid "Active Extruder"
-msgstr ""
-
-msgid "Active Extruder:"
-msgstr ""
-
 msgid "Add profile"
-msgstr ""
-
-msgid "Adjust Zprobe Pos"
 msgstr ""
 
 msgid "All"
@@ -71,10 +52,12 @@ msgstr ""
 msgid "Apply"
 msgstr ""
 
-msgid "Apply Z offset to Endstop?"
+#, python-format
+msgid "Apply %s%.3f offset to Endstop?"
 msgstr ""
 
-msgid "Apply Z offset to Probe?"
+#, python-format
+msgid "Apply %s%.3f offset to Probe?"
 msgstr ""
 
 msgid "Archived"
@@ -98,34 +81,7 @@ msgstr ""
 msgid "Are you sure you wish to shutdown the system?"
 msgstr ""
 
-msgid "Are you sure?"
-msgstr ""
-
 msgid "Auto"
-msgstr ""
-
-msgid "Auto Align"
-msgstr ""
-
-msgid "Auto Align XY"
-msgstr ""
-
-msgid "Auto Detect"
-msgstr ""
-
-#, python-format
-msgid ""
-"Auto-alignment complete!\n"
-"Offset X: %(x).3f  Y: %(y).3f"
-msgstr ""
-
-msgid "Auto-alignment failed."
-msgstr ""
-
-msgid "Auto-alignment is unavailable."
-msgstr ""
-
-msgid "Auto-alignment timed out."
 msgstr ""
 
 msgid "Auto-calibrate"
@@ -134,25 +90,19 @@ msgstr ""
 msgid "Auto-close notifications"
 msgstr ""
 
+msgid "Auto-open Extrude On Pause"
+msgstr ""
+
 msgid "Auto-scroll"
 msgstr ""
 
 msgid "Bed Level"
 msgstr ""
 
-msgid "Bed Lower"
-msgstr ""
-
-msgid "Bed Temp:"
-msgstr ""
-
-msgid "Bed Temperature"
+msgid "Bed Mesh"
 msgstr ""
 
 msgid "Bed screw configuration:"
-msgstr ""
-
-msgid "Brightest"
 msgstr ""
 
 msgid "Calibrate"
@@ -194,21 +144,6 @@ msgstr ""
 msgid "Checking for updates, please wait..."
 msgstr ""
 
-msgid "Checking..."
-msgstr ""
-
-msgid "Choose Language"
-msgstr ""
-
-msgid "Choose Timezone"
-msgstr ""
-
-msgid "Choose a language"
-msgstr ""
-
-msgid "Choose a timezone"
-msgstr ""
-
 msgid "Clear"
 msgstr ""
 
@@ -218,19 +153,7 @@ msgstr ""
 msgid "Complete"
 msgstr ""
 
-msgid "Confidence"
-msgstr ""
-
-msgid "Confirm"
-msgstr ""
-
 msgid "Confirm Emergency Stop"
-msgstr ""
-
-msgid "Confirm Movement"
-msgstr ""
-
-msgid "Confirm Pos"
 msgstr ""
 
 msgid "Connected"
@@ -240,47 +163,16 @@ msgstr ""
 msgid "Connecting to %s"
 msgstr ""
 
-msgid "Connection failed"
+msgid "Console"
 msgstr ""
 
 msgid "Cooldown"
 msgstr ""
 
-msgid "Copy Print"
-msgstr ""
-
-msgid "Couldn't get the calibration camera position."
-msgstr ""
-
-msgid "Couldn't get the calibration switch position."
-msgstr ""
-
-msgid "Current language: "
-msgstr ""
-
-msgid "Current nozzle height difference: "
-msgstr ""
-
-msgid "Current nozzle height difference: ?"
-msgstr ""
-
-msgid "Current timezone: "
-msgstr ""
-
 msgid "DPMS has failed to load and has been disabled"
 msgstr ""
 
-msgid "Dangerous nozzle height difference: "
-msgstr ""
-
 msgid "Date"
-msgstr ""
-
-msgid "Defect"
-msgstr ""
-
-#, python-format
-msgid "Defect detected: %s"
 msgstr ""
 
 msgid "Delete Directory?"
@@ -298,9 +190,6 @@ msgstr ""
 msgid "Distance (mm)"
 msgstr ""
 
-msgid "Do not touch the printer during self-check."
-msgstr ""
-
 #, python-format
 msgid "Do you want to recover %s?"
 msgstr ""
@@ -308,19 +197,7 @@ msgstr ""
 msgid "Elapsed:"
 msgstr ""
 
-msgid "Emergency Stop"
-msgstr ""
-
-msgid "Enabled"
-msgstr ""
-
 msgid "Error"
-msgstr ""
-
-msgid "Error reading recovery file"
-msgstr ""
-
-msgid "Error writing configuration"
 msgstr ""
 
 msgid "Estimated Time Method"
@@ -329,34 +206,22 @@ msgstr ""
 msgid "Exclude Object"
 msgstr ""
 
+msgid "Extra Large"
+msgstr ""
+
 msgid "Extrude"
 msgstr ""
 
-msgid "Extruder switch when filament run out"
+msgid "Extrusion +"
 msgstr ""
 
-msgid "Extrusion"
-msgstr ""
-
-msgid "Extrusion Detection"
-msgstr ""
-
-msgid "First Layer"
-msgstr ""
-
-msgid "First Layer Detection"
-msgstr ""
-
-msgid "Failed to resume print"
+msgid "Extrusion -"
 msgstr ""
 
 msgid "Failed, adjust position first"
 msgstr ""
 
 msgid "Fan"
-msgstr ""
-
-msgid "Filament Box Power"
 msgstr ""
 
 msgid "Filament Used"
@@ -377,12 +242,6 @@ msgstr ""
 msgid "File:"
 msgstr ""
 
-msgid "Filename"
-msgstr ""
-
-msgid "Filename:"
-msgstr ""
-
 msgid "Filter"
 msgstr ""
 
@@ -398,52 +257,16 @@ msgstr ""
 msgid "Firmware Restart"
 msgstr ""
 
-msgid "Firmware has disconnected"
-msgstr ""
-
-msgid "Firmware has encountered an error."
-msgstr ""
-
-msgid "Firmware has shutdown"
-msgstr ""
-
-msgid "Firmware is attempting to start"
-msgstr ""
-
-msgid "Firmware will reboot"
-msgstr ""
-
-msgid "Flow +"
-msgstr ""
-
-msgid "Flow -"
-msgstr ""
-
 msgid "Flow:"
 msgstr ""
 
 msgid "Flowrate:"
 msgstr ""
 
-msgid "Force Cancel"
-msgstr ""
-
-msgid "Force Move"
-msgstr ""
-
-msgid "Force move: "
-msgstr ""
-
-msgid "Foreign Object"
-msgstr ""
-
-msgid "Foreign Object Detection"
+msgid "Font Size"
 msgstr ""
 
 msgid "Full Update"
-msgstr ""
-
-msgid "General Detection"
 msgstr ""
 
 msgid "Go Back"
@@ -455,10 +278,10 @@ msgstr ""
 msgid "Hidden"
 msgstr ""
 
-msgid "Hidden Network"
+msgid "Hide"
 msgstr ""
 
-msgid "Hide"
+msgid "Hide sensors in Temp."
 msgstr ""
 
 msgid "Hide temp."
@@ -482,7 +305,7 @@ msgstr ""
 msgid "Home Z"
 msgstr ""
 
-msgid "Homing the printer..."
+msgid "Host"
 msgstr ""
 
 msgid "Hostname"
@@ -491,9 +314,7 @@ msgstr ""
 msgid "ID"
 msgstr ""
 
-msgid ""
-"If your calibration device is under the PEI, please lift the PEI after "
-"homing."
+msgid "Icon Theme"
 msgstr ""
 
 msgid "Initializing printer..."
@@ -506,9 +327,6 @@ msgid "Input Shaper"
 msgstr ""
 
 msgid "Interface"
-msgstr ""
-
-msgid "Interval (s)"
 msgstr ""
 
 msgid "Invalid"
@@ -529,6 +347,24 @@ msgstr ""
 msgid "It may take more than 5 minutes depending on the heater power."
 msgstr ""
 
+#msgid "Firmware Restart"
+#msgstr ""
+
+msgid "Firmware has disconnected"
+msgstr ""
+
+msgid "Firmware has encountered an error."
+msgstr ""
+
+msgid "Firmware has shutdown"
+msgstr ""
+
+msgid "Firmware is attempting to start"
+msgstr ""
+
+msgid "Firmware will reboot"
+msgstr ""
+
 msgid ""
 "LOAD_FILAMENT/UNLOAD_FILAMENT are hidden and should be used from extrude"
 msgstr ""
@@ -536,13 +372,10 @@ msgstr ""
 msgid "Language"
 msgstr ""
 
+msgid "Large"
+msgstr ""
+
 msgid "Last Used"
-msgstr ""
-
-msgid "Last used"
-msgstr ""
-
-msgid "Latest Detection Result"
 msgstr ""
 
 msgid "Layer:"
@@ -551,40 +384,25 @@ msgstr ""
 msgid "Leds"
 msgstr ""
 
-#, python-format
-msgid "Left Extruder: %s%.3f"
-msgstr ""
-
-msgid "Left Extruder: Not adjusted"
-msgstr ""
-
-#, python-format
-msgid "Left extruder position: (%(x).2f, %(y).2f, %(z).2f)"
-msgstr ""
-
 msgid "Left:"
 msgstr ""
 
-msgid "Leveling"
+msgid "Limits"
 msgstr ""
 
 msgid "Load"
 msgstr ""
 
-msgid "Lower"
-msgstr ""
-
 msgid "Lower Nozzle"
 msgstr ""
 
-#, python-format
-msgid "Macro %s is undefined. Please check whether ai_setting.cfg is loaded."
+msgid "Macro shortcut on sidebar"
+msgstr ""
+
+msgid "Macros"
 msgstr ""
 
 msgid "Main Menu"
-msgstr ""
-
-msgid "Manual"
 msgstr ""
 
 msgid "Material"
@@ -602,6 +420,9 @@ msgstr ""
 msgid "Max Velocity"
 msgstr ""
 
+msgid "Maximum"
+msgstr ""
+
 msgid "Measure Both"
 msgstr ""
 
@@ -611,19 +432,13 @@ msgstr ""
 msgid "Measure Y"
 msgstr ""
 
+msgid "Medium"
+msgstr ""
+
 msgid "Menu"
 msgstr ""
 
 msgid "Mesh calibrate"
-msgstr ""
-
-msgid "Mirror Print"
-msgstr ""
-
-msgid "Missing required information"
-msgstr ""
-
-msgid "Missing required recovery data"
 msgstr ""
 
 msgid "Modified"
@@ -644,15 +459,6 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
-msgid "Need home axis"
-msgstr ""
-
-msgid "Need reboot, relaunch immediately?"
-msgstr ""
-
-msgid "Need to recalculate the offset value."
-msgstr ""
-
 msgid "Network"
 msgstr ""
 
@@ -662,69 +468,15 @@ msgstr ""
 msgid "New"
 msgstr ""
 
-msgid "New nozzle height difference is: "
-msgstr ""
-
-msgid "New nozzle height difference: "
-msgstr ""
-
-msgid "New nozzle height difference: ?"
-msgstr ""
-
-msgid "No calibration camera found."
-msgstr ""
-
-msgid "No camera URL available."
-msgstr ""
-
-msgid "No detection results yet"
-msgstr ""
-
 msgid "No elegible macros:"
 msgstr ""
 
-msgid "No info available"
-msgstr ""
-
-msgid "No power loss recovery data found"
-msgstr ""
-
-msgid "No wireless interface has been found"
-msgstr ""
-
-msgid "Normal"
-msgstr ""
-
 msgid ""
-"Not supported for auto-detection, it needs to be configured in "
-"klipperscreen.conf"
-msgstr ""
-
-msgid "Not working or not configured"
+"Not supported for auto-detection, it needs to be configured in klipperscreen."
+"conf"
 msgstr ""
 
 msgid "Nothing selected"
-msgstr ""
-
-msgid "Notification log empty"
-msgstr ""
-
-msgid "Notifications"
-msgstr ""
-
-msgid "Nozzle Temp:"
-msgstr ""
-
-msgid "Nozzle Temperature"
-msgstr ""
-
-msgid "Offline"
-msgstr ""
-
-msgid "Online"
-msgstr ""
-
-msgid "Only one extruder does not require calibration."
 msgstr ""
 
 #, python-format
@@ -748,59 +500,22 @@ msgstr ""
 msgid "Pause"
 msgstr ""
 
-msgid "Pause Print on Defect"
-msgstr ""
-
 msgid "Paused"
 msgstr ""
 
 msgid "Perform a full upgrade?"
 msgstr ""
 
-msgid ""
-"Please click the Z raise button to raise the Z axis to remove the foam "
-"around the bottom of the case."
-msgstr ""
-
-msgid "Please confirm the left extruder position first."
-msgstr ""
-
-msgid "Please confirm the right extruder position."
-msgstr ""
-
-msgid "Please observe if the nozzle is positioned above the probe."
+msgid "Pins"
 msgstr ""
 
 msgid "Please recompile and flash the micro-controller."
 msgstr ""
 
-msgid "Please remove the extruder foam and take out the door handle."
-msgstr ""
-
-msgid "Please switch to the left extruder first."
-msgstr ""
-
-msgid "Please wait for the camera initialization to complete."
-msgstr ""
-
-msgid ""
-"Please wait for the camera's fill light to light up for 5 seconds before "
-"clicking 'Start'"
-msgstr ""
-
-msgid "Please wait until the bed and nozzle is heated before calibrating."
-msgstr ""
-
 msgid "Power"
 msgstr ""
 
-msgid "Power Loss Recovery"
-msgstr ""
-
 msgid "Power On Printer"
-msgstr ""
-
-msgid "Preheat"
 msgstr ""
 
 msgid "Pressure Advance:"
@@ -812,22 +527,16 @@ msgstr ""
 msgid "Print Control"
 msgstr ""
 
-msgid "Print Height"
-msgstr ""
-
-msgid "Print Height:"
-msgstr ""
-
 msgid "Print Time"
 msgstr ""
 
-msgid "Print height is less than 1mm"
+msgid "Printer"
+msgstr ""
+
+msgid "Printer Connections"
 msgstr ""
 
 msgid "Printer Select"
-msgstr ""
-
-msgid "Printer is busy."
 msgstr ""
 
 msgid "Printing"
@@ -845,9 +554,6 @@ msgstr ""
 msgid "Quad Gantry Level"
 msgstr ""
 
-msgid "Raise"
-msgstr ""
-
 msgid "Raise Nozzle"
 msgstr ""
 
@@ -860,22 +566,10 @@ msgstr ""
 msgid "Recover Soft"
 msgstr ""
 
-msgid "Recovery File"
-msgstr ""
-
 msgid "Reference"
 msgstr ""
 
 msgid "Refresh"
-msgstr ""
-
-msgid "Remaining length"
-msgstr ""
-
-msgid "Remaining weight"
-msgstr ""
-
-msgid "Remove Foam"
 msgstr ""
 
 msgid "Rename/Move:"
@@ -885,6 +579,12 @@ msgid "Restart"
 msgstr ""
 
 msgid "Resume"
+msgstr ""
+
+msgid "Retract"
+msgstr ""
+
+msgid "Retraction"
 msgstr ""
 
 msgid "Retraction Length"
@@ -899,21 +599,10 @@ msgstr ""
 msgid "Retrying"
 msgstr ""
 
-msgid "Right Extruder Z Offset"
-msgstr ""
-
-#, python-format
-msgid "Right Extruder: %s%.3f"
-msgstr ""
-
-msgid "Right Extruder: Not adjusted"
-msgstr ""
-
-#, python-format
-msgid "Right extruder offset is (%(x).2f, %(y).2f)"
-msgstr ""
-
 msgid "Save"
+msgstr ""
+
+msgid "Save Config"
 msgstr ""
 
 msgid "Save Z"
@@ -925,7 +614,8 @@ msgstr ""
 msgid "Saved"
 msgstr ""
 
-msgid "Saved successfully!"
+#, python-format
+msgid "Saved offset: %s"
 msgstr ""
 
 msgid "Screen DPMS"
@@ -940,12 +630,6 @@ msgstr ""
 msgid "Select"
 msgstr ""
 
-msgid "Select WiFi"
-msgstr ""
-
-msgid "Self-check"
-msgstr ""
-
 msgid "Send"
 msgstr ""
 
@@ -958,7 +642,10 @@ msgstr ""
 msgid "Show"
 msgstr ""
 
-msgid "Shut down after printing completes"
+msgid "Show Heater Power"
+msgstr ""
+
+msgid "Show Scrollbars Buttons"
 msgstr ""
 
 msgid "Shutdown"
@@ -973,10 +660,7 @@ msgstr ""
 msgid "Slicer:"
 msgstr ""
 
-msgid "Spaghetti"
-msgstr ""
-
-msgid "Spaghetti Detection"
+msgid "Small"
 msgstr ""
 
 msgid "Speed (mm/s)"
@@ -1003,12 +687,6 @@ msgstr ""
 msgid "Starting WiFi Association"
 msgstr ""
 
-msgid "Starting dual nozzle height calibration..."
-msgstr ""
-
-msgid "Starting kTAMV auto-alignment..."
-msgstr ""
-
 msgid "Starting recovery for"
 msgstr ""
 
@@ -1030,34 +708,7 @@ msgstr ""
 msgid "Temperature"
 msgstr ""
 
-msgid "The nozzle temperature is too low, Are you sure you want to heat it?"
-msgstr ""
-
-msgid "Time"
-msgstr ""
-
-msgid "Tip: Please ensure the nozzle is about 0.1mm above the model"
-msgstr ""
-
 msgid "Total:"
-msgstr ""
-
-msgid "Troubleshooting"
-msgstr ""
-
-msgid "Turn off"
-msgstr ""
-
-msgid "Type"
-msgstr ""
-
-msgid "Unable to read the left extruder position."
-msgstr ""
-
-msgid "Unable to read the right extruder position."
-msgstr ""
-
-msgid "Unknown"
 msgstr ""
 
 msgid "Unknown Heater"
@@ -1087,41 +738,7 @@ msgstr ""
 msgid "Uploaded"
 msgstr ""
 
-msgid "User Manual"
-msgstr ""
-
-msgid "Voice Notify"
-msgstr ""
-
-msgid ""
-"Warning: Current value is negative. This is dangerous and may damage the "
-"machine. Please recalibrate."
-msgstr ""
-
-msgid ""
-"Warning: Negative value detected. This is dangerous and may damage the "
-"machine. Please recalibrate."
-msgstr ""
-
-msgid "Warp Edge"
-msgstr ""
-
-msgid "Warp Edge Detection"
-msgstr ""
-
-msgid "Warp Head"
-msgstr ""
-
-msgid "Warp Head Detection"
-msgstr ""
-
-msgid "WebRTC is not supported by the backend trying Stream"
-msgstr ""
-
 msgid "XY Move Speed (mm/s)"
-msgstr ""
-
-msgid "XY Offset"
 msgstr ""
 
 msgid "XY Speed (mm/s)"
@@ -1130,28 +747,13 @@ msgstr ""
 msgid "Z Calibrate"
 msgstr ""
 
-msgid "Z Endstop"
-msgstr ""
-
-msgid "Z Height Diff"
-msgstr ""
-
 msgid "Z Move Speed (mm/s)"
-msgstr ""
-
-msgid "Z Offset"
-msgstr ""
-
-msgid "Z Raise"
 msgstr ""
 
 msgid "Z Speed (mm/s)"
 msgstr ""
 
 msgid "Z Tilt"
-msgstr ""
-
-msgid "Z offset exceeds safe range"
 msgstr ""
 
 msgid "Z offset:"

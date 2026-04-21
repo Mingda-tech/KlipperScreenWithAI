@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KlipperScreen\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-19 21:04-0700\n"
+"POT-Creation-Date: 2023-10-20 00:09-0300\n"
 "PO-Revision-Date: 2023-12-11 19:05+0000\n"
 "Last-Translator: \"Zs.Antal\" <zsikaiantal@icloud.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/klipperscreen/"
@@ -14,9 +14,53 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.2.1\n"
 
-#, python-format
-msgid "%s triggered."
-msgstr ""
+msgid "Active Extruder"
+msgstr "Aktív Extruder"
+
+msgid "Active Extruder:"
+msgstr "Aktív Extruder:"
+
+msgid "Bed Temp:"
+msgstr "Tálca Hőm.:"
+
+msgid "Bed Temperature"
+msgstr "Tálca Hőmérséklet"
+
+msgid "Filename"
+msgstr "Fájlnév"
+
+msgid "Filename:"
+msgstr "Fájlnév:"
+
+msgid "Missing required information"
+msgstr "Hiányzó kötelező információ"
+
+msgid "Nozzle Temp:"
+msgstr "Fúvóka Hőm.:"
+
+msgid "Nozzle Temperature"
+msgstr "Fúvóka Hőmérséklet"
+
+msgid "Power Loss Recovery"
+msgstr "Áramkimaradás Helyreállítás"
+
+msgid "Print Height"
+msgstr "Nyomtatási Magasság"
+
+msgid "Print Height:"
+msgstr "Nyomtatási Magasság:"
+
+msgid "Print height is less than 1mm"
+msgstr "A nyomtatási magasság kevesebb mint 1mm"
+
+msgid "Recovery File"
+msgstr "Helyreállítási Fájl"
+
+msgid "Resume Print"
+msgstr "Nyomtatás Folytatása"
+
+msgid "Tip: Please ensure the nozzle is about 0.1mm above the model"
+msgstr "Tipp: Győződjön meg róla, hogy a fúvóka körülbelül 0.1mm-rel a modell felett van"
 
 #, python-format
 msgid "%s will be updated to version"
@@ -25,21 +69,14 @@ msgstr "%s verzió frissítése"
 msgid "(default)"
 msgstr "(alapértelmezett)"
 
+msgid "24 Hour Time"
+msgstr "24 órás idő"
+
 msgid "A FIRMWARE_RESTART may fix the issue."
 msgstr "A FIRMWARE_RESTART javíthatja a problémát."
 
 msgid "ADXL Not Configured"
 msgstr "ADXL nincs konfigurálva"
-
-#, fuzzy
-msgid "AI Detection"
-msgstr "Filament érzékelés"
-
-msgid "AI Status"
-msgstr ""
-
-msgid "AI service offline. Detection unavailable."
-msgstr ""
 
 msgid "Abort"
 msgstr "Megszakít"
@@ -50,17 +87,8 @@ msgstr "Gyorsulás:"
 msgid "Accept"
 msgstr "Elfogad"
 
-msgid "Active Extruder"
-msgstr "Aktív Extruder"
-
-msgid "Active Extruder:"
-msgstr "Aktív Extruder:"
-
 msgid "Add profile"
 msgstr "Profil hozzáadása"
-
-msgid "Adjust Zprobe Pos"
-msgstr "Zprobe pozíció beállítása"
 
 msgid "All"
 msgstr "Mind"
@@ -68,11 +96,13 @@ msgstr "Mind"
 msgid "Apply"
 msgstr "Alkalmaz"
 
-msgid "Apply Z offset to Endstop?"
-msgstr "Alkalmazza a Z eltolást a végállásra?"
+#, python-format
+msgid "Apply %s%.3f offset to Endstop?"
+msgstr "Alkalmazod a(z) %s%.3f végállás eltolást?"
 
-msgid "Apply Z offset to Probe?"
-msgstr "Alkalmazza a Z eltolást a szondára?"
+#, python-format
+msgid "Apply %s%.3f offset to Probe?"
+msgstr "Alkalmazod a(z) %s%.3f szonda eltolást?"
 
 msgid "Archived"
 msgstr "Archivált"
@@ -95,40 +125,8 @@ msgstr "Biztos, hogy újra akarod indítani a rendszert?"
 msgid "Are you sure you wish to shutdown the system?"
 msgstr "Biztos, hogy le szeretnéd állítani a rendszert?"
 
-msgid "Are you sure?"
-msgstr ""
-
 msgid "Auto"
 msgstr "Auto"
-
-#, fuzzy
-msgid "Auto Align"
-msgstr "Automatikus szintezés"
-
-#, fuzzy
-msgid "Auto Align XY"
-msgstr "Automatikus szintezés"
-
-#, fuzzy
-msgid "Auto Detect"
-msgstr "Filament érzékelés"
-
-#, python-format
-msgid ""
-"Auto-alignment complete!\n"
-"Offset X: %(x).3f  Y: %(y).3f"
-msgstr ""
-
-#, fuzzy
-msgid "Auto-alignment failed."
-msgstr "Automata szálbetöltés engedélyezve"
-
-#, fuzzy
-msgid "Auto-alignment is unavailable."
-msgstr "Automata szálbetöltés engedélyezve"
-
-msgid "Auto-alignment timed out."
-msgstr ""
 
 msgid "Auto-calibrate"
 msgstr "Automatikus kalibrálás"
@@ -136,27 +134,20 @@ msgstr "Automatikus kalibrálás"
 msgid "Auto-close notifications"
 msgstr "Értesítések automatikus bezárása"
 
+msgid "Auto-open Extrude On Pause"
+msgstr "Automatikus megnyitás adagolás szünetelése után"
+
 msgid "Auto-scroll"
 msgstr "Automatikus görgetés"
 
 msgid "Bed Level"
 msgstr "Ágyszint"
 
-#, fuzzy
-msgid "Bed Lower"
-msgstr "Leszállítás"
-
-msgid "Bed Temp:"
-msgstr "Tálca Hőm.:"
-
-msgid "Bed Temperature"
-msgstr "Tálca Hőmérséklet"
+msgid "Bed Mesh"
+msgstr "Ágyháló"
 
 msgid "Bed screw configuration:"
 msgstr "Az ágycsavar konfigurációja:"
-
-msgid "Brightest"
-msgstr "Legfényesebb"
 
 msgid "Calibrate"
 msgstr "Kalibrálás"
@@ -197,21 +188,6 @@ msgstr "Ellenőrizd az ADXL kábelezését"
 msgid "Checking for updates, please wait..."
 msgstr "Frissítések keresése, kérlek, várj..."
 
-msgid "Checking..."
-msgstr ""
-
-msgid "Choose Language"
-msgstr "Válasszon nyelvet"
-
-msgid "Choose Timezone"
-msgstr "Válasszon időzónát"
-
-msgid "Choose a language"
-msgstr "Válasszon nyelvet"
-
-msgid "Choose a timezone"
-msgstr "Válasszon időzónát"
-
 msgid "Clear"
 msgstr "Tisztítás"
 
@@ -221,21 +197,8 @@ msgstr "Bezárás"
 msgid "Complete"
 msgstr "Befejezve"
 
-msgid "Confidence"
-msgstr ""
-
-msgid "Confirm"
-msgstr "Megerősít"
-
 msgid "Confirm Emergency Stop"
 msgstr "Vészleállítás megerősítése"
-
-#, fuzzy
-msgid "Confirm Movement"
-msgstr "erősítse meg a pozíciót"
-
-msgid "Confirm Pos"
-msgstr "erősítse meg a pozíciót"
 
 msgid "Connected"
 msgstr "Csatlakoztatva"
@@ -247,49 +210,17 @@ msgstr "Csatlakozás %s"
 msgid "Connection failed"
 msgstr "Csatlakozás sikertelen"
 
+msgid "Console"
+msgstr "Konzol"
+
 msgid "Cooldown"
 msgstr "Lehűtés"
-
-msgid "Copy Print"
-msgstr "Másolat nyomtatása"
-
-msgid "Couldn't get the calibration camera position."
-msgstr "Nem sikerült elérni a kalibrálási kamera pozícióját."
-
-#, fuzzy
-msgid "Couldn't get the calibration switch position."
-msgstr "Nem sikerült elérni a kalibrálási kamera pozícióját."
-
-#, fuzzy
-msgid "Current language: "
-msgstr "Jelenlegi nyelv:"
-
-msgid "Current nozzle height difference: "
-msgstr "Jelenlegi fúvóka magasságkülönbség: "
-
-#, fuzzy
-msgid "Current nozzle height difference: ?"
-msgstr "Jelenlegi fúvóka magasságkülönbség: "
-
-#, fuzzy
-msgid "Current timezone: "
-msgstr "Jelenlegi időzóna:"
 
 msgid "DPMS has failed to load and has been disabled"
 msgstr "A DPMS betöltése nem sikerült, ezért le van tiltva"
 
-msgid "Dangerous nozzle height difference: "
-msgstr "Veszélyes fúvóka magasságkülönbség: "
-
 msgid "Date"
 msgstr "Dátum"
-
-msgid "Defect"
-msgstr ""
-
-#, python-format
-msgid "Defect detected: %s"
-msgstr "Hiba észlelve: %s"
 
 msgid "Delete Directory?"
 msgstr "Törlöd a könyvtárat?"
@@ -306,9 +237,6 @@ msgstr "Motorok letiltása"
 msgid "Distance (mm)"
 msgstr "Távolság (mm)"
 
-msgid "Do not touch the printer during self-check."
-msgstr "Ne érintse meg a nyomtatót az önellenőrzés közben."
-
 #, python-format
 msgid "Do you want to recover %s?"
 msgstr "Vissza akarod állítani %s-t?"
@@ -316,23 +244,8 @@ msgstr "Vissza akarod állítani %s-t?"
 msgid "Elapsed:"
 msgstr "Eltelt:"
 
-#, fuzzy
-msgid "Emergency Stop"
-msgstr "Vészleállítás megerősítése"
-
-#, fuzzy
-msgid "Enabled"
-msgstr "nincs engedélyezve"
-
 msgid "Error"
 msgstr "Hiba"
-
-#, fuzzy
-msgid "Error reading recovery file"
-msgstr "Helyreállítás megkezdése"
-
-msgid "Error writing configuration"
-msgstr "Hiba a konfiguráció írásakor"
 
 msgid "Estimated Time Method"
 msgstr "Becsült idő módszer"
@@ -340,38 +253,23 @@ msgstr "Becsült idő módszer"
 msgid "Exclude Object"
 msgstr "Objektum kizárása"
 
+msgid "Extra Large"
+msgstr "Extra nagy"
+
 msgid "Extrude"
 msgstr "Száladagolás"
 
-msgid "Extruder switch when filament run out"
-msgstr "Extrúdóváltás a filamen elfogyása esetén"
-
-#, fuzzy
-msgid "Extrusion"
+msgid "Extrusion +"
 msgstr "Adagolás +"
 
-#, fuzzy
-msgid "Extrusion Detection"
-msgstr "Adagolás +"
-
-msgid "First Layer"
-msgstr "Első réteg"
-
-msgid "First Layer Detection"
-msgstr "Első réteg észlelése"
-
-#, fuzzy
-msgid "Failed to resume print"
-msgstr "Nem sikerült menteni a sablont"
+msgid "Extrusion -"
+msgstr "Adagolás -"
 
 msgid "Failed, adjust position first"
 msgstr "Sikertelen! Előbb állítsd be a pozíciót"
 
 msgid "Fan"
 msgstr "Hűtés"
-
-msgid "Filament Box Power"
-msgstr "Filamentdoboz energiaellátása"
 
 msgid "Filament Used"
 msgstr "Használt nyomtatószál"
@@ -391,12 +289,6 @@ msgstr "Fájl"
 msgid "File:"
 msgstr "Fájl:"
 
-msgid "Filename"
-msgstr "Fájlnév"
-
-msgid "Filename:"
-msgstr "Fájlnév:"
-
 msgid "Filter"
 msgstr "Szűrő"
 
@@ -412,59 +304,17 @@ msgstr "Befejezve"
 msgid "Firmware Restart"
 msgstr "Firmware újraindítása"
 
-# msgid "Firmware Restart"
-# msgstr "Firmware újraindítása"
-msgid "Firmware has disconnected"
-msgstr "A firmware leválasztódott"
-
-msgid "Firmware has encountered an error."
-msgstr "Hiba történt a firmware-ben."
-
-msgid "Firmware has shutdown"
-msgstr "A firmware leállt"
-
-msgid "Firmware is attempting to start"
-msgstr "A firmware próbál indulni"
-
-msgid "Firmware will reboot"
-msgstr "A firmware újraindul"
-
-#, fuzzy
-msgid "Flow +"
-msgstr "Folyam:"
-
-#, fuzzy
-msgid "Flow -"
-msgstr "Folyam:"
-
 msgid "Flow:"
 msgstr "Folyam:"
 
 msgid "Flowrate:"
 msgstr "Áramlás:"
 
-#, fuzzy
-msgid "Force Cancel"
-msgstr "Mégsem"
-
-msgid "Force Move"
-msgstr "Kényszerített mozgás"
-
-msgid "Force move: "
-msgstr "Kényszerített mozgás:"
-
-msgid "Foreign Object"
-msgstr ""
-
-msgid "Foreign Object Detection"
-msgstr ""
+msgid "Font Size"
+msgstr "Betűméret"
 
 msgid "Full Update"
 msgstr "Teljes frissítés"
-
-#, fuzzy
-msgid "General Detection"
-msgstr "Filament érzékelés"
 
 msgid "Go Back"
 msgstr "Visszalépés"
@@ -475,12 +325,11 @@ msgstr "Magasság:"
 msgid "Hidden"
 msgstr "Rejtett"
 
-#, fuzzy
-msgid "Hidden Network"
-msgstr "Hálózat"
-
 msgid "Hide"
 msgstr "Elrejt"
+
+msgid "Hide sensors in Temp."
+msgstr "Hőfok szenzorok elrejtése."
 
 msgid "Hide temp."
 msgstr "Hőfok elrejtése"
@@ -503,8 +352,8 @@ msgstr "Y kezdőpont"
 msgid "Home Z"
 msgstr "Z kezdőpont"
 
-msgid "Homing the printer..."
-msgstr "Nyomtató kezdőpont beállítása..."
+msgid "Host"
+msgstr "Gazdagép"
 
 msgid "Hostname"
 msgstr "Gazdanév"
@@ -512,12 +361,8 @@ msgstr "Gazdanév"
 msgid "ID"
 msgstr "ID"
 
-msgid ""
-"If your calibration device is under the PEI, please lift the PEI after "
-"homing."
-msgstr ""
-"Ha a kalibrációs eszköz a PEI alatt van, kérjük, emelje fel a PEI-t a "
-"kezdőpont beállítása után."
+msgid "Icon Theme"
+msgstr "Ikon téma"
 
 msgid "Initializing printer..."
 msgstr "Nyomtató inicializálása..."
@@ -530,9 +375,6 @@ msgstr "Bemeneti alakító"
 
 msgid "Interface"
 msgstr "Felület"
-
-msgid "Interval (s)"
-msgstr ""
 
 msgid "Invalid"
 msgstr "Érvénytelen"
@@ -552,6 +394,24 @@ msgstr "Fordított Z"
 msgid "It may take more than 5 minutes depending on the heater power."
 msgstr "A fűtés teljesítményétől függően több mint 5 percig tarthat."
 
+#msgid "Firmware Restart"
+#msgstr "Firmware újraindítása"
+
+msgid "Firmware has disconnected"
+msgstr "A firmware leválasztódott"
+
+msgid "Firmware has encountered an error."
+msgstr "Hiba történt a firmware-ben."
+
+msgid "Firmware has shutdown"
+msgstr "A firmware leállt"
+
+msgid "Firmware is attempting to start"
+msgstr "A firmware próbál indulni"
+
+msgid "Firmware will reboot"
+msgstr "A firmware újraindul"
+
 msgid ""
 "LOAD_FILAMENT/UNLOAD_FILAMENT are hidden and should be used from extrude"
 msgstr ""
@@ -560,15 +420,11 @@ msgstr ""
 msgid "Language"
 msgstr "Nyelv"
 
+msgid "Large"
+msgstr "Nagy"
+
 msgid "Last Used"
 msgstr "Utoljára használt"
-
-#, fuzzy
-msgid "Last used"
-msgstr "Utoljára használt"
-
-msgid "Latest Detection Result"
-msgstr ""
 
 msgid "Layer:"
 msgstr "Réteg:"
@@ -576,41 +432,26 @@ msgstr "Réteg:"
 msgid "Leds"
 msgstr "LED-ek"
 
-#, python-format
-msgid "Left Extruder: %s%.3f"
-msgstr "Bal extruder: %s%.3f"
-
-msgid "Left Extruder: Not adjusted"
-msgstr "Bal extruder: Nincs beállítva"
-
-#, fuzzy, python-format
-msgid "Left extruder position: (%(x).2f, %(y).2f, %(z).2f)"
-msgstr "bal extruder pozíció: (%.3f, %.3f, %.3f)"
-
 msgid "Left:"
 msgstr "Marad:"
 
-msgid "Leveling"
-msgstr "Szintezés"
+msgid "Limits"
+msgstr "Korlátok"
 
 msgid "Load"
 msgstr "Betöltés"
 
-msgid "Lower"
-msgstr "Leszállítás"
-
 msgid "Lower Nozzle"
 msgstr "Fúvóka le"
 
-#, python-format
-msgid "Macro %s is undefined. Please check whether ai_setting.cfg is loaded."
-msgstr ""
+msgid "Macro shortcut on sidebar"
+msgstr "Makró parancsikon az oldalsávon"
+
+msgid "Macros"
+msgstr "Makrók"
 
 msgid "Main Menu"
 msgstr "Főmenü"
-
-msgid "Manual"
-msgstr "Kézi"
 
 msgid "Material"
 msgstr "Anyag"
@@ -627,6 +468,9 @@ msgstr "Lassulás max gyorsulása"
 msgid "Max Velocity"
 msgstr "Max sebesség"
 
+msgid "Maximum"
+msgstr "Maximum"
+
 msgid "Measure Both"
 msgstr "Mindkettő mérése"
 
@@ -636,20 +480,14 @@ msgstr "X mérése"
 msgid "Measure Y"
 msgstr "Y mérése"
 
+msgid "Medium"
+msgstr "Közepes"
+
 msgid "Menu"
 msgstr "Menü"
 
 msgid "Mesh calibrate"
 msgstr "Háló kalibrálása"
-
-msgid "Mirror Print"
-msgstr "Tükör nyomtatás"
-
-msgid "Missing required information"
-msgstr "Hiányzó kötelező információ"
-
-msgid "Missing required recovery data"
-msgstr "Hiányzó szükséges helyreállítási adatok"
 
 msgid "Modified"
 msgstr "Módosított"
@@ -669,15 +507,6 @@ msgstr "Mozgás távolsága (mm)"
 msgid "Name"
 msgstr "Név"
 
-msgid "Need home axis"
-msgstr "Szükség van az otthoni tengelyre"
-
-msgid "Need reboot, relaunch immediately?"
-msgstr "Újraindítás szükséges, újraindítja most?"
-
-msgid "Need to recalculate the offset value."
-msgstr "Újra kell számolni az eltolás értékét."
-
 msgid "Network"
 msgstr "Hálózat"
 
@@ -687,75 +516,17 @@ msgstr "Soha"
 msgid "New"
 msgstr "Új"
 
-msgid "New nozzle height difference is: "
-msgstr "Az új fúvóka magasságkülönbség: "
-
-msgid "New nozzle height difference: "
-msgstr "Új fúvóka magasságkülönbség: "
-
-#, fuzzy
-msgid "New nozzle height difference: ?"
-msgstr "Új fúvóka magasságkülönbség: "
-
-#, fuzzy
-msgid "No calibration camera found."
-msgstr "Nem sikerült elérni a kalibrálási kamera pozícióját."
-
-msgid "No camera URL available."
-msgstr ""
-
-msgid "No detection results yet"
-msgstr ""
-
 msgid "No elegible macros:"
 msgstr "Nincs választható makró:"
 
-msgid "No info available"
-msgstr ""
-
-msgid "No power loss recovery data found"
-msgstr "Nem található áramkimaradás helyreállítási adat"
-
-msgid "No wireless interface has been found"
-msgstr ""
-
-msgid "Normal"
-msgstr ""
-
 msgid ""
-"Not supported for auto-detection, it needs to be configured in "
-"klipperscreen.conf"
+"Not supported for auto-detection, it needs to be configured in klipperscreen."
+"conf"
 msgstr ""
-"Az automatikus felismerés nem támogatott, ezt a klipperscreen.conf fájlban "
-"kell beállítani."
-
-msgid "Not working or not configured"
-msgstr ""
+"Az automatikus felismerés nem támogatott, ezt a klipperscreen.conf fájlban kell beállítani."
 
 msgid "Nothing selected"
 msgstr "Nincs kiválasztva"
-
-msgid "Notification log empty"
-msgstr ""
-
-#, fuzzy
-msgid "Notifications"
-msgstr "Értesítések automatikus bezárása"
-
-msgid "Nozzle Temp:"
-msgstr "Fúvóka Hőm.:"
-
-msgid "Nozzle Temperature"
-msgstr "Fúvóka Hőmérséklet"
-
-msgid "Offline"
-msgstr ""
-
-msgid "Online"
-msgstr ""
-
-msgid "Only one extruder does not require calibration."
-msgstr "Csak egy extruder nem igényel kalibrációt."
 
 #, python-format
 msgid "Outdated by %d"
@@ -764,11 +535,10 @@ msgstr "%d által elavult"
 msgid "PSK for"
 msgstr "PSK-nak"
 
-#, fuzzy
 msgid "Package will be updated"
-msgid_plural "Packages will be updated"
-msgstr[0] "A csomag frissítésre kerül"
-msgstr[1] "A csomag frissítésre kerül"
+
+msgstr "A csomag frissítésre kerül"
+
 
 msgid "Part Fan"
 msgstr "Tárgyhűtő"
@@ -779,70 +549,23 @@ msgstr "Jelszó mentve"
 msgid "Pause"
 msgstr "Szünet"
 
-msgid "Pause Print on Defect"
-msgstr ""
-
 msgid "Paused"
 msgstr "Szüneteltetve"
 
 msgid "Perform a full upgrade?"
 msgstr "Teljes frissítést szeretnél?"
 
-msgid ""
-"Please click the Z raise button to raise the Z axis to remove the foam "
-"around the bottom of the case."
-msgstr ""
-"Kérjük, kattintson a Z emelés gombra a Z tengely emeléséhez és a ház alja "
-"körüli hab eltávolításához."
-
-#, fuzzy
-msgid "Please confirm the left extruder position first."
-msgstr "Kérjük, erősítse meg a bal extruder pozícióját."
-
-#, fuzzy
-msgid "Please confirm the right extruder position."
-msgstr "Kérjük, erősítse meg a bal extruder pozícióját."
-
-msgid "Please observe if the nozzle is positioned above the probe."
-msgstr "Kérjük, figyelje meg, hogy a fúvóka a szonda felett helyezkedik-e el."
+msgid "Pins"
+msgstr "Tűk"
 
 msgid "Please recompile and flash the micro-controller."
 msgstr "Fordítsd újra és frissítsd a mikrovezérlőt."
 
-msgid "Please remove the extruder foam and take out the door handle."
-msgstr "Kérjük, távolítsa el az extruder habot és vegye ki az ajtókilincset."
-
-#, fuzzy
-msgid "Please switch to the left extruder first."
-msgstr "Kérjük, erősítse meg a bal extruder pozícióját."
-
-msgid "Please wait for the camera initialization to complete."
-msgstr "Kérjük, várjon, amíg a kamera inicializálása befejeződik."
-
-msgid ""
-"Please wait for the camera's fill light to light up for 5 seconds before "
-"clicking 'Start'"
-msgstr ""
-"Kérjük, várjon, amíg a kamera feltöltése 5 másodpercig fel nem gyullad, "
-"mielőtt rákattintana a 'Start' gombra."
-
-#, fuzzy
-msgid "Please wait until the bed and nozzle is heated before calibrating."
-msgstr ""
-"Kérjük, várjon, amíg a medence és a dyza fel nem melegszik a kalibrálás "
-"előtt."
-
 msgid "Power"
 msgstr "Bekapcsolás"
 
-msgid "Power Loss Recovery"
-msgstr "Áramkimaradás Helyreállítás"
-
 msgid "Power On Printer"
 msgstr "Nyomtató bekapcsolása"
-
-msgid "Preheat"
-msgstr ""
 
 msgid "Pressure Advance:"
 msgstr "Nyomás előtolás:"
@@ -853,24 +576,17 @@ msgstr "Nyomtatás"
 msgid "Print Control"
 msgstr "Nyomtatásvezérlés"
 
-msgid "Print Height"
-msgstr "Nyomtatási Magasság"
-
-msgid "Print Height:"
-msgstr "Nyomtatási Magasság:"
-
 msgid "Print Time"
 msgstr "Nyomtatási idő"
 
-msgid "Print height is less than 1mm"
-msgstr "A nyomtatási magasság kevesebb mint 1mm"
+msgid "Printer"
+msgstr "Nyomtató"
+
+msgid "Printer Connections"
+msgstr "Nyomtató csatlakozások"
 
 msgid "Printer Select"
 msgstr "Nyomtató kiválasztása"
-
-#, fuzzy
-msgid "Printer is busy."
-msgstr "Nyomtató"
 
 msgid "Printing"
 msgstr "Nyomtatás"
@@ -887,9 +603,6 @@ msgstr "Csatold a KlipperScreen.log-ot, amikor segítséget kérsz.\n"
 msgid "Quad Gantry Level"
 msgstr "Négy állású szint"
 
-msgid "Raise"
-msgstr "Emelés"
-
 msgid "Raise Nozzle"
 msgstr "Fúvóka fel"
 
@@ -902,24 +615,11 @@ msgstr "Hárdver visszaállítása"
 msgid "Recover Soft"
 msgstr "Program visszaállítása"
 
-msgid "Recovery File"
-msgstr "Helyreállítási Fájl"
-
 msgid "Reference"
 msgstr "Referencia"
 
 msgid "Refresh"
 msgstr "Frissítés"
-
-#, fuzzy
-msgid "Remaining length"
-msgstr "Visszahúzási hossz"
-
-msgid "Remaining weight"
-msgstr ""
-
-msgid "Remove Foam"
-msgstr "Hab eltávolítása"
 
 msgid "Rename/Move:"
 msgstr "Átnevez/Áthelyez:"
@@ -929,6 +629,12 @@ msgstr "Újraindítás"
 
 msgid "Resume"
 msgstr "Folytat"
+
+msgid "Retract"
+msgstr "Visszahúz"
+
+msgid "Retraction"
+msgstr "Visszahúzás"
 
 msgid "Retraction Length"
 msgstr "Visszahúzási hossz"
@@ -942,23 +648,11 @@ msgstr "Újra"
 msgid "Retrying"
 msgstr "Újrapróbálkozás"
 
-#, fuzzy
-msgid "Right Extruder Z Offset"
-msgstr "Jobb extruder: %s%.3f"
-
-#, python-format
-msgid "Right Extruder: %s%.3f"
-msgstr "Jobb extruder: %s%.3f"
-
-msgid "Right Extruder: Not adjusted"
-msgstr "Jobb extruder: Nincs beállítva"
-
-#, fuzzy, python-format
-msgid "Right extruder offset is (%(x).2f, %(y).2f)"
-msgstr "Jobb extruder eltolás: (%.3f, %.3f, %.3f)"
-
 msgid "Save"
 msgstr "Mentés"
+
+msgid "Save Config"
+msgstr "Konfiguráció mentése"
 
 msgid "Save Z"
 msgstr "Z mentése"
@@ -969,8 +663,9 @@ msgstr "Mented a konfigurációt?"
 msgid "Saved"
 msgstr "Mentve"
 
-msgid "Saved successfully!"
-msgstr "Sikeresen mentve!"
+#, python-format
+msgid "Saved offset: %s"
+msgstr "Eltolás mentve: %s"
 
 msgid "Screen DPMS"
 msgstr "Képernyő DPMS"
@@ -984,12 +679,6 @@ msgstr "Csavarok beállítása"
 msgid "Select"
 msgstr "Kijelölés"
 
-msgid "Select WiFi"
-msgstr "Válassza ki a WiFi-t"
-
-msgid "Self-check"
-msgstr "Önellenőrzés"
-
 msgid "Send"
 msgstr "Küldés"
 
@@ -1002,8 +691,11 @@ msgstr "Beállítások"
 msgid "Show"
 msgstr "Mutat"
 
-msgid "Shut down after printing completes"
-msgstr "Leállítás nyomtatás befejeztével"
+msgid "Show Heater Power"
+msgstr "A fűtésteljesítmény megjelenítése"
+
+msgid "Show Scrollbars Buttons"
+msgstr "Görgetősáv gombok megjelenítése"
 
 msgid "Shutdown"
 msgstr "Leállítás"
@@ -1017,12 +709,8 @@ msgstr "Szeletelő"
 msgid "Slicer:"
 msgstr "Szeletelő:"
 
-msgid "Spaghetti"
-msgstr ""
-
-#, fuzzy
-msgid "Spaghetti Detection"
-msgstr "Filament érzékelés"
+msgid "Small"
+msgstr "Kicsi"
 
 msgid "Speed (mm/s)"
 msgstr "Sebesség (mm/s)"
@@ -1048,12 +736,6 @@ msgstr "Indítás"
 msgid "Starting WiFi Association"
 msgstr "A WiFi társítás elindítása"
 
-msgid "Starting dual nozzle height calibration..."
-msgstr "Kettős fúvóka magasság kalibrálás indítása..."
-
-msgid "Starting kTAMV auto-alignment..."
-msgstr ""
-
 msgid "Starting recovery for"
 msgstr "Helyreállítás megkezdése"
 
@@ -1075,40 +757,8 @@ msgstr "Hőmérséklet (°C)"
 msgid "Temperature"
 msgstr "Hőfok"
 
-msgid "The nozzle temperature is too low, Are you sure you want to heat it?"
-msgstr "A dyza hőmérséklete túl alacsony. Biztos, hogy fel akarja melegíteni?"
-
-msgid "Time"
-msgstr ""
-
-msgid "Tip: Please ensure the nozzle is about 0.1mm above the model"
-msgstr ""
-"Tipp: Győződjön meg róla, hogy a fúvóka körülbelül 0.1mm-rel a modell felett "
-"van"
-
 msgid "Total:"
 msgstr "Teljes:"
-
-msgid "Troubleshooting"
-msgstr "Hibaelhárítás"
-
-msgid "Turn off"
-msgstr "Kikapcsolás"
-
-msgid "Type"
-msgstr "Típus"
-
-#, fuzzy
-msgid "Unable to read the left extruder position."
-msgstr "Kérjük, erősítse meg a bal extruder pozícióját."
-
-#, fuzzy
-msgid "Unable to read the right extruder position."
-msgstr "Kérjük, erősítse meg a bal extruder pozícióját."
-
-#, fuzzy
-msgid "Unknown"
-msgstr "Ismeretlen ventilátor"
 
 msgid "Unknown Heater"
 msgstr "Ismeretlen melegítő"
@@ -1137,48 +787,8 @@ msgstr "Frissítés"
 msgid "Uploaded"
 msgstr "Feltöltve"
 
-msgid "User Manual"
-msgstr "Felhasználói kézikönyv"
-
-msgid "Voice Notify"
-msgstr "Hangjelzés"
-
-msgid ""
-"Warning: Current value is negative. This is dangerous and may damage the "
-"machine. Please recalibrate."
-msgstr ""
-"Figyelmeztetés: A jelenlegi érték negatív. Ez veszélyes és károsíthatja a "
-"gépet. Kérjük, kalibrálja újra."
-
-msgid ""
-"Warning: Negative value detected. This is dangerous and may damage the "
-"machine. Please recalibrate."
-msgstr ""
-"Figyelmeztetés: Negatív érték észlelve. Ez veszélyes és károsíthatja a "
-"gépet. Kérjük, kalibrálja újra."
-
-msgid "Warp Edge"
-msgstr ""
-
-#, fuzzy
-msgid "Warp Edge Detection"
-msgstr "Filament érzékelés"
-
-msgid "Warp Head"
-msgstr ""
-
-#, fuzzy
-msgid "Warp Head Detection"
-msgstr "Filament érzékelés"
-
-msgid "WebRTC is not supported by the backend trying Stream"
-msgstr ""
-
 msgid "XY Move Speed (mm/s)"
 msgstr "XY Mozgási seb. (mm/s)"
-
-msgid "XY Offset"
-msgstr "XY kiegyenlítés"
 
 msgid "XY Speed (mm/s)"
 msgstr "XY Sebesség (mm/s)"
@@ -1186,21 +796,8 @@ msgstr "XY Sebesség (mm/s)"
 msgid "Z Calibrate"
 msgstr "Z Kalibrálás"
 
-msgid "Z Endstop"
-msgstr ""
-
-msgid "Z Height Diff"
-msgstr "Z magasságkülönbség"
-
 msgid "Z Move Speed (mm/s)"
 msgstr "Z Mozgási seb. (mm/s)"
-
-msgid "Z Offset"
-msgstr "Z kiegyenlítés"
-
-#, fuzzy
-msgid "Z Raise"
-msgstr "Emelés"
 
 msgid "Z Speed (mm/s)"
 msgstr "Z Sebesség (mm/s)"
@@ -1208,26 +805,21 @@ msgstr "Z Sebesség (mm/s)"
 msgid "Z Tilt"
 msgstr "Z Dőlés"
 
-msgid "Z offset exceeds safe range"
-msgstr ""
-
 msgid "Z offset:"
 msgstr "Z eltolás:"
 
-#, fuzzy
 msgid "commit"
-msgid_plural "commits"
-msgstr[0] "ajánlás"
-msgstr[1] "ajánlás"
+
+msgstr "ajánlás"
+
 
 msgid "dBm"
 msgstr "dBm"
 
-#, fuzzy
 msgid "hour"
-msgid_plural "hours"
-msgstr[0] "óra"
-msgstr[1] "óra"
+
+msgstr "óra"
+
 
 msgid "macros that use 'rename_existing' are hidden"
 msgstr "a 'rename_existing' használó makrók el vannak rejtve"
@@ -1235,11 +827,10 @@ msgstr "a 'rename_existing' használó makrók el vannak rejtve"
 msgid "macros with a name starting with '_' are hidden"
 msgstr "a '_' jellel kezdődő nevű makrók el vannak rejtve"
 
-#, fuzzy
 msgid "minute"
-msgid_plural "minutes"
-msgstr[0] "perc"
-msgstr[1] "perc"
+
+msgstr "perc"
+
 
 msgid "mm"
 msgstr "mm"
@@ -1253,633 +844,871 @@ msgstr "mm/s²"
 msgid "mm³/s"
 msgstr "mm³/s"
 
-#~ msgid "Resume Print"
-#~ msgstr "Nyomtatás Folytatása"
+msgid "Leveling"
+msgstr "Szintezés"
 
-#~ msgid "24 Hour Time"
-#~ msgstr "24 órás idő"
+msgid "The nozzle temperature is too low, Are you sure you want to heat it?"
+msgstr "A dyza hőmérséklete túl alacsony. Biztos, hogy fel akarja melegíteni?"
 
-#, python-format
-#~ msgid "Apply %s%.3f offset to Endstop?"
-#~ msgstr "Alkalmazod a(z) %s%.3f végállás eltolást?"
+msgid "General"
+msgstr "Általános"
 
-#, python-format
-#~ msgid "Apply %s%.3f offset to Probe?"
-#~ msgstr "Alkalmazod a(z) %s%.3f szonda eltolást?"
+msgid "Turn off"
+msgstr "Kikapcsolás"
 
-#~ msgid "Auto-open Extrude On Pause"
-#~ msgstr "Automatikus megnyitás adagolás szünetelése után"
+msgid "Brightest"
+msgstr "Legfényesebb"
 
-#~ msgid "Bed Mesh"
-#~ msgstr "Ágyháló"
+msgid "Manual"
+msgstr "Kézi"
 
-#~ msgid "Console"
-#~ msgstr "Konzol"
+msgid "Troubleshooting"
+msgstr "Hibaelhárítás"
 
-#~ msgid "Extra Large"
-#~ msgstr "Extra nagy"
+msgid "Cautions"
+msgstr "Figyelmeztetések"
 
-#~ msgid "Extrusion -"
-#~ msgstr "Adagolás -"
+msgid "Maintenance"
+msgstr "Karbantartás"
 
-#~ msgid "Font Size"
-#~ msgstr "Betűméret"
+msgid "Calibration"
+msgstr "Kalibrálás"
 
-#~ msgid "Hide sensors in Temp."
-#~ msgstr "Hőfok szenzorok elrejtése."
+msgid "XY Offset"
+msgstr "XY kiegyenlítés"
 
-#~ msgid "Host"
-#~ msgstr "Gazdagép"
+msgid "Z Offset"
+msgstr "Z kiegyenlítés"
 
-#~ msgid "Icon Theme"
-#~ msgstr "Ikon téma"
+msgid "Only one extruder does not require calibration."
+msgstr "Csak egy extruder nem igényel kalibrációt."
 
-#~ msgid "Large"
-#~ msgstr "Nagy"
+msgid "Please confirm left extruder position."
+msgstr "Kérjük, erősítse meg a bal extruder pozícióját."
 
-#~ msgid "Limits"
-#~ msgstr "Korlátok"
+msgid "Need to recalculate the offset value."
+msgstr "Újra kell számolni az eltolás értékét."
 
-#~ msgid "Macro shortcut on sidebar"
-#~ msgstr "Makró parancsikon az oldalsávon"
+msgid "Error writing configuration"
+msgstr "Hiba a konfiguráció írásakor"
 
-#~ msgid "Macros"
-#~ msgstr "Makrók"
+msgid "Please wait for the camera initialization to complete."
+msgstr "Kérjük, várjon, amíg a kamera inicializálása befejeződik."
 
-#~ msgid "Maximum"
-#~ msgstr "Maximum"
+msgid "Please wait for the camera's fill light to light up for 5 seconds before clicking 'Start'"
+msgstr "Kérjük, várjon, amíg a kamera feltöltése 5 másodpercig fel nem gyullad, mielőtt rákattintana a 'Start' gombra."
 
-#~ msgid "Medium"
-#~ msgstr "Közepes"
+msgid "Couldn't get the calibration camera position."
+msgstr "Nem sikerült elérni a kalibrálási kamera pozícióját."
 
-#~ msgid "Pins"
-#~ msgstr "Tűk"
+msgid "Need home axis"
+msgstr "Szükség van az otthoni tengelyre"
 
-#~ msgid "Printer Connections"
-#~ msgstr "Nyomtató csatlakozások"
+msgid "Choose Language"
+msgstr "Válasszon nyelvet"
 
-#~ msgid "Retract"
-#~ msgstr "Visszahúz"
+msgid "Choose Timezone"
+msgstr "Válasszon időzónát"
 
-#~ msgid "Retraction"
-#~ msgstr "Visszahúzás"
+msgid "Select WiFi"
+msgstr "Válassza ki a WiFi-t"
 
-#~ msgid "Save Config"
-#~ msgstr "Konfiguráció mentése"
+msgid "Self-check"
+msgstr "Önellenőrzés"
 
-#, python-format
-#~ msgid "Saved offset: %s"
-#~ msgstr "Eltolás mentve: %s"
+msgid "Nozzle Heating"
+msgstr "Dyza fűtés"
 
-#~ msgid "Show Heater Power"
-#~ msgstr "A fűtésteljesítmény megjelenítése"
+msgid "Hot Bed Heating"
+msgstr "Meleg ágy fűtés"
 
-#~ msgid "Show Scrollbars Buttons"
-#~ msgstr "Görgetősáv gombok megjelenítése"
+msgid "Nozzle Cooling Fan"
+msgstr "Dyza hűtőventilátor"
 
-#~ msgid "Small"
-#~ msgstr "Kicsi"
+msgid "Hotend Cooling Fan"
+msgstr "Hotend hűtőventilátor"
 
-#~ msgid "General"
-#~ msgstr "Általános"
+msgid "Filament Detection"
+msgstr "Filament érzékelés"
 
-#~ msgid "Cautions"
-#~ msgstr "Figyelmeztetések"
+msgid "Auto Leveling"
+msgstr "Automatikus szintezés"
 
-#~ msgid "Maintenance"
-#~ msgstr "Karbantartás"
+msgid "WiFi"
+msgstr "WiFi"
 
-#~ msgid "Calibration"
-#~ msgstr "Kalibrálás"
+msgid "Power loss recovery, is resume print?"
+msgstr "Áramvesztés visszanyerése, folytatja a nyomtatást?"
 
-#~ msgid "Nozzle Heating"
-#~ msgstr "Dyza fűtés"
+msgid "Please wait until the bed and nozzle are heated before calibrating."
+msgstr "Kérjük, várjon, amíg a medence és a dyza fel nem melegszik a kalibrálás előtt."
 
-#~ msgid "Hot Bed Heating"
-#~ msgstr "Meleg ágy fűtés"
+msgid "Current language:"
+msgstr "Jelenlegi nyelv:"
 
-#~ msgid "Nozzle Cooling Fan"
-#~ msgstr "Dyza hűtőventilátor"
+msgid "Skip All"
+msgstr "Mindet kihagy"
 
-#~ msgid "Hotend Cooling Fan"
-#~ msgstr "Hotend hűtőventilátor"
+msgid "Do not touch the printer during self-check."
+msgstr "Ne érintse meg a nyomtatót az önellenőrzés közben."
 
-#~ msgid "WiFi"
-#~ msgstr "WiFi"
+msgid "Confirm"
+msgstr "Megerősít"
 
-#~ msgid "Power loss recovery, is resume print?"
-#~ msgstr "Áramvesztés visszanyerése, folytatja a nyomtatást?"
+msgid "Current timezone:"
+msgstr "Jelenlegi időzóna:"
 
-#~ msgid "Skip All"
-#~ msgstr "Mindet kihagy"
+msgid "Choose a timezone"
+msgstr "Válasszon időzónát"
 
-#~ msgid "Please wait for the print job to end"
-#~ msgstr "Kérjük, várjon, amíg a nyomtatási feladat befejeződik"
+msgid "Choose a language"
+msgstr "Válasszon nyelvet"
 
-#~ msgid "Are you sure you wish to reset the printer?"
-#~ msgstr "Biztos benne, hogy visszaállítja a nyomtatót?"
+msgid "Please wait for the print job to end"
+msgstr "Kérjük, várjon, amíg a nyomtatási feladat befejeződik"
 
-#~ msgid "Data will be deleted"
-#~ msgstr "Az adatok törlődnek"
+msgid "Are you sure you wish to reset the printer?"
+msgstr "Biztos benne, hogy visszaállítja a nyomtatót?"
 
-#~ msgid "Reset Printer"
-#~ msgstr "Nyomtató visszaállítása"
+msgid "Data will be deleted"
+msgstr "Az adatok törlődnek"
 
-#~ msgid "Resetting printer, will restart, please wait..."
-#~ msgstr "Nyomtató visszaállítása, újraindul, kérjük, várjon..."
+msgid "Reset Printer"
+msgstr "Nyomtató visszaállítása"
 
-#~ msgid "Reset"
-#~ msgstr "Visszaállítás"
+msgid "Resetting printer, will restart, please wait..."
+msgstr "Nyomtató visszaállítása, újraindul, kérjük, várjon..."
 
-#~ msgid "Poweroff"
-#~ msgstr "Kikapcsolás"
+msgid "Reset"
+msgstr "Visszaállítás"
+
+msgid "Poweroff"
+msgstr "Kikapcsolás"
+
+msgid "Confirm Pos"
+msgstr "erősítse meg a pozíciót"
+
+msgid "Shut down after printing completes"
+msgstr "Leállítás nyomtatás befejeztével"
+
+msgid "Voice Notify"
+msgstr "Hangjelzés"
+
+msgid "Filament Box Power"
+msgstr "Filamentdoboz energiaellátása"
+
+msgid "If your calibration device is under the PEI, please lift the PEI after homing."
+msgstr "Ha a kalibrációs eszköz a PEI alatt van, kérjük, emelje fel a PEI-t a kezdőpont beállítása után."
+
+msgid "Homing the printer..."
+msgstr "Nyomtató kezdőpont beállítása..."
+
+msgid "Starting dual nozzle height calibration..."
+msgstr "Kettős fúvóka magasság kalibrálás indítása..."
+
+msgid "Please observe if the nozzle is positioned above the probe."
+msgstr "Kérjük, figyelje meg, hogy a fúvóka a szonda felett helyezkedik-e el."
+
+msgid "Warning: Negative value detected. This is dangerous and may damage the machine. Please recalibrate."
+msgstr "Figyelmeztetés: Negatív érték észlelve. Ez veszélyes és károsíthatja a gépet. Kérjük, kalibrálja újra."
+
+msgid "New nozzle height difference is: "
+msgstr "Az új fúvóka magasságkülönbség: "
+
+msgid "Warning: Current value is negative. This is dangerous and may damage the machine. Please recalibrate."
+msgstr "Figyelmeztetés: A jelenlegi érték negatív. Ez veszélyes és károsíthatja a gépet. Kérjük, kalibrálja újra."
+
+msgid "Z Height Diff"
+msgstr "Z magasságkülönbség"
+
+msgid "Adjust Zprobe Pos"
+msgstr "Zprobe pozíció beállítása"
+
+msgid "Need reboot, relaunch immediately?"
+msgstr "Újraindítás szükséges, újraindítja most?"
+
+msgid "Current nozzle height difference: "
+msgstr "Jelenlegi fúvóka magasságkülönbség: "
+
+msgid "New nozzle height difference: "
+msgstr "Új fúvóka magasságkülönbség: "
+
+msgid "Dangerous nozzle height difference: "
+msgstr "Veszélyes fúvóka magasságkülönbség: "
+
+msgid "Saved successfully!"
+msgstr "Sikeresen mentve!"
 
 # Feed Filament Box
-#~ msgid "Edit"
-#~ msgstr "Szerkesztés"
+msgid "Edit"
+msgstr "Szerkesztés"
 
-#~ msgid "Filament Info"
-#~ msgstr "Szál információ"
+msgid "Filament Info"
+msgstr "Szál információ"
 
-#~ msgid "Not found"
-#~ msgstr "Nem található"
+msgid "Not found"
+msgstr "Nem található"
 
-#~ msgid "Vendor"
-#~ msgstr "Gyártó"
+msgid "Vendor"
+msgstr "Gyártó"
 
-#~ msgid "Color"
-#~ msgstr "Szín"
+msgid "Type"
+msgstr "Típus"
 
-#~ msgid "Set Color"
-#~ msgstr "Szín beállítása"
+msgid "Color"
+msgstr "Szín"
 
-#~ msgid "Filament Settings"
-#~ msgstr "Szál beállítások"
+msgid "Set Color"
+msgstr "Szín beállítása"
 
-#~ msgid "Multi-Material Box"
-#~ msgstr "Többanyagos doboz"
+msgid "Filament Settings"
+msgstr "Szál beállítások"
 
-#~ msgid "Are you sure you wish to restart the firmware?"
-#~ msgstr "Biztosan újra szeretné indítani a firmware-t?"
+msgid "Multi-Material Box"
+msgstr "Többanyagos doboz"
 
-#~ msgid "Autofill filament disable"
-#~ msgstr "Automata szálbetöltés kikapcsolása"
+msgid "Are you sure you wish to restart the firmware?"
+msgstr "Biztosan újra szeretné indítani a firmware-t?"
 
-#~ msgid "Autofill filament: %s"
-#~ msgstr "Automata szálbetöltés: %s"
+msgid "Autofill filament disable"
+msgstr "Automata szálbetöltés kikapcsolása"
 
-#~ msgid "Backing up configuration files."
-#~ msgstr "Konfigurációs fájlok mentése."
+msgid "Autofill filament enabled"
+msgstr "Automata szálbetöltés engedélyezve"
 
-#~ msgid "Calibrate Cutter Pos"
-#~ msgstr "Vágó pozíció kalibrálása"
+msgid "Autofill filament: %s"
+msgstr "Automata szálbetöltés: %s"
 
-#~ msgid "Couldn't get the calibration cutter position."
-#~ msgstr "Nem sikerült lekérni a vágó kalibrációs pozícióját."
+msgid "Backing up configuration files."
+msgstr "Konfigurációs fájlok mentése."
 
-#~ msgid "Current filament indexes are:%s, active tool:%s"
-#~ msgstr "Jelenlegi szálindexek:%s, aktív szerszám:%s"
+msgid "Calibrate Cutter Pos"
+msgstr "Vágó pozíció kalibrálása"
 
-#~ msgid ""
-#~ "Current filament indexes are:%s, active tool:%s, resume_tool:%s, "
-#~ "pause_reason:%s"
-#~ msgstr ""
-#~ "Jelenlegi szálindexek:%s, aktív szerszám:%s, folytatás_szerszám:%s, "
-#~ "szünet_oka:%s"
+msgid "Couldn't get the calibration cutter position."
+msgstr "Nem sikerült lekérni a vágó kalibrációs pozícióját."
 
-#~ msgid "Current value is %s"
-#~ msgstr "Jelenlegi érték: %s"
+msgid "Current filament indexes are:%s, active tool:%s"
+msgstr "Jelenlegi szálindexek:%s, aktív szerszám:%s"
 
-#~ msgid "Cut Filament Test"
-#~ msgstr "Szálvágás teszt"
+msgid "Current filament indexes are:%s, active tool:%s, resume_tool:%s, pause_reason:%s"
+msgstr "Jelenlegi szálindexek:%s, aktív szerszám:%s, folytatás_szerszám:%s, szünet_oka:%s"
 
-#~ msgid "Do you want to enable multi-material box?"
-#~ msgstr "Szeretné engedélyezni a többanyagos dobozt?"
+msgid "Current value is %s"
+msgstr "Jelenlegi érték: %s"
 
-#~ msgid "Do you want to use external filament?"
-#~ msgstr "Szeretne külső szálat használni?"
+msgid "Cut Filament Test"
+msgstr "Szálvágás teszt"
 
-#~ msgid "Error: Offset values not found"
-#~ msgstr "Hiba: Eltolási értékek nem találhatók"
+msgid "Do you want to enable multi-material box?"
+msgstr "Szeretné engedélyezni a többanyagos dobozt?"
 
-#~ msgid "Error: Z offset value not found"
-#~ msgstr "Hiba: Z eltolási érték nem található"
+msgid "Do you want to use external filament?"
+msgstr "Szeretne külső szálat használni?"
 
-#~ msgid "External Filament"
-#~ msgstr "Külső szál"
+msgid "Error: Offset values not found"
+msgstr "Hiba: Eltolási értékek nem találhatók"
 
-#~ msgid "Extruder not hot enough"
-#~ msgstr "Az extruder nem elég forró"
+msgid "Error: Z offset value not found"
+msgstr "Hiba: Z eltolási érték nem található"
 
-#~ msgid "FEED error:External filament not removed"
-#~ msgstr "ADAGOLÁSI hiba: Külső szál nincs eltávolítva"
+msgid "External Filament"
+msgstr "Külső szál"
 
-#~ msgid "Filament %s not found"
-#~ msgstr "%s szál nem található"
+msgid "Extruder not hot enough"
+msgstr "Az extruder nem elég forró"
 
-#~ msgid "Filament Sensor%s: No filament detected, canceling print"
-#~ msgstr "Szál érzékelő%s: Nem észlelhető szál, nyomtatás megszakítása"
+msgid "FEED error:External filament not removed"
+msgstr "ADAGOLÁSI hiba: Külső szál nincs eltávolítva"
 
-#~ msgid "Filament Sensor%s: No filament detected, pausing print"
-#~ msgstr "Szál érzékelő%s: Nem észlelhető szál, nyomtatás szüneteltetése"
+msgid "Filament %s not found"
+msgstr "%s szál nem található"
 
-#~ msgid "Filament Sensor0: No filament detected, pausing print"
-#~ msgstr "Szál érzékelő0: Nem észlelhető szál, nyomtatás szüneteltetése"
+msgid "Filament Sensor%s: No filament detected, canceling print"
+msgstr "Szál érzékelő%s: Nem észlelhető szál, nyomtatás megszakítása"
 
-#~ msgid "Filament Sensor1: No filament detected, pausing print"
-#~ msgstr "Szál érzékelő1: Nem észlelhető szál, nyomtatás szüneteltetése"
+msgid "Filament Sensor%s: No filament detected, pausing print"
+msgstr "Szál érzékelő%s: Nem észlelhető szál, nyomtatás szüneteltetése"
 
-#~ msgid ""
-#~ "Filament detected! Please remove filament from the hotend before enabling "
-#~ "multi-material box."
-#~ msgstr ""
-#~ "Szál észlelve! Kérjük, távolítsa el a szálat a hotendből a többanyagos "
-#~ "doboz engedélyezése előtt."
+msgid "Filament Sensor0: No filament detected, pausing print"
+msgstr "Szál érzékelő0: Nem észlelhető szál, nyomtatás szüneteltetése"
 
-#~ msgid "No valid params 'S'"
-#~ msgstr "Nincs érvényes 'S' paraméter"
+msgid "Filament Sensor1: No filament detected, pausing print"
+msgstr "Szál érzékelő1: Nem észlelhető szál, nyomtatás szüneteltetése"
 
-#~ msgid "No"
-#~ msgstr "Nem"
+msgid "Filament detected! Please remove filament from the hotend before enabling multi-material box."
+msgstr "Szál észlelve! Kérjük, távolítsa el a szálat a hotendből a többanyagos doboz engedélyezése előtt."
 
-#~ msgid "OK"
-#~ msgstr "OK"
+msgid "Missing required recovery data"
+msgstr "Hiányzó szükséges helyreállítási adatok"
 
-#~ msgid "Options"
-#~ msgstr "Beállítások"
+msgid "No power loss recovery data found"
+msgstr "Nem található áramkimaradás helyreállítási adat"
 
-#~ msgid "Pause. The \"extruder\" extrude error!"
-#~ msgstr "Szünet. Az \"extruder\" adagolási hiba!"
+msgid "No valid params 'S'"
+msgstr "Nincs érvényes 'S' paraméter"
 
-#~ msgid "Please exit the filament from the nozzle first"
-#~ msgstr "Kérjük, először távolítsa el a szálat a fúvókából"
+msgid "No"
+msgstr "Nem"
 
-#~ msgid ""
-#~ "Please fill in the voice number correctly: 0-start printing, 1-end "
-#~ "printing, 2-outage detected, 3-cancel printing, 4-pause printing"
-#~ msgstr ""
-#~ "Kérjük, adja meg helyesen a hang számát: 0-nyomtatás indítása, 1-"
-#~ "nyomtatás befejezése, 2-kimaradás észlelve, 3-nyomtatás megszakítása, 4-"
-#~ "nyomtatás szüneteltetése"
+msgid "OK"
+msgstr "OK"
 
-#~ msgid "Please select how you would like to proceed."
-#~ msgstr "Kérjük, válassza ki, hogyan szeretne továbblépni."
+msgid "Options"
+msgstr "Beállítások"
 
-#~ msgid "Power loss recovery, resuming print."
-#~ msgstr "Áramkimaradás helyreállítása, nyomtatás folytatása."
+msgid "Pause. The \"extruder\" extrude error!"
+msgstr "Szünet. Az \"extruder\" adagolási hiba!"
 
-#~ msgid "Power loss, saving print states."
-#~ msgstr "Áramkimaradás, nyomtatási állapotok mentése."
+msgid "Please exit the filament from the nozzle first"
+msgstr "Kérjük, először távolítsa el a szálat a fúvókából"
 
-#~ msgid "Press feedsys button"
-#~ msgstr "Nyomja meg az adagoló rendszer gombját"
+msgid "Please fill in the voice number correctly: 0-start printing, 1-end printing, 2-outage detected, 3-cancel printing, 4-pause printing"
+msgstr "Kérjük, adja meg helyesen a hang számát: 0-nyomtatás indítása, 1-nyomtatás befejezése, 2-kimaradás észlelve, 3-nyomtatás megszakítása, 4-nyomtatás szüneteltetése"
 
-#~ msgid "Print resumed from power loss position"
-#~ msgstr "Nyomtatás folytatása az áramkimaradás pozíciójától"
+msgid "Please select how you would like to proceed."
+msgstr "Kérjük, válassza ki, hogyan szeretne továbblépni."
 
-#~ msgid "Printer not homed"
-#~ msgstr "Nyomtató nincs alaphelyzetbe állítva"
+msgid "Power loss recovery, resuming print."
+msgstr "Áramkimaradás helyreállítása, nyomtatás folytatása."
 
-#~ msgid "RESUME error:autofill no fil"
-#~ msgstr "FOLYTATÁS hiba: nincs automata szálbetöltés"
+msgid "Power loss, saving print states."
+msgstr "Áramkimaradás, nyomtatási állapotok mentése."
 
-#~ msgid "RESUME error:no fil"
-#~ msgstr "FOLYTATÁS hiba: nincs szál"
+msgid "Press feedsys button"
+msgstr "Nyomja meg az adagoló rendszer gombját"
 
-#~ msgid "RESUME error:residual fil"
-#~ msgstr "FOLYTATÁS hiba: maradék szál"
+msgid "Print resumed from power loss position"
+msgstr "Nyomtatás folytatása az áramkimaradás pozíciójától"
 
-#~ msgid "Recovery data: Z=%s, File=%s, Pos=%s"
-#~ msgstr "Helyreállítási adatok: Z=%s, Fájl=%s, Poz=%s"
+msgid "Printer not homed"
+msgstr "Nyomtató nincs alaphelyzetbe állítva"
 
-#~ msgid "Save & Restart"
-#~ msgstr "Mentés és újraindítás"
+msgid "RESUME error:autofill no fil"
+msgstr "FOLYTATÁS hiba: nincs automata szálbetöltés"
 
-#~ msgid "T%s direct feed"
-#~ msgstr "T%s közvetlen adagolás"
+msgid "RESUME error:no fil"
+msgstr "FOLYTATÁS hiba: nincs szál"
 
-#~ msgid "T0 direct feed"
-#~ msgstr "T0 közvetlen adagolás"
+msgid "RESUME error:residual fil"
+msgstr "FOLYTATÁS hiba: maradék szál"
 
-#~ msgid "T0 need exit filament"
-#~ msgstr "T0 szál eltávolítása szükséges"
+msgid "Recovery data: Z=%s, File=%s, Pos=%s"
+msgstr "Helyreállítási adatok: Z=%s, Fájl=%s, Poz=%s"
 
-#~ msgid "T1 direct feed"
-#~ msgstr "T1 közvetlen adagolás"
+msgid "Save & Restart"
+msgstr "Mentés és újraindítás"
 
-#~ msgid "T1 need exit filament"
-#~ msgstr "T1 szál eltávolítása szükséges"
+msgid "T%s direct feed"
+msgstr "T%s közvetlen adagolás"
 
-#~ msgid "T2 direct feed"
-#~ msgstr "T2 közvetlen adagolás"
+msgid "T0 direct feed"
+msgstr "T0 közvetlen adagolás"
 
-#~ msgid "T2 need exit filament"
-#~ msgstr "T2 szál eltávolítása szükséges"
+msgid "T0 need exit filament"
+msgstr "T0 szál eltávolítása szükséges"
 
-#~ msgid "T3 direct feed"
-#~ msgstr "T3 közvetlen adagolás"
+msgid "T1 direct feed"
+msgstr "T1 közvetlen adagolás"
 
-#~ msgid "T3 need exit filament"
-#~ msgstr "T3 szál eltávolítása szükséges"
+msgid "T1 need exit filament"
+msgstr "T1 szál eltávolítása szükséges"
 
-#~ msgid "The \"extruder\" extrude error!"
-#~ msgstr "Az \"extruder\" adagolási hiba!"
+msgid "T2 direct feed"
+msgstr "T2 közvetlen adagolás"
 
-#~ msgid "The current toolheade is T%s"
-#~ msgstr "Az aktuális szerszámfej T%s"
+msgid "T2 need exit filament"
+msgstr "T2 szál eltávolítása szükséges"
 
-#~ msgid "The current toolheade is T0"
-#~ msgstr "Az aktuális szerszámfej T0"
+msgid "T3 direct feed"
+msgstr "T3 közvetlen adagolás"
 
-#~ msgid "The current toolheade is T1"
-#~ msgstr "Az aktuális szerszámfej T1"
+msgid "T3 need exit filament"
+msgstr "T3 szál eltávolítása szükséges"
 
-#~ msgid "The current toolheade is T2"
-#~ msgstr "Az aktuális szerszámfej T2"
+msgid "The \"extruder\" extrude error!"
+msgstr "Az \"extruder\" adagolási hiba!"
 
-#~ msgid "The current toolheade is T3"
-#~ msgstr "Az aktuális szerszámfej T3"
+msgid "The current toolheade is T%s"
+msgstr "Az aktuális szerszámfej T%s"
 
-#~ msgid "The filament_box_%s no filament"
-#~ msgstr "A szál_doboz_%s üres"
+msgid "The current toolheade is T0"
+msgstr "Az aktuális szerszámfej T0"
 
-#~ msgid "The motor is wrong."
-#~ msgstr "A motor hibás."
+msgid "The current toolheade is T1"
+msgstr "Az aktuális szerszámfej T1"
 
-#~ msgid "There is a residual filament, Please remove and continue"
-#~ msgstr "Maradék szál található, kérjük távolítsa el és folytassa"
+msgid "The current toolheade is T2"
+msgstr "Az aktuális szerszámfej T2"
 
-#~ msgid "There's a residual filament in box %s"
-#~ msgstr "Maradék szál található a %s dobozban"
+msgid "The current toolheade is T3"
+msgstr "Az aktuális szerszámfej T3"
 
-#~ msgid "There's a residual filament in box 1"
-#~ msgstr "Maradék szál található az 1-es dobozban"
+msgid "The filament_box_%s no filament"
+msgstr "A szál_doboz_%s üres"
 
-#~ msgid "There's a residual filament in box 2"
-#~ msgstr "Maradék szál található a 2-es dobozban"
+msgid "The motor is wrong."
+msgstr "A motor hibás."
 
-#~ msgid "There's a residual filament in box 3"
-#~ msgstr "Maradék szál található a 3-as dobozban"
+msgid "There is a residual filament, Please remove and continue"
+msgstr "Maradék szál található, kérjük távolítsa el és folytassa"
 
-#~ msgid "There's a residual filament in box 4"
-#~ msgstr "Maradék szál található a 4-es dobozban"
+msgid "There's a residual filament in box %s"
+msgstr "Maradék szál található a %s dobozban"
 
-#~ msgid "Unknown filament"
-#~ msgstr "Ismeretlen szál"
+msgid "There's a residual filament in box 1"
+msgstr "Maradék szál található az 1-es dobozban"
 
-#~ msgid "Use external filament, please manually exit"
-#~ msgstr "Külső szál használata, kérjük, távolítsa el kézzel"
+msgid "There's a residual filament in box 2"
+msgstr "Maradék szál található a 2-es dobozban"
 
-#~ msgid "Warning"
-#~ msgstr "Figyelmeztetés"
+msgid "There's a residual filament in box 3"
+msgstr "Maradék szál található a 3-as dobozban"
 
-#~ msgid "Yes"
-#~ msgstr "Igen"
+msgid "There's a residual filament in box 4"
+msgstr "Maradék szál található a 4-es dobozban"
 
-#~ msgid "auto shutdown error"
-#~ msgstr "automatikus leállítási hiba"
+msgid "Unknown fan"
+msgstr "Ismeretlen ventilátor"
 
-#~ msgid "bed_mash:%s"
-#~ msgstr "tálca_háló:%s"
+msgid "Unknown filament"
+msgstr "Ismeretlen szál"
 
-#~ msgid "clean pause_reason"
-#~ msgstr "szünet_ok törlése"
+msgid "Use external filament, please manually exit"
+msgstr "Külső szál használata, kérjük, távolítsa el kézzel"
 
-#~ msgid "cut filament"
-#~ msgstr "szál vágása"
+msgid "Warning"
+msgstr "Figyelmeztetés"
 
-#~ msgid "cutter press!"
-#~ msgstr "vágó nyomás!"
+msgid "Yes"
+msgstr "Igen"
 
-#~ msgid "cutter release!"
-#~ msgstr "vágó felengedés!"
+msgid "auto shutdown error"
+msgstr "automatikus leállítási hiba"
 
-#~ msgid "feed busy"
-#~ msgstr "adagolás foglalt"
+msgid "bed_mash:%s"
+msgstr "tálca_háló:%s"
 
-#~ msgid "feed error"
-#~ msgstr "adagolási hiba"
+msgid "clean pause_reason"
+msgstr "szünet_ok törlése"
 
-#~ msgid "feed finish"
-#~ msgstr "adagolás befejezve"
+msgid "cut filament"
+msgstr "szál vágása"
 
-#~ msgid "filament not removed"
-#~ msgstr "szál nincs eltávolítva"
+msgid "cutter press!"
+msgstr "vágó nyomás!"
 
-#~ msgid "filament pause reason"
-#~ msgstr "szál szüneteltetés oka"
+msgid "cutter release!"
+msgstr "vágó felengedés!"
 
-#~ msgid "filament press"
-#~ msgstr "szál nyomás"
+msgid "feed busy"
+msgstr "adagolás foglalt"
 
-#~ msgid "filament release"
-#~ msgstr "szál felengedés"
+msgid "feed error"
+msgstr "adagolási hiba"
 
-#~ msgid "filament remove"
-#~ msgstr "szál eltávolítás"
+msgid "feed finish"
+msgstr "adagolás befejezve"
 
-#~ msgid "filament runout"
-#~ msgstr "szál kifogyott"
+msgid "filament not removed"
+msgstr "szál nincs eltávolítva"
 
-#~ msgid "filament%s:%s"
-#~ msgstr "szál%s:%s"
+msgid "filament pause reason"
+msgstr "szál szüneteltetés oka"
 
-#~ msgid "flush filament"
-#~ msgstr "szál öblítés"
+msgid "filament press"
+msgstr "szál nyomás"
 
-#~ msgid "motion sensor insert"
-#~ msgstr "mozgásérzékelő behelyezés"
+msgid "filament release"
+msgstr "szál felengedés"
 
-#~ msgid "motion sensor runout"
-#~ msgstr "mozgásérzékelő kifogyott"
+msgid "filament remove"
+msgstr "szál eltávolítás"
 
-#~ msgid "motor_%s press"
-#~ msgstr "motor_%s nyomás"
+msgid "filament runout"
+msgstr "szál kifogyott"
 
-#~ msgid "motor_%s release"
-#~ msgstr "motor_%s felengedés"
+msgid "filament%s:%s"
+msgstr "szál%s:%s"
 
-#~ msgid "motor_1 press"
-#~ msgstr "motor_1 nyomás"
+msgid "flush filament"
+msgstr "szál öblítés"
 
-#~ msgid "motor_1 release"
-#~ msgstr "motor_1 felengedés"
+msgid "motion sensor insert"
+msgstr "mozgásérzékelő behelyezés"
 
-#~ msgid "motor_2 press"
-#~ msgstr "motor_2 nyomás"
+msgid "motion sensor runout"
+msgstr "mozgásérzékelő kifogyott"
 
-#~ msgid "motor_2 release"
-#~ msgstr "motor_2 felengedés"
+msgid "motor_%s press"
+msgstr "motor_%s nyomás"
 
-#~ msgid "motor_3 press"
-#~ msgstr "motor_3 nyomás"
+msgid "motor_%s release"
+msgstr "motor_%s felengedés"
 
-#~ msgid "motor_3 release"
-#~ msgstr "motor_3 felengedés"
+msgid "motor_1 press"
+msgstr "motor_1 nyomás"
 
-#~ msgid "motor_4 press"
-#~ msgstr "motor_4 nyomás"
+msgid "motor_1 release"
+msgstr "motor_1 felengedés"
 
-#~ msgid "motor_4 release"
-#~ msgstr "motor_4 felengedés"
+msgid "motor_2 press"
+msgstr "motor_2 nyomás"
 
-#~ msgid "no bed_mash name"
-#~ msgstr "nincs tálca_háló név"
+msgid "motor_2 release"
+msgstr "motor_2 felengedés"
 
-#~ msgid "no bed_mash"
-#~ msgstr "nincs tálca_háló"
+msgid "motor_3 press"
+msgstr "motor_3 nyomás"
 
-#~ msgid "press button%s"
-#~ msgstr "nyomja meg a %s gombot"
+msgid "motor_3 release"
+msgstr "motor_3 felengedés"
 
-#~ msgid "press button1"
-#~ msgstr "nyomja meg az 1-es gombot"
+msgid "motor_4 press"
+msgstr "motor_4 nyomás"
 
-#~ msgid "press button2"
-#~ msgstr "nyomja meg a 2-es gombot"
+msgid "motor_4 release"
+msgstr "motor_4 felengedés"
 
-#~ msgid "press button3"
-#~ msgstr "nyomja meg a 3-as gombot"
+msgid "no bed_mash name"
+msgstr "nincs tálca_háló név"
 
-#~ msgid "press button4"
-#~ msgstr "nyomja meg a 4-es gombot"
+msgid "no bed_mash"
+msgstr "nincs tálca_háló"
 
-#~ msgid "remove filament"
-#~ msgstr "szál eltávolítása"
+msgid "no enabled"
+msgstr "nincs engedélyezve"
 
-#~ msgid "residual filament%s"
-#~ msgstr "maradék szál%s"
+msgid "press button%s"
+msgstr "nyomja meg a %s gombot"
 
-#~ msgid "residual filament0"
-#~ msgstr "maradék szál0"
+msgid "press button1"
+msgstr "nyomja meg az 1-es gombot"
 
-#~ msgid "residual filament1"
-#~ msgstr "maradék szál1"
+msgid "press button2"
+msgstr "nyomja meg a 2-es gombot"
 
-#~ msgid "residual filament2"
-#~ msgstr "maradék szál2"
+msgid "press button3"
+msgstr "nyomja meg a 3-as gombot"
 
-#~ msgid "residual filament3"
-#~ msgstr "maradék szál3"
+msgid "press button4"
+msgstr "nyomja meg a 4-es gombot"
 
-#~ msgid "resume:%s"
-#~ msgstr "folytatás:%s"
+msgid "remove filament"
+msgstr "szál eltávolítása"
 
-#~ msgid "resume_tool:%s pause_reason:%s"
-#~ msgstr "folytatás_szerszám:%s szünet_ok:%s"
+msgid "residual filament%s"
+msgstr "maradék szál%s"
 
-#~ msgid "Manual Calibration"
-#~ msgstr "Kézi kalibrálás"
+msgid "residual filament0"
+msgstr "maradék szál0"
 
-#~ msgid "Auto Calibration"
-#~ msgstr "Automatikus kalibrálás"
+msgid "residual filament1"
+msgstr "maradék szál1"
 
-#~ msgid "Calibration successful!"
-#~ msgstr "Sikeres kalibrálás!"
+msgid "residual filament2"
+msgstr "maradék szál2"
 
-#~ msgid "Auto calibration failed. Please clean the nozzle and try again."
-#~ msgstr ""
-#~ "Az automatikus kalibrálás sikertelen. Kérjük, tisztítsa meg a fúvókát és "
-#~ "próbálja újra."
+msgid "residual filament3"
+msgstr "maradék szál3"
 
-#~ msgid ""
-#~ "Auto calibration is not available. Please install required dependencies."
-#~ msgstr ""
-#~ "Az automatikus kalibrálás nem érhető el. Kérjük, telepítse a szükséges "
-#~ "függőségeket."
+msgid "resume:%s"
+msgstr "folytatás:%s"
 
-#~ msgid "Left extruder template saved"
-#~ msgstr "Bal extruder sablon mentve"
+msgid "resume_tool:%s pause_reason:%s"
+msgstr "folytatás_szerszám:%s szünet_ok:%s"
 
-#~ msgid "Right extruder template saved"
-#~ msgstr "Jobb extruder sablon mentve"
+msgid "Copy Print"
+msgstr "Másolat nyomtatása"
 
-#~ msgid "No template images found. Please perform manual calibration first."
-#~ msgstr ""
-#~ "Nem található sablon kép. Kérjük, először végezzen kézi kalibrálást."
+msgid "Mirror Print"
+msgstr "Tükör nyomtatás"
 
-#~ msgid "Getting image of left extruder"
-#~ msgstr "Bal extruder képének készítése"
+msgid "Manual Calibration"
+msgstr "Kézi kalibrálás"
 
-#~ msgid "Getting image of right extruder"
-#~ msgstr "Jobb extruder képének készítése"
+msgid "Auto Calibration"
+msgstr "Automatikus kalibrálás"
 
-#~ msgid ""
-#~ "Left extruder calibration failed. Please clean the nozzle and try again."
-#~ msgstr ""
-#~ "A bal extruder kalibrálása sikertelen. Kérjük, tisztítsa meg a fúvókát és "
-#~ "próbálja újra."
+msgid "Calibration successful!"
+msgstr "Sikeres kalibrálás!"
 
-#~ msgid ""
-#~ "Right extruder calibration failed. Please clean the nozzle and try again."
-#~ msgstr ""
-#~ "A jobb extruder kalibrálása sikertelen. Kérjük, tisztítsa meg a fúvókát "
-#~ "és próbálja újra."
+msgid "Auto calibration failed. Please clean the nozzle and try again."
+msgstr "Az automatikus kalibrálás sikertelen. Kérjük, tisztítsa meg a fúvókát és próbálja újra."
 
-#~ msgid ""
-#~ "Please wait for the camera's fill light to light up for 5 seconds before "
-#~ "clicking 'Manual Calibration' or 'Auto Calibration'"
-#~ msgstr ""
-#~ "Kérjük, várjon 5 másodpercet, amíg a kamera töltőfénye felvillan, mielőtt "
-#~ "a 'Kézi kalibrálás' vagy 'Automatikus kalibrálás' gombra kattint"
+msgid "Auto calibration is not available. Please install required dependencies."
+msgstr "Az automatikus kalibrálás nem érhető el. Kérjük, telepítse a szükséges függőségeket."
 
-#~ msgid "The door is open."
-#~ msgstr "Az ajtó nyitva van."
+msgid "Left extruder template saved"
+msgstr "Bal extruder sablon mentve"
 
-#~ msgid "The door is closed."
-#~ msgstr "Az ajtó zárva van."
+msgid "Right extruder template saved"
+msgstr "Jobb extruder sablon mentve"
 
-#~ msgid "Error getting origin offset values: %s"
-#~ msgstr "Hiba az eredeti eltolási értékek lekérésekor: %s"
+msgid "Failed to save template"
+msgstr "Nem sikerült menteni a sablont"
 
-#~ msgid "Filament run out, pausing print"
-#~ msgstr "A filamen elfogyott, szüneteltetem a nyomtatást"
+msgid "No template images found. Please perform manual calibration first."
+msgstr "Nem található sablon kép. Kérjük, először végezzen kézi kalibrálást."
 
-#~ msgid "Not in single extruder mode, pausing print"
-#~ msgstr "Nem egyextrúdós módban van, szüneteltetem a nyomtatást"
+msgid "Getting image of left extruder"
+msgstr "Bal extruder képének készítése"
 
-#~ msgid "Current sensor not configured, pausing print"
-#~ msgstr "Az aktuális érzékelő nincs beállítva, szüneteltetem a nyomtatást"
+msgid "Getting image of right extruder"
+msgstr "Jobb extruder képének készítése"
 
-#~ msgid "Other sensor not configured, pausing print"
-#~ msgstr "Egyéb érzékelők nincsenek beállítva, szüneteltetem a nyomtatást"
+msgid "Left extruder calibration failed. Please clean the nozzle and try again."
+msgstr "A bal extruder kalibrálása sikertelen. Kérjük, tisztítsa meg a fúvókát és próbálja újra."
 
-#~ msgid "Current extruder has filament, continuing print"
-#~ msgstr "Az aktuális extrúdóban van filamen, folytatom a nyomtatást"
+msgid "Right extruder calibration failed. Please clean the nozzle and try again."
+msgstr "A jobb extruder kalibrálása sikertelen. Kérjük, tisztítsa meg a fúvókát és próbálja újra."
 
-#~ msgid "Both extruders out of filament, pausing print"
-#~ msgstr "Mindkét extrúdóban elfogy a filamen, szüneteltetem a nyomtatást"
+msgid "left extruder pos: (%.3f, %.3f, %.3f)"
+msgstr "bal extruder pozíció: (%.3f, %.3f, %.3f)"
 
-#~ msgid "Filament run out, switching extruder"
-#~ msgstr "A filamen elfogyott, váltok extrúdóra"
+msgid "Right extruder offset is (%.3f, %.3f, %.3f)"
+msgstr "Jobb extruder eltolás: (%.3f, %.3f, %.3f)"
 
-#~ msgid "Switching to left extruder"
-#~ msgstr "Váltás bal oldali extrúdóra"
+msgid "Please wait for the camera's fill light to light up for 5 seconds before clicking 'Manual Calibration' or 'Auto Calibration'"
+msgstr "Kérjük, várjon 5 másodpercet, amíg a kamera töltőfénye felvillan, mielőtt a 'Kézi kalibrálás' vagy 'Automatikus kalibrálás' gombra kattint"
 
-#~ msgid "Switching to right extruder"
-#~ msgstr "Váltás jobb oldali extrúdóra"
+msgid "The door is open."
+msgstr "Az ajtó nyitva van."
 
-#~ msgid "Extruder switch complete, resuming print"
-#~ msgstr "Az extrúdóváltás befejeződött, folytatom a nyomtatást"
+msgid "The door is closed."
+msgstr "Az ajtó zárva van."
 
-#~ msgid "Auto extruder switch already enabled"
-#~ msgstr "Az automatikus extrúdóváltás már engedélyezve van"
+msgid "Error getting origin offset values: %s"
+msgstr "Hiba az eredeti eltolási értékek lekérésekor: %s"
 
-#~ msgid ""
-#~ "Auto extruder switch enabled, this feature only works when printing with "
-#~ "a single extruder"
-#~ msgstr ""
-#~ "Az automatikus extrúdóváltás engedélyezve van; ez a funkció csak egy "
-#~ "extrúdóval való nyomtatáskor működik"
+msgid "Raise"
+msgstr "Emelés"
 
-#~ msgid "Auto extruder switch already disabled"
-#~ msgstr "Az automatikus extrúdóváltás már letiltva van"
+msgid "Lower"
+msgstr "Leszállítás"
 
-#~ msgid "Auto extruder switch disabled"
-#~ msgstr "Az automatikus extrúdóváltás letiltva van"
+msgid "Filament run out, pausing print"
+msgstr "A filamen elfogyott, szüneteltetem a nyomtatást"
 
-#~ msgid "Filament Sensor0: No filament detected, canceling print."
-#~ msgstr "Filamenérzékelő 0: Nincs észlelt filamen, megszakítom a nyomtatást."
+msgid "Not in single extruder mode, pausing print"
+msgstr "Nem egyextrúdós módban van, szüneteltetem a nyomtatást"
 
-#~ msgid "Filament Sensor1: No filament detected, canceling print."
-#~ msgstr "Filamenérzékelő 1: Nincs észlelt filamen, megszakítom a nyomtatást."
+msgid "Current sensor not configured, pausing print"
+msgstr "Az aktuális érzékelő nincs beállítva, szüneteltetem a nyomtatást"
+
+msgid "Other sensor not configured, pausing print"
+msgstr "Egyéb érzékelők nincsenek beállítva, szüneteltetem a nyomtatást"
+
+msgid "Current extruder has filament, continuing print"
+msgstr "Az aktuális extrúdóban van filamen, folytatom a nyomtatást"
+
+msgid "Both extruders out of filament, pausing print"
+msgstr "Mindkét extrúdóban elfogy a filamen, szüneteltetem a nyomtatást"
+
+msgid "Filament run out, switching extruder"
+msgstr "A filamen elfogyott, váltok extrúdóra"
+
+msgid "Switching to left extruder"
+msgstr "Váltás bal oldali extrúdóra"
+
+msgid "Switching to right extruder"
+msgstr "Váltás jobb oldali extrúdóra"
+
+msgid "Extruder switch complete, resuming print"
+msgstr "Az extrúdóváltás befejeződött, folytatom a nyomtatást"
+
+msgid "Auto extruder switch already enabled"
+msgstr "Az automatikus extrúdóváltás már engedélyezve van"
+
+msgid "Auto extruder switch enabled, this feature only works when printing with a single extruder"
+msgstr "Az automatikus extrúdóváltás engedélyezve van; ez a funkció csak egy extrúdóval való nyomtatáskor működik"
+
+msgid "Auto extruder switch already disabled"
+msgstr "Az automatikus extrúdóváltás már letiltva van"
+
+msgid "Auto extruder switch disabled"
+msgstr "Az automatikus extrúdóváltás letiltva van"
+
+msgid "Extruder switch when filament run out"
+msgstr "Extrúdóváltás a filamen elfogyása esetén"
+
+msgid "Filament Sensor0: No filament detected, canceling print."
+msgstr "Filamenérzékelő 0: Nincs észlelt filamen, megszakítom a nyomtatást."
+
+msgid "Filament Sensor1: No filament detected, canceling print."
+msgstr "Filamenérzékelő 1: Nincs észlelt filamen, megszakítom a nyomtatást."
+
+msgid "Force Move"
+msgstr "Kényszerített mozgás"
+
+msgid "Force move: "
+msgstr "Kényszerített mozgás:"
+
+msgid "Apply Z offset to Probe?"
+msgstr "Alkalmazza a Z eltolást a szondára?"
+
+msgid "Left Extruder: %s%.3f"
+msgstr "Bal extruder: %s%.3f"
+
+msgid "Left Extruder: Not adjusted"
+msgstr "Bal extruder: Nincs beállítva"
+
+msgid "Right Extruder: %s%.3f"
+msgstr "Jobb extruder: %s%.3f"
+
+msgid "Right Extruder: Not adjusted"
+msgstr "Jobb extruder: Nincs beállítva"
+
+msgid "Apply Z offset to Endstop?"
+msgstr "Alkalmazza a Z eltolást a végállásra?"
+
+msgid "Remove Foam"
+msgstr "Hab eltávolítása"
+
+msgid "Please remove the extruder foam and take out the door handle."
+msgstr "Kérjük, távolítsa el az extruder habot és vegye ki az ajtókilincset."
+
+msgid "Please click the Z raise button to raise the Z axis to remove the foam around the bottom of the case."
+msgstr "Kérjük, kattintson a Z emelés gombra a Z tengely emeléséhez és a ház alja körüli hab eltávolításához."
+
+msgid "AI Detection"
+msgstr "AI-észlelés"
+
+msgid "AI Status"
+msgstr "AI állapot"
+
+msgid "AI service offline. Detection unavailable."
+msgstr "Az AI szolgáltatás offline. Az észlelés nem érhető el."
+
+msgid "Auto Detect"
+msgstr "Automatikus észlelés"
+
+msgid "Checking..."
+msgstr "Ellenőrzés..."
+
+msgid "Confidence"
+msgstr "Megbízhatóság"
+
+msgid "Defect"
+msgstr "Hiba"
+
+msgid "Defect detected: %s"
+msgstr "Hiba észlelve: %s"
+
+msgid "Enabled"
+msgstr "Engedélyezve"
+
+msgid "First Layer"
+msgstr "Első réteg"
+
+msgid "First Layer Detection"
+msgstr "Első réteg észlelése"
+
+msgid "Foreign Object"
+msgstr "Idegen tárgy"
+
+msgid "Foreign Object Detection"
+msgstr "Idegen tárgy észlelése"
+
+msgid "General Detection"
+msgstr "Általános észlelés"
+
+msgid "Interval (s)"
+msgstr "Intervallum (s)"
+
+msgid "Latest Detection Result"
+msgstr "Legutóbbi észlelési eredmény"
+
+msgid "Macro %s is undefined. Please check whether ai_setting.cfg is loaded."
+msgstr "A(z) %s makró nincs definiálva. Ellenőrizze, hogy az ai_setting.cfg be van-e töltve."
+
+msgid "No detection results yet"
+msgstr "Még nincs észlelési eredmény"
+
+msgid "Normal"
+msgstr "Normál"
+
+msgid "Offline"
+msgstr "Offline"
+
+msgid "Online"
+msgstr "Online"
+
+msgid "Pause Print on Defect"
+msgstr "Nyomtatás szüneteltetése hiba esetén"
+
+msgid "Spaghetti"
+msgstr "Spagetti"
+
+msgid "Spaghetti Detection"
+msgstr "Spagetti észlelése"
+
+msgid "Unknown"
+msgstr "Ismeretlen"
+
+msgid "Warp Edge"
+msgstr "Felgörbült szél"
+
+msgid "Warp Edge Detection"
+msgstr "Felgörbült szél észlelése"
+
+msgid "Warp Head"
+msgstr "Felgörbült fej"
+
+msgid "Warp Head Detection"
+msgstr "Felgörbült fej észlelése"
+
+msgid "'%s' is disabled in AI detection settings. Please enable it first."
+msgstr "A(z) '%s' le van tiltva az AI-észlelési beállításokban. Előbb engedélyezze."
+
+msgid "%s triggered."
+msgstr "%s aktiválva."
+
+msgid "Please switch to the left extruder first."
+msgstr "Kérjük, először váltson a bal extruderre."
+
+msgid "Unable to read the left extruder position."
+msgstr "Nem sikerült beolvasni a bal extruder pozícióját."
+
+msgid "Left extruder position: (%(x).2f, %(y).2f, %(z).2f)"
+msgstr "Bal extruder pozíciója: (%(x).2f, %(y).2f, %(z).2f)"
+
+msgid "Please confirm the right extruder position."
+msgstr "Kérjük, erősítse meg a jobb extruder pozícióját."
+
+msgid "Please confirm the left extruder position first."
+msgstr "Kérjük, először erősítse meg a bal extruder pozícióját."
+
+msgid "Unable to read the right extruder position."
+msgstr "Nem sikerült beolvasni a jobb extruder pozícióját."
+
+msgid "Right extruder offset is (%(x).2f, %(y).2f)"
+msgstr "A jobb extruder eltolása (%(x).2f, %(y).2f)"
+
+msgid "Auto-alignment is unavailable."
+msgstr "Az automatikus igazítás nem érhető el."
+
+msgid "Printer is busy."
+msgstr "A nyomtató foglalt."
+
+msgid "Starting kTAMV auto-alignment..."
+msgstr "A kTAMV automatikus igazítás indítása..."
+
+msgid "Auto-alignment timed out."
+msgstr "Az automatikus igazítás időtúllépés miatt megszakadt."
+
+msgid "Auto-alignment complete!\nOffset X: %(x).3f  Y: %(y).3f"
+msgstr "Automatikus igazítás kész!\nEltolás X: %(x).3f  Y: %(y).3f"
+
+msgid "Auto-alignment failed."
+msgstr "Az automatikus igazítás sikertelen."
+
+msgid "No calibration camera found."
+msgstr "Kalibrációs kamera nem található."
+
+msgid "No camera URL available."
+msgstr "Nincs elérhető kamera-URL."
+
+
+msgid "User Manual"
+msgstr "Felhasználói kézikönyv"
