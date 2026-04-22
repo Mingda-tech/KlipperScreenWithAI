@@ -89,7 +89,6 @@ class Panel(ScreenPanel):
         super().__init__(screen, title)
         self.menu = ['main_menu']
         self.settings = {}
-        self.auto_detect_timers = {}
         self.status_timeout = None
         self.ai_online = False
         self.pause_on_defect = True
@@ -194,7 +193,7 @@ class Panel(ScreenPanel):
             grid.attach(header, 0, row_idx, 4, 1)
             row_idx += 1
 
-            # --- Enable + Scheduled switches ---
+            # --- Enable switch ---
             sw_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
             sw_row.get_style_context().add_class("frame-item")
 
@@ -205,18 +204,8 @@ class Panel(ScreenPanel):
             self.labels[f'{key}_enabled'].set_property("width-request", round(self._gtk.font_size * 5))
             self.labels[f'{key}_enabled'].set_property("height-request", round(self._gtk.font_size * 3))
 
-            auto_label = Gtk.Label()
-            auto_label.set_markup(f"<b>{GLib.markup_escape_text(_('Auto Detect'))}</b>")
-            self.labels[f'{key}_scheduled'] = Gtk.Switch()
-            self.labels[f'{key}_scheduled'].set_active(False)
-            self.labels[f'{key}_scheduled'].set_property("width-request", round(self._gtk.font_size * 5))
-            self.labels[f'{key}_scheduled'].set_property("height-request", round(self._gtk.font_size * 3))
-
             sw_row.pack_start(en_label, False, False, 5)
             sw_row.pack_start(self.labels[f'{key}_enabled'], False, False, 5)
-            sw_row.pack_start(Gtk.Box(), True, True, 0)
-            sw_row.pack_start(auto_label, False, False, 5)
-            sw_row.pack_start(self.labels[f'{key}_scheduled'], False, False, 5)
 
             grid.attach(sw_row, 0, row_idx, 4, 1)
             row_idx += 1
@@ -239,26 +228,6 @@ class Panel(ScreenPanel):
             conf_row.pack_start(self.labels[f'{key}_threshold'], True, True, 5)
             grid.attach(conf_row, 0, row_idx, 4, 1)
             row_idx += 1
-
-            if self._supports_interval_setting(key):
-                # --- Detection interval slider ---
-                int_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=5)
-                int_label = Gtk.Label()
-                int_label.set_markup(f"<b>{GLib.markup_escape_text(_('Interval (s)'))}</b>")
-                int_label.set_size_request(round(self._gtk.font_size * 5), -1)
-
-                self.labels[f'{key}_interval'] = Gtk.Scale.new_with_range(
-                    Gtk.Orientation.HORIZONTAL, 10, 300, 10)
-                self.labels[f'{key}_interval'].set_value(dt['default_interval'])
-                self.labels[f'{key}_interval'].set_digits(0)
-                self.labels[f'{key}_interval'].set_hexpand(True)
-                self.labels[f'{key}_interval'].set_has_origin(True)
-                self.labels[f'{key}_interval'].get_style_context().add_class("option_slider")
-
-                int_row.pack_start(int_label, False, False, 5)
-                int_row.pack_start(self.labels[f'{key}_interval'], True, True, 5)
-                grid.attach(int_row, 0, row_idx, 4, 1)
-                row_idx += 1
 
             if idx < len(DETECTION_TYPES) - 1:
                 separator = Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL)
@@ -288,7 +257,6 @@ class Panel(ScreenPanel):
         if self.status_timeout:
             GLib.source_remove(self.status_timeout)
             self.status_timeout = None
-        self._stop_all_auto_detect()
 
     def back(self):
         if len(self.menu) > 1:
@@ -372,22 +340,12 @@ class Panel(ScreenPanel):
                     continue
                 if f'{key}_enabled' in self.labels:
                     self.labels[f'{key}_enabled'].set_active(bool(cat.get('enabled', True)))
-                if f'{key}_scheduled' in self.labels:
-                    self.labels[f'{key}_scheduled'].set_active(bool(cat.get('scheduled', False)))
                 if f'{key}_threshold' in self.labels:
                     try:
                         val = float(cat.get('confidence_threshold', dt['default_threshold']))
                         self.labels[f'{key}_threshold'].set_value(max(0.1, min(1.0, val)))
                     except (TypeError, ValueError):
                         pass
-                if f'{key}_interval' in self.labels:
-                    try:
-                        val = float(cat.get('detection_interval', dt['default_interval']))
-                        self.labels[f'{key}_interval'].set_value(max(10, min(300, val)))
-                    except (TypeError, ValueError):
-                        pass
-
-            self._update_auto_detect_timers(categories)
         except Exception as e:
             logging.exception(f"AI detection: error updating settings UI: {e}")
 
@@ -473,15 +431,19 @@ class Panel(ScreenPanel):
         categories = {}
         for dt in DETECTION_TYPES:
             key = dt['key']
+            existing = self.settings.get(key, {})
+            if not isinstance(existing, dict):
+                existing = {}
+            try:
+                detection_interval = int(existing.get('detection_interval', dt['default_interval']))
+            except (TypeError, ValueError):
+                detection_interval = dt['default_interval']
             category = {
                 "enabled": self.labels[f'{key}_enabled'].get_active(),
                 "confidence_threshold": round(self.labels[f'{key}_threshold'].get_value(), 2),
-                "scheduled": self.labels[f'{key}_scheduled'].get_active(),
+                "scheduled": bool(existing.get('scheduled', False)),
+                "detection_interval": max(10, min(300, detection_interval)),
             }
-            if self._supports_interval_setting(key):
-                category["detection_interval"] = int(self.labels[f'{key}_interval'].get_value())
-            else:
-                category["detection_interval"] = dt['default_interval']
             categories[key] = category
 
         def _do():
@@ -492,7 +454,6 @@ class Panel(ScreenPanel):
                 if result:
                     GLib.idle_add(self._set_detection_settings, categories)
                     GLib.idle_add(self._screen.show_popup_message, _("Saved"), 1)
-                    GLib.idle_add(self._update_auto_detect_timers, categories)
                 else:
                     GLib.idle_add(self._screen.show_popup_message, _("Error"), 2)
             except Exception as e:
@@ -507,9 +468,6 @@ class Panel(ScreenPanel):
             f'<big><b>{GLib.markup_escape_text(_("AI Status"))}:</b> '
             f'<span foreground="{color}">● {GLib.markup_escape_text(text)}</span></big>'
         )
-
-    def _supports_interval_setting(self, defect_type):
-        return defect_type != "foreignBody"
 
     def _is_detection_enabled(self, defect_type):
         category = self.settings.get(defect_type)
@@ -549,45 +507,3 @@ class Panel(ScreenPanel):
             self.labels['pause_switch'].handler_unblock_by_func(self.on_pause_toggled)
         except Exception as e:
             logging.warning(f"AI detection: failed to update pause switch: {e}")
-
-    # ==================== Auto Detection Timers ====================
-
-    def _update_auto_detect_timers(self, categories):
-        self._stop_all_auto_detect()
-        if not isinstance(categories, dict):
-            return
-        for dt in DETECTION_TYPES:
-            key = dt['key']
-            if not self._supports_interval_setting(key):
-                continue
-            cat = categories.get(key, {})
-            if not isinstance(cat, dict):
-                continue
-            if cat.get('enabled') and cat.get('scheduled'):
-                try:
-                    interval = max(10, int(cat.get('detection_interval', dt['default_interval'])))
-                except (TypeError, ValueError):
-                    interval = dt['default_interval']
-                self.auto_detect_timers[key] = GLib.timeout_add_seconds(
-                    interval, self._auto_detect_tick, key)
-                logging.info(f"AI auto-detect scheduled: {key} every {interval}s")
-
-    def _auto_detect_tick(self, defect_type):
-        if not self._active:
-            return False
-        try:
-            state = self._printer.get_stat("print_stats", "state")
-            if state == "printing":
-                self.manual_detect(None, defect_type)
-        except Exception as e:
-            logging.exception(f"AI detection: auto-detect tick error for {defect_type}: {e}")
-        return True
-
-    def _stop_all_auto_detect(self):
-        for key, timer_id in self.auto_detect_timers.items():
-            try:
-                GLib.source_remove(timer_id)
-            except Exception:
-                pass
-            logging.info(f"AI auto-detect stopped: {key}")
-        self.auto_detect_timers.clear()

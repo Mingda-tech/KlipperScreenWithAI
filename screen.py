@@ -144,6 +144,7 @@ class KlipperScreen(Gtk.Window):
         self.confirm = None
         self.ai_detection_dialog = None
         self.ai_detection_last_signature = None
+        self.ai_pause_active = False
         self.panels_reinit = []
         self.manual_settings = {}
 
@@ -744,17 +745,25 @@ class KlipperScreen(Gtk.Window):
         self.printer_initializing(msg + "\n" + state, remove=True)
 
     def state_paused(self):
-        self.state_printing()
+        self._show_job_status_panel()
+        if self.ai_pause_active:
+            logging.info("Pause triggered by AI defect detection, skipping auto-open extrude panel")
+            return
         if self._config.get_main_config().getboolean("auto_open_extrude", fallback=True):
             self.show_panel("extrude", _("Extrude"))
 
-    def state_printing(self):            
+    def _show_job_status_panel(self):
         self.close_screensaver()
         for dialog in self.dialogs:
             self.gtk.remove_dialog(dialog)
         self.show_panel("job_status", _("Printing"), remove_all=True)
 
+    def state_printing(self):
+        self.ai_pause_active = False
+        self._show_job_status_panel()
+
     def state_ready(self, wait=True):
+        self.ai_pause_active = False
         # Do not return to main menu if completing a job, timeouts/user input will return
         if "job_status" in self._cur_panels and wait:
             return
