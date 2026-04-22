@@ -77,6 +77,61 @@ AI_DETECTION_DISPLAY_NAMES = {
     "general": "General Detection",
     "general detection": "General Detection",
 }
+AI_DETECTION_CATEGORY_CONFIGS = {
+    "spaghetti": {
+        "default_threshold": 0.70,
+        "aliases": ("spaghetti", "spaghetti detection", "ai_detect_spaghetti"),
+    },
+    "warphead": {
+        "default_threshold": 0.75,
+        "aliases": ("warphead", "warp head", "warp head detection", "ai_detect_warphead"),
+    },
+    "tooLessAndTooMuch": {
+        "default_threshold": 0.70,
+        "aliases": (
+            "tooLessAndTooMuch",
+            "toolessandtoomuch",
+            "extrusion",
+            "extrusion detection",
+            "first layer",
+            "first layer detection",
+            "ai_detect_extrusion",
+        ),
+    },
+    "warpEdgesAndNonStick": {
+        "default_threshold": 0.70,
+        "aliases": (
+            "warpEdgesAndNonStick",
+            "warpedgesandnonstick",
+            "warp edge",
+            "warp edge detection",
+            "nonstick",
+            "nonstickandwarpedges",
+            "warpedgesandnonstick",
+            "ai_detect_nonstick",
+        ),
+    },
+    "foreignBody": {
+        "default_threshold": 0.60,
+        "aliases": (
+            "foreignBody",
+            "foreignbody",
+            "foreign body",
+            "foreign body detection",
+            "foreign object",
+            "foreign object detection",
+            "ai_detect_foreignbody",
+        ),
+    },
+    "coco80": {
+        "default_threshold": 0.70,
+        "aliases": ("coco80", "general", "general detection", "ai_detect_coco80"),
+    },
+}
+AI_DETECTION_CATEGORY_ALIASES = {}
+for _category_key, _category_config in AI_DETECTION_CATEGORY_CONFIGS.items():
+    for _alias in _category_config["aliases"]:
+        AI_DETECTION_CATEGORY_ALIASES[str(_alias).strip().casefold()] = _category_key
 AI_DETECTION_RESULT_ACTIONS = {
     "notify_ai_detection_result",
     "notify_detection_complete",
@@ -145,6 +200,11 @@ class KlipperScreen(Gtk.Window):
         self.ai_detection_dialog = None
         self.ai_detection_last_signature = None
         self.ai_pause_active = False
+        self.ai_pause_requested = False
+        self.ai_pause_on_defect_enabled = True
+        self.ai_detection_categories = {}
+        self.ai_detection_settings_loaded = False
+        self.auto_open_extrude_runtime_enabled = True
         self.panels_reinit = []
         self.manual_settings = {}
 
@@ -281,6 +341,7 @@ class KlipperScreen(Gtk.Window):
                 break
 
         self.printer = self.printers[ind]["data"]
+        self._reset_ai_detection_settings_cache()
         self.apiclient = KlippyRest(
             self.printers[ind][name]["moonraker_host"],
             self.printers[ind][name]["moonraker_port"],
@@ -349,12 +410,12 @@ class KlipperScreen(Gtk.Window):
             raise FileNotFoundError(os.strerror(2), "\n" + panel_path)
         return import_module(f"panels.{panel}")
 
-    def show_panel(self, panel, title, remove_all=False, panel_name=None, **kwargs):
+    def show_panel(self, panel, title, remove_all=False, panel_name=None, preserve_dialogs=None, **kwargs):
         if panel_name is None:
             panel_name = panel
         try:
             if remove_all:
-                self._remove_all_panels()
+                self._remove_all_panels(preserve_dialogs=preserve_dialogs)
                 self.panels_reinit = list(self.panels)
             else:
                 self._remove_current_panel()
@@ -563,10 +624,13 @@ class KlipperScreen(Gtk.Window):
         else:
             logging.info("No items in menu")
 
-    def _remove_all_panels(self):
+    def _remove_all_panels(self, preserve_dialogs=None):
+        preserve_dialogs = {dialog for dialog in (preserve_dialogs or []) if dialog is not None}
         for _ in self.base_panel.content.get_children():
             self.base_panel.content.remove(_)
-        for dialog in self.dialogs:
+        for dialog in list(self.dialogs):
+            if dialog in preserve_dialogs:
+                continue
             self.gtk.remove_dialog(dialog)
         for panel in list(self.panels):
             if hasattr(self.panels[panel], "deactivate"):
@@ -745,25 +809,49 @@ class KlipperScreen(Gtk.Window):
         self.printer_initializing(msg + "\n" + state, remove=True)
 
     def state_paused(self):
-        self._show_job_status_panel()
+        ai_pause = bool(
+            self.ai_pause_active
+            or self.ai_pause_requested
+            or self.ai_detection_dialog is not None
+        )
+        if ai_pause:
+            self.ai_pause_active = True
+            self._set_auto_open_extrude_runtime(False, "AI pause active")
+        self._show_job_status_panel(preserve_ai_detection_dialog=ai_pause)
         if self.ai_pause_active:
             logging.info("Pause triggered by AI defect detection, skipping auto-open extrude panel")
             return
-        if self._config.get_main_config().getboolean("auto_open_extrude", fallback=True):
+        if self._can_auto_open_extrude():
             self.show_panel("extrude", _("Extrude"))
 
-    def _show_job_status_panel(self):
+    def _show_job_status_panel(self, preserve_ai_detection_dialog=False):
         self.close_screensaver()
-        for dialog in self.dialogs:
+        for dialog in list(self.dialogs):
+            if preserve_ai_detection_dialog and dialog is self.ai_detection_dialog:
+                continue
             self.gtk.remove_dialog(dialog)
-        self.show_panel("job_status", _("Printing"), remove_all=True)
+        preserve_dialogs = [self.ai_detection_dialog] if preserve_ai_detection_dialog else None
+        self.show_panel("job_status", _("Printing"), remove_all=True, preserve_dialogs=preserve_dialogs)
 
     def state_printing(self):
-        self.ai_pause_active = False
-        self._show_job_status_panel()
+        preserve_ai_dialog = self.ai_detection_dialog is not None and not self.ai_pause_active
+        if self.ai_pause_active:
+            logging.info("Printing state resumed after AI pause, clearing AI detection dialog")
+            self._clear_ai_pause_state()
+            self._close_ai_detection_dialog()
+            self._set_auto_open_extrude_runtime(True, "AI pause cleared on printing")
+            preserve_ai_dialog = False
+        elif self.ai_pause_requested and self.ai_detection_dialog is not None:
+            logging.info("Printing state update received while waiting for AI-triggered pause; preserving dialog")
+            preserve_ai_dialog = True
+            self._set_auto_open_extrude_runtime(False, "Waiting for AI-triggered pause to complete")
+        else:
+            self._set_auto_open_extrude_runtime(True, "Normal printing state")
+        self._show_job_status_panel(preserve_ai_detection_dialog=preserve_ai_dialog)
 
     def state_ready(self, wait=True):
-        self.ai_pause_active = False
+        self._clear_ai_pause_state()
+        self._close_ai_detection_dialog()
         # Do not return to main menu if completing a job, timeouts/user input will return
         if "job_status" in self._cur_panels and wait:
             return
@@ -988,6 +1076,155 @@ class KlipperScreen(Gtk.Window):
             return {}
         return max(valid_detections, key=lambda detection: detection.get("confidence", 0))
 
+    def _reset_ai_detection_settings_cache(self):
+        self.ai_pause_on_defect_enabled = True
+        self.ai_detection_categories = {}
+        self.ai_detection_settings_loaded = False
+
+    def update_ai_detection_settings_cache(self, pause_on_defect=None, categories=None):
+        updated = False
+        if pause_on_defect is not None:
+            pause_on_defect = bool(pause_on_defect)
+            if self.ai_pause_on_defect_enabled != pause_on_defect:
+                updated = True
+            self.ai_pause_on_defect_enabled = pause_on_defect
+            self.ai_detection_settings_loaded = True
+        if categories is not None:
+            if not isinstance(categories, dict):
+                logging.warning(
+                    "AI detection: ignored categories cache update because payload is %s",
+                    type(categories).__name__,
+                )
+            else:
+                sanitized_categories = {
+                    str(key): value for key, value in categories.items() if isinstance(value, dict)
+                }
+                if self.ai_detection_categories != sanitized_categories:
+                    updated = True
+                self.ai_detection_categories = sanitized_categories
+                self.ai_detection_settings_loaded = True
+        if updated:
+            logging.info(
+                "AI detection settings cache updated: pause_on_defect=%s categories=%s",
+                self.ai_pause_on_defect_enabled,
+                sorted(self.ai_detection_categories.keys()),
+            )
+        return False
+
+    def refresh_ai_detection_settings_cache(self, force=False):
+        if self.apiclient is None:
+            return False
+        if self.ai_detection_settings_loaded and not force:
+            return True
+        try:
+            result = self.apiclient.send_request("server/ai_detection/settings")
+        except Exception as e:
+            logging.warning(f"AI detection: failed to refresh settings cache: {e}")
+            return False
+        if not result or not isinstance(result, dict) or "result" not in result:
+            logging.warning("AI detection: invalid settings cache response: %s", result)
+            return False
+        data = result["result"]
+        if not isinstance(data, dict):
+            logging.warning(
+                "AI detection: invalid settings cache payload type: %s",
+                type(data).__name__,
+            )
+            return False
+        categories = data.get("categories", {})
+        if not isinstance(categories, dict):
+            categories = {}
+        pause_on_defect = data.get("pause_on_defect") if "pause_on_defect" in data else None
+        self.update_ai_detection_settings_cache(pause_on_defect=pause_on_defect, categories=categories)
+        return True
+
+    def _resolve_ai_detection_category_key(self, *raw_names):
+        for raw_name in raw_names:
+            if raw_name is None:
+                continue
+            value = str(raw_name).strip()
+            if not value:
+                continue
+            category_key = AI_DETECTION_CATEGORY_ALIASES.get(value.casefold())
+            if category_key is not None:
+                return category_key
+        return None
+
+    def _get_ai_detection_confidence(self, result, primary_detection=None):
+        confidence = result.get("confidence")
+        if confidence is None and primary_detection:
+            confidence = primary_detection.get("confidence")
+        try:
+            if confidence is None:
+                return None
+            return float(confidence)
+        except (TypeError, ValueError):
+            return None
+
+    def _should_show_ai_pause_dialog(self, result):
+        if not isinstance(result, dict):
+            return False, "invalid result payload"
+        if not result.get("has_defect", False):
+            return False, "has_defect is false"
+        if not self.ai_detection_settings_loaded:
+            self.refresh_ai_detection_settings_cache()
+        if not self.ai_detection_settings_loaded:
+            return False, "AI detection settings unavailable"
+        if not self.ai_pause_on_defect_enabled:
+            return False, "pause_on_defect disabled"
+
+        primary_detection = self._get_primary_ai_detection(result)
+        category_key = self._resolve_ai_detection_category_key(
+            result.get("defect_type"),
+            result.get("model_name"),
+            primary_detection.get("class_name"),
+        )
+        if category_key is None:
+            return False, "unknown defect type"
+
+        category_settings = self.ai_detection_categories.get(category_key, {})
+        if isinstance(category_settings, dict) and not bool(category_settings.get("enabled", True)):
+            return False, f"{category_key} disabled"
+
+        threshold = AI_DETECTION_CATEGORY_CONFIGS.get(category_key, {}).get("default_threshold", 1.0)
+        if isinstance(category_settings, dict) and "confidence_threshold" in category_settings:
+            try:
+                threshold = float(category_settings.get("confidence_threshold"))
+            except (TypeError, ValueError):
+                logging.warning(
+                    "AI detection: invalid confidence_threshold for %s: %s",
+                    category_key,
+                    category_settings.get("confidence_threshold"),
+                )
+        threshold = max(0.0, min(1.0, threshold))
+
+        confidence = self._get_ai_detection_confidence(result, primary_detection=primary_detection)
+        if confidence is None:
+            return False, f"missing confidence for {category_key}"
+        if confidence < threshold:
+            return False, f"confidence {confidence:.3f} below threshold {threshold:.3f} for {category_key}"
+        return True, f"confidence {confidence:.3f} >= threshold {threshold:.3f} for {category_key}"
+
+    def _mark_ai_pause_requested(self):
+        self.ai_pause_requested = True
+        self._set_auto_open_extrude_runtime(False, "AI pause requested")
+        logging.info("AI detection: marked AI pause as requested")
+
+    def _can_auto_open_extrude(self):
+        return (
+            self.auto_open_extrude_runtime_enabled
+            and self._config.get_main_config().getboolean("auto_open_extrude", fallback=True)
+        )
+
+    def _set_auto_open_extrude_runtime(self, enabled, reason):
+        if self.auto_open_extrude_runtime_enabled != enabled:
+            logging.info("Setting runtime auto_open_extrude=%s (%s)", enabled, reason)
+        self.auto_open_extrude_runtime_enabled = enabled
+
+    def _clear_ai_pause_state(self):
+        self.ai_pause_active = False
+        self.ai_pause_requested = False
+
     def _normalize_ai_detection_notification(self, action, data):
         if action not in AI_DETECTION_RESULT_ACTIONS and action not in AI_DETECTION_DEFECT_ACTIONS:
             return None
@@ -1037,8 +1274,30 @@ class KlipperScreen(Gtk.Window):
         if ("confidence" not in normalized or normalized.get("confidence") is None) and primary_detection:
             normalized["confidence"] = primary_detection.get("confidence")
 
+        show_ai_pause_dialog, show_ai_pause_dialog_reason = self._should_show_ai_pause_dialog(normalized)
+        normalized["_show_ai_pause_dialog"] = show_ai_pause_dialog
+        normalized["_show_ai_pause_dialog_reason"] = show_ai_pause_dialog_reason
+
+        if action in AI_DETECTION_DEFECT_ACTIONS:
+            printer_state = None
+            if self.printer is not None:
+                printer_state = self.printer.get_stat("print_stats", "state")
+            if printer_state == "printing":
+                if show_ai_pause_dialog:
+                    self._mark_ai_pause_requested()
+                else:
+                    logging.info(
+                        "AI detection: defect notification suppressed for AI pause UI (%s)",
+                        show_ai_pause_dialog_reason,
+                    )
+            else:
+                logging.info(
+                    "AI detection: defect notification received while printer_state=%s, skipping AI pause request marker",
+                    printer_state,
+                )
+
         logging.info(
-            "AI detection: normalized action=%s has_defect=%s model_name=%s defect_type=%s detections=%s confidence=%s output_path=%s",
+            "AI detection: normalized action=%s has_defect=%s model_name=%s defect_type=%s detections=%s confidence=%s output_path=%s show_ai_pause_dialog=%s reason=%s",
             action,
             normalized.get("has_defect"),
             normalized.get("model_name"),
@@ -1046,6 +1305,8 @@ class KlipperScreen(Gtk.Window):
             len(detections),
             normalized.get("confidence"),
             normalized.get("output_path"),
+            show_ai_pause_dialog,
+            show_ai_pause_dialog_reason,
         )
 
         return normalized
@@ -1173,6 +1434,21 @@ class KlipperScreen(Gtk.Window):
             )
             self.ai_detection_last_signature = None
             self._close_ai_detection_dialog()
+            return
+
+        show_ai_pause_dialog = result.get("_show_ai_pause_dialog")
+        show_ai_pause_dialog_reason = result.get("_show_ai_pause_dialog_reason")
+        if show_ai_pause_dialog is None:
+            show_ai_pause_dialog, show_ai_pause_dialog_reason = self._should_show_ai_pause_dialog(result)
+        if not show_ai_pause_dialog:
+            logging.info(
+                "AI detection: abnormal result suppressed for AI pause dialog (%s). model_name=%s defect_type=%s confidence=%s output_path=%s",
+                show_ai_pause_dialog_reason,
+                result.get("model_name"),
+                result.get("defect_type"),
+                result.get("confidence"),
+                result.get("output_path"),
+            )
             return
 
         signature = self._ai_detection_result_signature(result)
@@ -1352,6 +1628,7 @@ class KlipperScreen(Gtk.Window):
         info = self.apiclient.send_request("machine/system_info")
         if info and 'system_info' in info:
             self.printer.system_info = info['system_info']
+        self.refresh_ai_detection_settings_cache(force=True)
 
         self.ws_subscribe()
         extra_items = (self.printer.get_tools()

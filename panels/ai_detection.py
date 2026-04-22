@@ -326,7 +326,7 @@ class Panel(ScreenPanel):
             categories = data.get('categories', {})
             if not isinstance(categories, dict):
                 return
-            self.settings = categories
+            self._set_detection_settings(categories)
 
             if 'pause_on_defect' in data:
                 self._set_pause_switch(bool(data['pause_on_defect']))
@@ -423,6 +423,7 @@ class Panel(ScreenPanel):
                 self._screen.apiclient.post_request(
                     "server/ai_detection/settings",
                     json={"pause_on_defect": active})
+                GLib.idle_add(self._set_pause_switch, active)
             except Exception as e:
                 logging.exception(f"AI detection: failed to update pause_on_defect: {e}")
         threading.Thread(target=_do, daemon=True).start()
@@ -478,6 +479,7 @@ class Panel(ScreenPanel):
     def _set_detection_settings(self, categories):
         if isinstance(categories, dict):
             self.settings = categories
+            self._screen.update_ai_detection_settings_cache(categories=categories)
 
     def _translate_detection_name(self, raw_name):
         if raw_name is None:
@@ -501,6 +503,7 @@ class Panel(ScreenPanel):
 
     def _set_pause_switch(self, active):
         self.pause_on_defect = active
+        self._screen.update_ai_detection_settings_cache(pause_on_defect=active)
         try:
             self.labels['pause_switch'].handler_block_by_func(self.on_pause_toggled)
             self.labels['pause_switch'].set_active(active)
