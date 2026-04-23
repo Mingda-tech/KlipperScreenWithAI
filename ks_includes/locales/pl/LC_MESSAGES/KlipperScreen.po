@@ -1743,3 +1743,24 @@ msgstr "Brak dostępnego adresu URL kamery."
 
 msgid "User Manual"
 msgstr "Instrukcja obsługi"
+
+msgid "Please read and agree before enabling connected features:"
+msgstr "Przed włączeniem funkcji połączonych prosimy o przeczytanie i zaakceptowanie poniższych informacji:"
+
+msgid "1. Connected features may send your device serial number, device status, network details, logs, and any enabled camera images to Mingda and its service providers for pairing, remote access, security, diagnostics, updates, and support."
+msgstr "1. Funkcje połączone mogą wysyłać numer seryjny urządzenia, stan urządzenia, dane sieciowe, dzienniki oraz wszelkie włączone obrazy z kamery do Mingda i jej dostawców usług w celu parowania, zdalnego dostępu, bezpieczeństwa, diagnostyki, aktualizacji i wsparcia."
+
+msgid "2. If you enable camera or remote viewing, you confirm that you are authorized to capture and share images at the device location and will comply with applicable privacy and surveillance laws."
+msgstr "2. Jeśli włączasz kamerę lub podgląd zdalny, potwierdzasz, że masz uprawnienia do rejestrowania i udostępniania obrazów w miejscu, w którym znajduje się urządzenie, oraz że będziesz przestrzegać obowiązujących przepisów dotyczących prywatności i nadzoru."
+
+msgid "3. Remote control may start, pause, stop, or change a print job and may affect motion, temperature, and material use. Use it only when the printer and surrounding area are safe."
+msgstr "3. Zdalne sterowanie może uruchomić, wstrzymać, zatrzymać lub zmienić zadanie drukowania i może wpływać na ruch, temperaturę oraz zużycie materiału. Używaj go tylko wtedy, gdy drukarka i otoczenie są bezpieczne."
+
+msgid "4. Online features depend on Internet, cloud, and third-party services and may be interrupted, delayed, region-limited, or unavailable. The service is provided on an as available basis to the maximum extent permitted by law."
+msgstr "4. Funkcje online zależą od Internetu, chmury i usług stron trzecich i mogą być przerywane, opóźnione, ograniczone regionalnie lub niedostępne. Usługa jest świadczona w miarę dostępności w maksymalnym zakresie dozwolonym przez prawo."
+
+msgid "5. You must protect your account, password, tokens, and pairing QR code and install updates promptly. By tapping Agree, this device will store your choice locally; if you do not agree, connected features will remain unavailable."
+msgstr "5. Musisz chronić swoje konto, hasło, tokeny i kod QR parowania oraz niezwłocznie instalować aktualizacje. Dotknięcie Agree spowoduje lokalne zapisanie Twojego wyboru na tym urządzeniu; jeśli się nie zgadzasz, funkcje połączone pozostaną niedostępne."
+
+msgid "Device QR Code"
+msgstr "Kod QR urządzenia"

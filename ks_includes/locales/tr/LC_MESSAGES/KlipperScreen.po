@@ -1824,3 +1824,24 @@ msgstr "Kullanılabilir kamera URL'si yok."
 
 msgid "User Manual"
 msgstr "Kullanıcı Kılavuzu"
+
+msgid "Please read and agree before enabling connected features:"
+msgstr "Bağlantılı özellikleri etkinleştirmeden önce lütfen aşağıdakileri okuyup kabul edin:"
+
+msgid "1. Connected features may send your device serial number, device status, network details, logs, and any enabled camera images to Mingda and its service providers for pairing, remote access, security, diagnostics, updates, and support."
+msgstr "1. Bağlantılı özellikler, eşleştirme, uzaktan erişim, güvenlik, tanılama, güncellemeler ve destek amacıyla cihaz seri numaranızı, cihaz durumunu, ağ ayrıntılarını, günlükleri ve etkinleştirilmiş kamera görüntülerini Mingda'ya ve hizmet sağlayıcılarına gönderebilir."
+
+msgid "2. If you enable camera or remote viewing, you confirm that you are authorized to capture and share images at the device location and will comply with applicable privacy and surveillance laws."
+msgstr "2. Kamerayı veya uzaktan görüntülemeyi etkinleştirirseniz, cihazın bulunduğu yerde görüntü yakalama ve paylaşma yetkiniz olduğunu ve geçerli gizlilik ve gözetim yasalarına uyacağınızı onaylamış olursunuz."
+
+msgid "3. Remote control may start, pause, stop, or change a print job and may affect motion, temperature, and material use. Use it only when the printer and surrounding area are safe."
+msgstr "3. Uzaktan kontrol, bir yazdırma işini başlatabilir, duraklatabilir, durdurabilir veya değiştirebilir ve hareketi, sıcaklığı ve malzeme kullanımını etkileyebilir. Bunu yalnızca yazıcı ve çevresi güvenliyken kullanın."
+
+msgid "4. Online features depend on Internet, cloud, and third-party services and may be interrupted, delayed, region-limited, or unavailable. The service is provided on an as available basis to the maximum extent permitted by law."
+msgstr "4. Çevrimiçi özellikler internet, bulut ve üçüncü taraf hizmetlerine bağlıdır ve kesintiye uğrayabilir, gecikebilir, bölgesel olarak kısıtlanabilir veya kullanılamaz olabilir. Hizmet, yasanın izin verdiği azami ölçüde mevcut olduğu şekilde sunulur."
+
+msgid "5. You must protect your account, password, tokens, and pairing QR code and install updates promptly. By tapping Agree, this device will store your choice locally; if you do not agree, connected features will remain unavailable."
+msgstr "5. Hesabınızı, parolanızı, belirteçlerinizi ve eşleştirme QR kodunu korumalı ve güncellemeleri gecikmeden yüklemelisiniz. Agree düğmesine dokunarak bu cihaz seçiminizi yerel olarak saklar; kabul etmezseniz bağlantılı özellikler kullanılamaz durumda kalır."
+
+msgid "Device QR Code"
+msgstr "Cihaz QR Kodu"
