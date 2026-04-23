@@ -1666,3 +1666,9 @@ msgstr "5. Musíte chránit svůj účet, heslo, tokeny a párovací QR kód a b
 
 msgid "Device QR Code"
 msgstr "QR kód zařízení"
+
+msgid "Unable to refresh automatically. The current QR code will expire soon."
+msgstr "Automatické obnovení se nezdařilo. Platnost aktuálního QR kódu brzy vyprší."
+
+msgid "QR code expired. Tap Refresh to load a new one."
+msgstr "Platnost QR kódu vypršela. Klepnutím na Obnovit načtěte nový."

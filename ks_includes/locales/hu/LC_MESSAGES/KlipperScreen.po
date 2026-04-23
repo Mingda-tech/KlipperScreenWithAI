@@ -1733,3 +1733,9 @@ msgstr "5. Védenie kell fiókját, jelszavát, tokenjeit és a párosító QR-k
 
 msgid "Device QR Code"
 msgstr "Eszköz QR-kódja"
+
+msgid "Unable to refresh automatically. The current QR code will expire soon."
+msgstr "Az automatikus frissítés nem sikerült. Az aktuális QR-kód hamarosan lejár."
+
+msgid "QR code expired. Tap Refresh to load a new one."
+msgstr "A QR-kód lejárt. Koppintson a Frissítés gombra egy új betöltéséhez."

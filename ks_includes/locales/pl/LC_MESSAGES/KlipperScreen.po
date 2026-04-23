@@ -1764,3 +1764,9 @@ msgstr "5. Musisz chronić swoje konto, hasło, tokeny i kod QR parowania oraz n
 
 msgid "Device QR Code"
 msgstr "Kod QR urządzenia"
+
+msgid "Unable to refresh automatically. The current QR code will expire soon."
+msgstr "Automatyczne odświeżenie nie powiodło się. Bieżący kod QR wkrótce wygaśnie."
+
+msgid "QR code expired. Tap Refresh to load a new one."
+msgstr "Kod QR wygasł. Dotknij Odśwież, aby wczytać nowy."

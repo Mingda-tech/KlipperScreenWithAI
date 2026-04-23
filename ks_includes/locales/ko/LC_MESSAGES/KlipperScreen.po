@@ -1829,3 +1829,9 @@ msgstr "5. 계정, 비밀번호, 토큰 및 페어링 QR 코드를 보호하고 
 
 msgid "Device QR Code"
 msgstr "장치 QR 코드"
+
+msgid "Unable to refresh automatically. The current QR code will expire soon."
+msgstr "자동 새로고침에 실패했습니다. 현재 QR 코드는 곧 만료됩니다."
+
+msgid "QR code expired. Tap Refresh to load a new one."
+msgstr "QR 코드가 만료되었습니다. 새 코드를 불러오려면 새로고침을 누르세요."

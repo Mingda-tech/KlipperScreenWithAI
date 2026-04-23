@@ -1934,3 +1934,9 @@ msgstr "5. Вы должны защищать свою учетную запис
 
 msgid "Device QR Code"
 msgstr "QR-код устройства"
+
+msgid "Unable to refresh automatically. The current QR code will expire soon."
+msgstr "Не удалось обновить автоматически. Срок действия текущего QR-кода скоро истечет."
+
+msgid "QR code expired. Tap Refresh to load a new one."
+msgstr "Срок действия QR-кода истек. Нажмите «Обновить», чтобы загрузить новый."

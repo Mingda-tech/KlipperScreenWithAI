@@ -1973,3 +1973,9 @@ msgstr "5. Você deve proteger sua conta, senha, tokens e código QR de pareamen
 
 msgid "Device QR Code"
 msgstr "Código QR do dispositivo"
+
+msgid "Unable to refresh automatically. The current QR code will expire soon."
+msgstr "Não foi possível atualizar automaticamente. O código QR atual vai expirar em breve."
+
+msgid "QR code expired. Tap Refresh to load a new one."
+msgstr "O código QR expirou. Toque em Atualizar para carregar um novo."

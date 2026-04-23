@@ -1984,3 +1984,9 @@ msgstr "5. Zaščititi morate svoj račun, geslo, žetone in QR-kodo za seznanja
 
 msgid "Device QR Code"
 msgstr "QR-koda naprave"
+
+msgid "Unable to refresh automatically. The current QR code will expire soon."
+msgstr "Samodejno osveževanje ni uspelo. Trenutna koda QR bo kmalu potekla."
+
+msgid "QR code expired. Tap Refresh to load a new one."
+msgstr "Koda QR je potekla. Tapnite Osveži, da naložite novo."

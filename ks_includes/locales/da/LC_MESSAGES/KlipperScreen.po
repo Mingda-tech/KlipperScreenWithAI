@@ -1769,3 +1769,9 @@ msgstr "5. Du skal beskytte din konto, adgangskode, tokens og parrings-QR-kode o
 
 msgid "Device QR Code"
 msgstr "Enhedens QR-kode"
+
+msgid "Unable to refresh automatically. The current QR code will expire soon."
+msgstr "Automatisk opdatering mislykkedes. Den aktuelle QR-kode udløber snart."
+
+msgid "QR code expired. Tap Refresh to load a new one."
+msgstr "QR-koden er udløbet. Tryk på Opdater for at hente en ny."

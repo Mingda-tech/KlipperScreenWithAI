@@ -1916,6 +1916,12 @@ msgstr "正在检查网络连接..."
 msgid "Device QR Code"
 msgstr "设备二维码"
 
+msgid "Unable to refresh automatically. The current QR code will expire soon."
+msgstr "无法自动刷新，当前二维码即将过期。"
+
+msgid "QR code expired. Tap Refresh to load a new one."
+msgstr "二维码已过期，请点击“刷新”重新加载。"
+
 msgid "Device SN"
 msgstr "设备序列号"
 

@@ -1846,3 +1846,9 @@ msgstr "5. Ви повинні захищати свій обліковий за
 
 msgid "Device QR Code"
 msgstr "QR-код пристрою"
+
+msgid "Unable to refresh automatically. The current QR code will expire soon."
+msgstr "Не вдалося оновити автоматично. Термін дії поточного QR-коду скоро спливе."
+
+msgid "QR code expired. Tap Refresh to load a new one."
+msgstr "Термін дії QR-коду сплив. Натисніть «Оновити», щоб завантажити новий."

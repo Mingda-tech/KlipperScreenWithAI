@@ -1845,3 +1845,9 @@ msgstr "5. Hesabınızı, parolanızı, belirteçlerinizi ve eşleştirme QR kod
 
 msgid "Device QR Code"
 msgstr "Cihaz QR Kodu"
+
+msgid "Unable to refresh automatically. The current QR code will expire soon."
+msgstr "Otomatik yenileme başarısız oldu. Mevcut QR kodunun süresi yakında dolacak."
+
+msgid "QR code expired. Tap Refresh to load a new one."
+msgstr "QR kodunun süresi doldu. Yeni bir kod yüklemek için Yenile'ye dokunun."

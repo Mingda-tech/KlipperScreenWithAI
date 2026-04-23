@@ -19,17 +19,18 @@ class Panel(ScreenPanel):
     MACHINE_SN_PATH = "/etc/machine_sn"
     REQUEST_TIMEOUT = 5
     TERMS_KEY = "device_qr_terms_agreed"
+    AUTO_REFRESH_SECONDS = 270
+    QR_EXPIRY_SECONDS = 300
 
     def __init__(self, screen, title):
         super().__init__(screen, title)
         self._active = False
         self._request_serial = 0
+        self._auto_refresh_timer = None
+        self._expiry_timer = None
+        self._has_valid_qr = False
+        self._last_updated_text = _("Never")
         self.terms_dialog = None
-
-        self.labels["device_sn"] = Gtk.Label(label=f"{_('Device SN')}: -")
-        self.labels["device_sn"].set_halign(Gtk.Align.CENTER)
-        self.labels["device_sn"].set_line_wrap(True)
-        self.labels["device_sn"].set_line_wrap_mode(Pango.WrapMode.WORD_CHAR)
 
         self.labels["status"] = Gtk.Label()
         self.labels["status"].set_halign(Gtk.Align.CENTER)
@@ -40,7 +41,7 @@ class Panel(ScreenPanel):
 
         self.labels["qr_image"] = Gtk.Image()
 
-        self.labels["updated_at"] = Gtk.Label(label=f"{_('Last updated')}: {_('Never')}")
+        self.labels["updated_at"] = Gtk.Label(label=f"{_('Last updated')}: {self._last_updated_text}")
         self.labels["updated_at"].set_halign(Gtk.Align.CENTER)
 
         self.labels["refresh"] = self._gtk.Button("refresh", _("Refresh"), "color1", self.bts)
@@ -62,7 +63,6 @@ class Panel(ScreenPanel):
         content_box.set_margin_bottom(24)
         content_box.set_margin_start(24)
         content_box.set_margin_end(24)
-        content_box.pack_start(self.labels["device_sn"], False, False, 0)
         content_box.pack_start(self.labels["status"], False, False, 0)
         content_box.pack_start(self.labels["qr_image"], True, True, 0)
         content_box.pack_start(self.labels["updated_at"], False, False, 0)
@@ -78,11 +78,16 @@ class Panel(ScreenPanel):
     def deactivate(self):
         self._active = False
         self._request_serial += 1
+        self._cancel_refresh_timers()
         if self.terms_dialog is not None:
             self._gtk.remove_dialog(self.terms_dialog)
             self.terms_dialog = None
 
     def refresh_qrcode(self, widget=None):
+        self._request_qrcode(auto_refresh=False)
+
+    def _request_qrcode(self, auto_refresh=False):
+        self._cancel_auto_refresh_timer()
         self._request_serial += 1
         if not self._has_accepted_terms():
             self._set_waiting_terms_state()
@@ -90,8 +95,13 @@ class Panel(ScreenPanel):
             return
 
         request_id = self._request_serial
-        self._set_loading_state(_("Checking network connection..."))
-        threading.Thread(target=self._load_qrcode, args=(request_id,), daemon=True).start()
+        preserve_qr = self._has_valid_qr
+        self._set_loading_state(_("Checking network connection..."), preserve_qr)
+        threading.Thread(
+            target=self._load_qrcode,
+            args=(request_id, preserve_qr, auto_refresh),
+            daemon=True,
+        ).start()
 
     def open_network_settings(self, widget=None):
         self._screen.show_panel("network", _("Network"))
@@ -147,7 +157,7 @@ class Panel(ScreenPanel):
 
         self.refresh_qrcode()
 
-    def _load_qrcode(self, request_id):
+    def _load_qrcode(self, request_id, preserve_qr, auto_refresh):
         device_sn = self._read_machine_sn()
         if not device_sn:
             GLib.idle_add(
@@ -157,7 +167,8 @@ class Panel(ScreenPanel):
                 _("Unable to read the device serial number."),
                 None,
                 None,
-                None,
+                preserve_qr,
+                auto_refresh,
             )
             return
 
@@ -167,13 +178,14 @@ class Panel(ScreenPanel):
                 request_id,
                 "error",
                 _("No network connection detected."),
-                device_sn,
                 None,
                 None,
+                preserve_qr,
+                auto_refresh,
             )
             return
 
-        GLib.idle_add(self._set_loading_state, _("Requesting device QR code..."), device_sn)
+        GLib.idle_add(self._set_loading_state, _("Requesting device QR code..."), preserve_qr)
 
         try:
             response = requests.get(
@@ -194,9 +206,10 @@ class Panel(ScreenPanel):
                 request_id,
                 "error",
                 _("QR code service is unreachable."),
-                device_sn,
                 None,
                 None,
+                preserve_qr,
+                auto_refresh,
             )
             return
         except ValueError as e:
@@ -206,9 +219,10 @@ class Panel(ScreenPanel):
                 request_id,
                 "error",
                 _("Invalid QR code service response."),
-                device_sn,
                 None,
                 None,
+                preserve_qr,
+                auto_refresh,
             )
             return
         except RuntimeError as e:
@@ -218,9 +232,10 @@ class Panel(ScreenPanel):
                 request_id,
                 "error",
                 str(e),
-                device_sn,
                 None,
                 None,
+                preserve_qr,
+                auto_refresh,
             )
             return
 
@@ -229,31 +244,43 @@ class Panel(ScreenPanel):
             request_id,
             "success",
             _("QR code is ready. Scan to continue."),
-            data.get("deviceSn", device_sn),
             png_bytes,
             updated_at,
+            preserve_qr,
+            auto_refresh,
         )
 
-    def _finish_request(self, request_id, state, message, device_sn, png_bytes, updated_at):
+    def _finish_request(self, request_id, state, message, png_bytes, updated_at, preserve_qr, auto_refresh):
         if not self._active or request_id != self._request_serial:
             return False
 
-        self._set_device_sn(device_sn)
         self._set_refresh_sensitive(True)
 
         if state != "success":
-            self.labels["qr_image"].clear()
-            self._set_status(message, "red")
+            if preserve_qr and self._has_valid_qr:
+                if auto_refresh:
+                    self._set_status(_("Unable to refresh automatically. The current QR code will expire soon."), "red")
+                else:
+                    self._set_status(message, "red")
+            else:
+                self.labels["qr_image"].clear()
+                self._has_valid_qr = False
+                self._set_status(message, "red")
             return False
 
         pixbuf = self._png_bytes_to_pixbuf(png_bytes)
         if pixbuf is None:
             self.labels["qr_image"].clear()
+            self._has_valid_qr = False
             self._set_status(_("Failed to generate the QR code image."), "red")
             return False
 
         self.labels["qr_image"].set_from_pixbuf(pixbuf)
-        self.labels["updated_at"].set_text(f"{_('Last updated')}: {updated_at}")
+        self._has_valid_qr = True
+        self._last_updated_text = updated_at
+        self.labels["updated_at"].set_text(f"{_('Last updated')}: {self._last_updated_text}")
+        self._schedule_auto_refresh()
+        self._schedule_expiry_timer()
         self._set_status(message, "green")
         return False
 
@@ -341,22 +368,63 @@ class Panel(ScreenPanel):
 
     def _set_waiting_terms_state(self):
         self.labels["qr_image"].clear()
-        self._set_device_sn(None)
-        self.labels["updated_at"].set_text(f"{_('Last updated')}: {_('Never')}")
+        self._has_valid_qr = False
+        self._last_updated_text = _("Never")
+        self.labels["updated_at"].set_text(f"{_('Last updated')}: {self._last_updated_text}")
         self._set_refresh_sensitive(True)
         self._set_status(_("Waiting for terms acceptance."))
 
-    def _set_loading_state(self, message, device_sn=None):
-        self.labels["qr_image"].clear()
-        self._set_device_sn(device_sn)
+    def _set_loading_state(self, message, preserve_qr=False):
+        if not preserve_qr:
+            self.labels["qr_image"].clear()
         self._set_refresh_sensitive(False)
         self._set_status(message)
         return False
 
     def _set_error_state(self, message):
         self.labels["qr_image"].clear()
+        self._has_valid_qr = False
         self._set_refresh_sensitive(True)
         self._set_status(message, "red")
+
+    def _schedule_auto_refresh(self):
+        self._cancel_auto_refresh_timer()
+        self._auto_refresh_timer = GLib.timeout_add_seconds(self.AUTO_REFRESH_SECONDS, self._handle_auto_refresh)
+
+    def _handle_auto_refresh(self):
+        self._auto_refresh_timer = None
+        if not self._active:
+            return False
+        self._request_qrcode(auto_refresh=True)
+        return False
+
+    def _schedule_expiry_timer(self):
+        self._cancel_expiry_timer()
+        self._expiry_timer = GLib.timeout_add_seconds(self.QR_EXPIRY_SECONDS, self._expire_qrcode)
+
+    def _expire_qrcode(self):
+        self._expiry_timer = None
+        if not self._active or not self._has_valid_qr:
+            return False
+        self.labels["qr_image"].clear()
+        self._has_valid_qr = False
+        self._set_refresh_sensitive(True)
+        self._set_status(_("QR code expired. Tap Refresh to load a new one."), "red")
+        return False
+
+    def _cancel_refresh_timers(self):
+        self._cancel_auto_refresh_timer()
+        self._cancel_expiry_timer()
+
+    def _cancel_auto_refresh_timer(self):
+        if self._auto_refresh_timer is not None:
+            GLib.source_remove(self._auto_refresh_timer)
+            self._auto_refresh_timer = None
+
+    def _cancel_expiry_timer(self):
+        if self._expiry_timer is not None:
+            GLib.source_remove(self._expiry_timer)
+            self._expiry_timer = None
 
     def _set_status(self, message, color=None):
         escaped = GLib.markup_escape_text(message)
@@ -364,10 +432,6 @@ class Panel(ScreenPanel):
             self.labels["status"].set_markup(f'<span foreground="{color}">{escaped}</span>')
         else:
             self.labels["status"].set_text(message)
-
-    def _set_device_sn(self, device_sn):
-        label = device_sn if device_sn else "-"
-        self.labels["device_sn"].set_text(f"{_('Device SN')}: {label}")
 
     def _set_refresh_sensitive(self, is_sensitive):
         self.labels["refresh"].set_sensitive(is_sensitive)

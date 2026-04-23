@@ -1957,3 +1957,9 @@ msgstr "5. Vous devez protéger votre compte, votre mot de passe, vos jetons et 
 
 msgid "Device QR Code"
 msgstr "Code QR de l'appareil"
+
+msgid "Unable to refresh automatically. The current QR code will expire soon."
+msgstr "L'actualisation automatique a échoué. Le code QR actuel expirera bientôt."
+
+msgid "QR code expired. Tap Refresh to load a new one."
+msgstr "Le code QR a expiré. Appuyez sur Actualiser pour en charger un nouveau."

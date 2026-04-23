@@ -1912,3 +1912,9 @@ msgstr "5. Sie müssen Ihr Konto, Ihr Passwort, Ihre Tokens und den Kopplungs-QR
 
 msgid "Device QR Code"
 msgstr "Geräte-QR-Code"
+
+msgid "Unable to refresh automatically. The current QR code will expire soon."
+msgstr "Die automatische Aktualisierung ist fehlgeschlagen. Der aktuelle QR-Code läuft bald ab."
+
+msgid "QR code expired. Tap Refresh to load a new one."
+msgstr "Der QR-Code ist abgelaufen. Tippen Sie auf Aktualisieren, um einen neuen zu laden."

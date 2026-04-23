@@ -1742,3 +1742,9 @@ msgstr "5. Turite saugoti savo paskyrą, slaptažodį, žetonus ir susiejimo QR 
 
 msgid "Device QR Code"
 msgstr "Įrenginio QR kodas"
+
+msgid "Unable to refresh automatically. The current QR code will expire soon."
+msgstr "Nepavyko automatiškai atnaujinti. Dabartinio QR kodo galiojimas netrukus baigsis."
+
+msgid "QR code expired. Tap Refresh to load a new one."
+msgstr "QR kodo galiojimas baigėsi. Palieskite Atnaujinti, kad įkeltumėte naują."

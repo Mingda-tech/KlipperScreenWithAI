@@ -1968,3 +1968,9 @@ msgstr "5. Bạn phải bảo vệ tài khoản, mật khẩu, token và mã QR 
 
 msgid "Device QR Code"
 msgstr "Mã QR thiết bị"
+
+msgid "Unable to refresh automatically. The current QR code will expire soon."
+msgstr "Không thể tự động làm mới. Mã QR hiện tại sẽ sớm hết hạn."
+
+msgid "QR code expired. Tap Refresh to load a new one."
+msgstr "Mã QR đã hết hạn. Nhấn Làm mới để tải mã mới."

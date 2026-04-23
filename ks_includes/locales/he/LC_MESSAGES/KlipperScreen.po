@@ -1952,3 +1952,9 @@ msgstr "5. עליכם להגן על החשבון, הסיסמה, האסימוני
 
 msgid "Device QR Code"
 msgstr "קוד QR של המכשיר"
+
+msgid "Unable to refresh automatically. The current QR code will expire soon."
+msgstr "לא ניתן לרענן אוטומטית. תוקף קוד ה-QR הנוכחי יפוג בקרוב."
+
+msgid "QR code expired. Tap Refresh to load a new one."
+msgstr "תוקף קוד ה-QR פג. הקש על רענון כדי לטעון קוד חדש."
