@@ -44,10 +44,10 @@ class Panel(ScreenPanel):
         self.labels["updated_at"] = Gtk.Label(label=f"{_('Last updated')}: {self._last_updated_text}")
         self.labels["updated_at"].set_halign(Gtk.Align.CENTER)
 
-        self.labels["refresh"] = self._gtk.Button("refresh", _("Refresh"), "color1", self.bts)
+        self.labels["refresh"] = self._gtk.Button("refresh", None, "color1", self.bts)
         self.labels["refresh"].connect("clicked", self.refresh_qrcode)
 
-        self.labels["network"] = self._gtk.Button("network", _("Network Settings"), "color3", self.bts)
+        self.labels["network"] = self._gtk.Button("network", None, "color3", self.bts)
         self.labels["network"].connect("clicked", self.open_network_settings)
 
         button_row = Gtk.Box(spacing=10, halign=Gtk.Align.CENTER)
