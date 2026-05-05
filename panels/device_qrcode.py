@@ -226,7 +226,7 @@ class Panel(ScreenPanel):
             )
             return
         except RuntimeError as e:
-            logging.error(f"Device QR code generation failed: {e}")
+            logging.error(f"Device QR code generation failed: {e}", exc_info=True)
             GLib.idle_add(
                 self._finish_request,
                 request_id,
