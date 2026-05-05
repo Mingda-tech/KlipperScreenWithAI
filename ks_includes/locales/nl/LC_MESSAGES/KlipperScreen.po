@@ -1687,11 +1687,8 @@ msgstr "Opkrullende rand"
 msgid "Warp Edge Detection"
 msgstr "Detectie van opkrullende rand"
 
-msgid "Warp Head"
-msgstr "Opkrullende kop"
-
-msgid "Warp Head Detection"
-msgstr "Detectie van opkrullende kop"
+msgid "Nozzle Blob Detection"
+msgstr "Detectie van klont aan spuitmond"
 
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' is uitgeschakeld in de AI-detectie-instellingen. Schakel het eerst in."

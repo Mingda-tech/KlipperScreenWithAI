@@ -1735,11 +1735,8 @@ msgstr "Uppkrullad kant"
 msgid "Warp Edge Detection"
 msgstr "Detektering av uppkrullad kant"
 
-msgid "Warp Head"
-msgstr "Skevt skrivhuvud"
-
-msgid "Warp Head Detection"
-msgstr "Detektering av skevt skrivhuvud"
+msgid "Nozzle Blob Detection"
+msgstr "Detektering av klump på munstycket"
 
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' är inaktiverad i AI-detekteringsinställningarna. Aktivera den först."

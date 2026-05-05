@@ -1706,11 +1706,8 @@ msgstr "حافة ملتوية"
 msgid "Warp Edge Detection"
 msgstr "كشف الحافة الملتوية"
 
-msgid "Warp Head"
-msgstr "رأس ملتوي"
-
-msgid "Warp Head Detection"
-msgstr "كشف الرأس الملتوي"
+msgid "Nozzle Blob Detection"
+msgstr "كشف تكتل الفوهة"
 
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' معطل في إعدادات كشف الذكاء الاصطناعي. يرجى تفعيله أولاً."

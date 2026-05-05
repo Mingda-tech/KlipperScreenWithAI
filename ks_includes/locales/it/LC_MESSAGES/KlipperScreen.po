@@ -1817,11 +1817,8 @@ msgstr "Bordo sollevato"
 msgid "Warp Edge Detection"
 msgstr "Rilevamento bordo sollevato"
 
-msgid "Warp Head"
-msgstr "Testa sollevata"
-
-msgid "Warp Head Detection"
-msgstr "Rilevamento testa sollevata"
+msgid "Nozzle Blob Detection"
+msgstr "Rilevamento accumulo sull'ugello"
 
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' è disabilitato nelle impostazioni di rilevamento AI. Abilitalo prima."

@@ -1210,11 +1210,8 @@ msgstr "Изкривен ръб"
 msgid "Warp Edge Detection"
 msgstr "Откриване на изкривен ръб"
 
-msgid "Warp Head"
-msgstr "Изкривена глава"
-
-msgid "Warp Head Detection"
-msgstr "Откриване на изкривена глава"
+msgid "Nozzle Blob Detection"
+msgstr "Откриване на натрупване на дюзата"
 
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' е изключено в настройките за AI откриване. Първо го включете."

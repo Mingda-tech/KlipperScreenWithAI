@@ -1853,11 +1853,8 @@ msgstr "Задранный край"
 msgid "Warp Edge Detection"
 msgstr "Обнаружение задранного края"
 
-msgid "Warp Head"
-msgstr "Задранная головка"
-
-msgid "Warp Head Detection"
-msgstr "Обнаружение задранной головки"
+msgid "Nozzle Blob Detection"
+msgstr "Обнаружение налипания на сопле"
 
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' отключён в настройках AI-обнаружения. Сначала включите его."

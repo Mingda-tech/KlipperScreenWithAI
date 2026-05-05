@@ -1887,11 +1887,8 @@ msgstr "Cong mép"
 msgid "Warp Edge Detection"
 msgstr "Phát hiện cong mép"
 
-msgid "Warp Head"
-msgstr "Cong đầu"
-
-msgid "Warp Head Detection"
-msgstr "Phát hiện cong đầu"
+msgid "Nozzle Blob Detection"
+msgstr "Phát hiện nhựa bám đầu phun"
 
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' đang bị tắt trong cài đặt phát hiện AI. Vui lòng bật trước."

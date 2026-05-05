@@ -1871,11 +1871,8 @@ msgstr "קצה מורם"
 msgid "Warp Edge Detection"
 msgstr "זיהוי קצה מורם"
 
-msgid "Warp Head"
-msgstr "ראש מורם"
-
-msgid "Warp Head Detection"
-msgstr "זיהוי ראש מורם"
+msgid "Nozzle Blob Detection"
+msgstr "זיהוי גוש על הדיזה"
 
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' מושבת בהגדרות זיהוי ה-AI. יש להפעיל אותו תחילה."

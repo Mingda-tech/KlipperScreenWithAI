@@ -1683,11 +1683,8 @@ msgstr "Podwinięta krawędź"
 msgid "Warp Edge Detection"
 msgstr "Wykrywanie podwiniętej krawędzi"
 
-msgid "Warp Head"
-msgstr "Podwinięta głowica"
-
-msgid "Warp Head Detection"
-msgstr "Wykrywanie podwiniętej głowicy"
+msgid "Nozzle Blob Detection"
+msgstr "Wykrywanie grudki na dyszy"
 
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' jest wyłączone w ustawieniach wykrywania AI. Najpierw je włącz."

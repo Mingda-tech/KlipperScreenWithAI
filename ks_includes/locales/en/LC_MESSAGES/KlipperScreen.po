@@ -1644,11 +1644,8 @@ msgstr "Warp Edge"
 msgid "Warp Edge Detection"
 msgstr "Warp Edge Detection"
 
-msgid "Warp Head"
-msgstr "Warp Head"
-
-msgid "Warp Head Detection"
-msgstr "Warp Head Detection"
+msgid "Nozzle Blob Detection"
+msgstr "Nozzle Blob Detection"
 
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' is disabled in AI detection settings. Please enable it first."

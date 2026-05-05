@@ -1705,11 +1705,8 @@ msgstr "Bordo levantado"
 msgid "Warp Edge Detection"
 msgstr "Deteção de bordo levantado"
 
-msgid "Warp Head"
-msgstr "Cabeça levantada"
-
-msgid "Warp Head Detection"
-msgstr "Deteção de cabeça levantada"
+msgid "Nozzle Blob Detection"
+msgstr "Deteção de acúmulo no bico"
 
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' está desativado nas definições de deteção por IA. Ative-o primeiro."

@@ -1903,11 +1903,8 @@ msgstr "Zvihan rob"
 msgid "Warp Edge Detection"
 msgstr "Zaznavanje zvihanega roba"
 
-msgid "Warp Head"
-msgstr "Zvihana glava"
-
-msgid "Warp Head Detection"
-msgstr "Zaznavanje zvihane glave"
+msgid "Nozzle Blob Detection"
+msgstr "Zaznavanje kepe na šobi"
 
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' je onemogočen v nastavitvah zaznavanja AI. Najprej ga omogočite."

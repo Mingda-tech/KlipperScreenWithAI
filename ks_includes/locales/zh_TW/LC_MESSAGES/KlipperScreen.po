@@ -1823,11 +1823,8 @@ msgstr "翹邊"
 msgid "Warp Edge Detection"
 msgstr "翹邊檢測"
 
-msgid "Warp Head"
-msgstr "翹頭"
-
-msgid "Warp Head Detection"
-msgstr "翹頭檢測"
+msgid "Nozzle Blob Detection"
+msgstr "噴嘴積料檢測"
 
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' 在 AI 檢測設定中已停用，請先啟用。"

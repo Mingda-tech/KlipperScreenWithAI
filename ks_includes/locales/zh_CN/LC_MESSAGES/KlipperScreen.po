@@ -1831,11 +1831,8 @@ msgstr "翘边"
 msgid "Warp Edge Detection"
 msgstr "翘边检测"
 
-msgid "Warp Head"
-msgstr "翘头"
-
-msgid "Warp Head Detection"
-msgstr "翘头检测"
+msgid "Nozzle Blob Detection"
+msgstr "裹头检测"
 
 msgid "Latest Detection Result"
 msgstr "最新检测结果"

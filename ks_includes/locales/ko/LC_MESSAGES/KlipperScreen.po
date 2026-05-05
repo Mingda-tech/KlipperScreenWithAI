@@ -1748,11 +1748,8 @@ msgstr "들뜬 가장자리"
 msgid "Warp Edge Detection"
 msgstr "들뜬 가장자리 감지"
 
-msgid "Warp Head"
-msgstr "들뜬 헤드"
-
-msgid "Warp Head Detection"
-msgstr "들뜬 헤드 감지"
+msgid "Nozzle Blob Detection"
+msgstr "노즐 뭉침 감지"
 
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' 이(가) AI 감지 설정에서 비활성화되어 있습니다. 먼저 활성화하세요."

@@ -1764,11 +1764,8 @@ msgstr "Kalkmış kenar"
 msgid "Warp Edge Detection"
 msgstr "Kalkmış kenar algılama"
 
-msgid "Warp Head"
-msgstr "Kalkmış kafa"
-
-msgid "Warp Head Detection"
-msgstr "Kalkmış kafa algılama"
+msgid "Nozzle Blob Detection"
+msgstr "Nozulda birikinti algılama"
 
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' AI algılama ayarlarında devre dışı. Lütfen önce etkinleştirin."

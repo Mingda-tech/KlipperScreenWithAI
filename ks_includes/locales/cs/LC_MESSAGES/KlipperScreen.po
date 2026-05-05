@@ -1585,11 +1585,8 @@ msgstr "Zkroucená hrana"
 msgid "Warp Edge Detection"
 msgstr "Detekce zkroucené hrany"
 
-msgid "Warp Head"
-msgstr "Zkroucená hlava"
-
-msgid "Warp Head Detection"
-msgstr "Detekce zkroucené hlavy"
+msgid "Nozzle Blob Detection"
+msgstr "Detekce nánosu na trysce"
 
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' je v nastavení AI detekce zakázáno. Nejprve jej povolte."

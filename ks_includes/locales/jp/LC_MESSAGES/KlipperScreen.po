@@ -1682,11 +1682,8 @@ msgstr "反り縁"
 msgid "Warp Edge Detection"
 msgstr "反り縁検出"
 
-msgid "Warp Head"
-msgstr "反りヘッド"
-
-msgid "Warp Head Detection"
-msgstr "反りヘッド検出"
+msgid "Nozzle Blob Detection"
+msgstr "ノズル付着物検出"
 
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' は AI 検出設定で無効になっています。先に有効にしてください。"

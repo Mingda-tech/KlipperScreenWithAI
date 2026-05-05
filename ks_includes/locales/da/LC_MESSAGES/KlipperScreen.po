@@ -1688,11 +1688,8 @@ msgstr "Kantløft"
 msgid "Warp Edge Detection"
 msgstr "Detektion af kantløft"
 
-msgid "Warp Head"
-msgstr "Hovedløft"
-
-msgid "Warp Head Detection"
-msgstr "Detektion af hovedløft"
+msgid "Nozzle Blob Detection"
+msgstr "Registrering af klump på dysen"
 
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' er deaktiveret i AI-detektionsindstillingerne. Aktivér det først."

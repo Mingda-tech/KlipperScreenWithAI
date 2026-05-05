@@ -1892,11 +1892,8 @@ msgstr "Borda empenada"
 msgid "Warp Edge Detection"
 msgstr "Detecção de borda empenada"
 
-msgid "Warp Head"
-msgstr "Cabeça empenada"
-
-msgid "Warp Head Detection"
-msgstr "Detecção de cabeça empenada"
+msgid "Nozzle Blob Detection"
+msgstr "Detecção de acúmulo no bico"
 
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' está desabilitado nas configurações de detecção por IA. Ative-o primeiro."

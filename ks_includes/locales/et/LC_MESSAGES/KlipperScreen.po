@@ -1827,11 +1827,8 @@ msgstr "Kõverdunud serv"
 msgid "Warp Edge Detection"
 msgstr "Kõverdunud serva tuvastus"
 
-msgid "Warp Head"
-msgstr "Kõverdunud pea"
-
-msgid "Warp Head Detection"
-msgstr "Kõverdunud pea tuvastus"
+msgid "Nozzle Blob Detection"
+msgstr "Düüsi klombi tuvastamine"
 
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' on AI tuvastuse seadetes keelatud. Luba see kõigepealt."

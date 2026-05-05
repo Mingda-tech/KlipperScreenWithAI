@@ -1652,11 +1652,8 @@ msgstr "Felgörbült szél"
 msgid "Warp Edge Detection"
 msgstr "Felgörbült szél észlelése"
 
-msgid "Warp Head"
-msgstr "Felgörbült fej"
-
-msgid "Warp Head Detection"
-msgstr "Felgörbült fej észlelése"
+msgid "Nozzle Blob Detection"
+msgstr "Fúvókalerakódás észlelése"
 
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "A(z) '%s' le van tiltva az AI-észlelési beállításokban. Előbb engedélyezze."

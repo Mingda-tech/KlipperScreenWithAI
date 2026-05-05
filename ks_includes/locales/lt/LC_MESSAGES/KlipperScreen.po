@@ -1661,11 +1661,8 @@ msgstr "Užsirietęs kraštas"
 msgid "Warp Edge Detection"
 msgstr "Užsirietusio krašto aptikimas"
 
-msgid "Warp Head"
-msgstr "Užsirietusi galvutė"
-
-msgid "Warp Head Detection"
-msgstr "Užsirietusios galvutės aptikimas"
+msgid "Nozzle Blob Detection"
+msgstr "Antgalio gumulo aptikimas"
 
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' AI aptikimo nustatymuose yra išjungtas. Pirmiausia jį įjunkite."

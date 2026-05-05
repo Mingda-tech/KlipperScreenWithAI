@@ -1831,11 +1831,8 @@ msgstr "Kantenwölbung"
 msgid "Warp Edge Detection"
 msgstr "Erkennung von Kantenwölbung"
 
-msgid "Warp Head"
-msgstr "Kopfwölbung"
-
-msgid "Warp Head Detection"
-msgstr "Erkennung von Kopfwölbung"
+msgid "Nozzle Blob Detection"
+msgstr "Erkennung von Düsenklumpen"
 
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' ist in den KI-Erkennungseinstellungen deaktiviert. Bitte aktivieren Sie es zuerst."

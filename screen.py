@@ -57,9 +57,11 @@ AI_DETECTION_BASE_DIR = "/home/mingda/ai_detection"
 AI_DETECTION_DISPLAY_NAMES = {
     "spaghetti": "Spaghetti Detection",
     "spaghetti detection": "Spaghetti Detection",
-    "warphead": "Warp Head Detection",
-    "warp head": "Warp Head Detection",
-    "warp head detection": "Warp Head Detection",
+    "warphead": "Nozzle Blob Detection",
+    "warp head": "Nozzle Blob Detection",
+    "warp head detection": "Nozzle Blob Detection",
+    "nozzle blob": "Nozzle Blob Detection",
+    "nozzle blob detection": "Nozzle Blob Detection",
     "toolessandtoomuch": "First Layer Detection",
     "extrusion": "First Layer Detection",
     "extrusion detection": "First Layer Detection",
@@ -84,7 +86,14 @@ AI_DETECTION_CATEGORY_CONFIGS = {
     },
     "warphead": {
         "default_threshold": 0.75,
-        "aliases": ("warphead", "warp head", "warp head detection", "ai_detect_warphead"),
+        "aliases": (
+            "warphead",
+            "warp head",
+            "warp head detection",
+            "nozzle blob",
+            "nozzle blob detection",
+            "ai_detect_warphead",
+        ),
     },
     "tooLessAndTooMuch": {
         "default_threshold": 0.70,

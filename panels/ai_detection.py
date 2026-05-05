@@ -18,8 +18,7 @@ def _translation_strings():
     _("Spaghetti Detection")
     _("Warp Edge")
     _("Warp Edge Detection")
-    _("Warp Head")
-    _("Warp Head Detection")
+    _("Nozzle Blob Detection")
 
 
 DETECTION_TYPES = [
@@ -34,12 +33,12 @@ DETECTION_TYPES = [
     },
     {
         "key": "warphead",
-        "name": "Warp Head Detection",
-        "short_name": "Warp Head",
+        "name": "Nozzle Blob Detection",
+        "short_name": "Nozzle Blob Detection",
         "macro": "AI_DETECT_WARPHEAD",
         "default_threshold": 0.75,
         "default_interval": 60,
-        "aliases": [],
+        "aliases": ["Warp Head Detection", "Warp Head", "Nozzle Blob"],
     },
     {
         "key": "tooLessAndTooMuch",

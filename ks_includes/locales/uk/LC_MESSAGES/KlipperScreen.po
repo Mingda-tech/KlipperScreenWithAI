@@ -1765,11 +1765,8 @@ msgstr "Піднятий край"
 msgid "Warp Edge Detection"
 msgstr "Виявлення піднятого краю"
 
-msgid "Warp Head"
-msgstr "Піднята голівка"
-
-msgid "Warp Head Detection"
-msgstr "Виявлення піднятої голівки"
+msgid "Nozzle Blob Detection"
+msgstr "Виявлення налипання на соплі"
 
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' вимкнено в налаштуваннях AI-виявлення. Спочатку увімкніть його."

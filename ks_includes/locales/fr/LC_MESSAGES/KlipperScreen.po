@@ -1876,11 +1876,8 @@ msgstr "Bord gondolé"
 msgid "Warp Edge Detection"
 msgstr "Détection de bord gondolé"
 
-msgid "Warp Head"
-msgstr "Tête gondolée"
-
-msgid "Warp Head Detection"
-msgstr "Détection de tête gondolée"
+msgid "Nozzle Blob Detection"
+msgstr "Détection d'amas sur la buse"
 
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' est désactivé dans les paramètres de détection IA. Veuillez d'abord l'activer."
