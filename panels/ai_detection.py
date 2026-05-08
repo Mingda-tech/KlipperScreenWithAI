@@ -93,6 +93,7 @@ class Panel(ScreenPanel):
         self.pause_on_defect = True
         self.last_result = None
         self._active = False
+        self.detection_types = self._get_available_detection_types()
 
         self.labels['main_menu'] = self._build_main_page()
         self.labels['settings_menu'] = self._build_settings_page()
@@ -123,7 +124,9 @@ class Panel(ScreenPanel):
         # --- Manual detection buttons (3 columns x 2 rows) ---
         detect_grid = self._gtk.HomogeneousGrid()
         button_styles = ["color1", "color2", "color3", "color1", "color2"]
-        for idx, dt in enumerate(DETECTION_TYPES):
+        if not self.detection_types:
+            detect_grid.attach(Gtk.Label(label=_("No info available"), vexpand=True), 0, 0, 1, 1)
+        for idx, dt in enumerate(self.detection_types):
             key = dt["key"]
             btn = self._gtk.Button(None, _(dt["short_name"]), button_styles[idx])
             btn.connect("clicked", self.manual_detect, key)
@@ -180,7 +183,13 @@ class Panel(ScreenPanel):
         grid.set_column_homogeneous(True)
         row_idx = 0
 
-        for idx, dt in enumerate(DETECTION_TYPES):
+        if not self.detection_types:
+            grid.attach(Gtk.Label(label=_("No info available"), vexpand=True), 0, 0, 4, 1)
+            scroll = self._gtk.ScrolledWindow()
+            scroll.add(grid)
+            return scroll
+
+        for idx, dt in enumerate(self.detection_types):
             key = dt['key']
 
             # --- Section header ---
@@ -228,7 +237,7 @@ class Panel(ScreenPanel):
             grid.attach(conf_row, 0, row_idx, 4, 1)
             row_idx += 1
 
-            if idx < len(DETECTION_TYPES) - 1:
+            if idx < len(self.detection_types) - 1:
                 separator = Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL)
                 grid.attach(separator, 0, row_idx, 4, 1)
                 row_idx += 1
@@ -330,7 +339,7 @@ class Panel(ScreenPanel):
             if 'pause_on_defect' in data:
                 self._set_pause_switch(bool(data['pause_on_defect']))
 
-            for dt in DETECTION_TYPES:
+            for dt in self.detection_types:
                 key = dt['key']
                 if key not in categories:
                     continue
@@ -393,7 +402,7 @@ class Panel(ScreenPanel):
             self._screen.show_popup_message(_("AI service offline. Detection unavailable."), level=2)
             return
 
-        dt_info = next((d for d in DETECTION_TYPES if d['key'] == defect_type), None)
+        dt_info = next((d for d in self.detection_types if d['key'] == defect_type), None)
         if not dt_info:
             logging.error(f"AI detection: unknown defect type: {defect_type}")
             return
@@ -404,7 +413,7 @@ class Panel(ScreenPanel):
             )
             return
         macro = dt_info['macro']
-        if macro not in self._printer.get_gcode_macros():
+        if not self._is_macro_defined(macro):
             logging.warning(f"AI detection: macro not found: {macro}")
             self._screen.show_popup_message(
                 _("Macro %s is undefined. Please check whether ai_setting.cfg is loaded.") % macro,
@@ -429,7 +438,7 @@ class Panel(ScreenPanel):
 
     def save_settings(self, widget):
         categories = {}
-        for dt in DETECTION_TYPES:
+        for dt in self.detection_types:
             key = dt['key']
             existing = self.settings.get(key, {})
             if not isinstance(existing, dict):
@@ -462,6 +471,13 @@ class Panel(ScreenPanel):
         threading.Thread(target=_do, daemon=True).start()
 
     # ==================== Helpers ====================
+
+    def _get_available_detection_types(self):
+        return [dt for dt in DETECTION_TYPES if self._is_macro_defined(dt["macro"])]
+
+    def _is_macro_defined(self, macro):
+        macros = {m.casefold() for m in self._printer.get_gcode_macros()}
+        return macro.casefold() in macros
 
     def _set_status_label(self, text, color):
         self.labels['status_label'].set_markup(

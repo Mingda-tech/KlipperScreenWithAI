@@ -2,8 +2,7 @@ import logging
 import gi
 
 gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk
-from math import pi
+from gi.repository import Gtk, Pango
 from ks_includes.KlippyGcodes import KlippyGcodes
 from ks_includes.screen_panel import ScreenPanel
 
@@ -12,229 +11,126 @@ class Panel(ScreenPanel):
 
     def __init__(self, screen, title):
         super().__init__(screen, title)
-        self.da_size = self._gtk.img_scale * 2
-        self.preview = Gtk.DrawingArea(width_request=self.da_size, height_request=self.da_size)
-        self.preview.set_size_request(-1, self.da_size * 2)
-        self.preview.connect("draw", self.on_draw)
-        self.preview_label = Gtk.Label(label='')
-        self.preset_list = self._gtk.HomogeneousGrid()
-        self.color_data = [0, 0, 0, 0]
-        self.color_order = 'RGBW'
-        self.presets = {"off": [0.0, 0.0, 0.0, 0.0]}
+        self.leds = [
+            led for led in self._printer.get_leds()
+            if not self.led_name(led).startswith("_")
+        ]
         self.scales = {}
-        self.buttons = []
-        self.leds = self._printer.get_leds()
-        self.current_led = None 
-        for l in self.leds:
-            if 'lighting' in l.lower():
-                self.current_led = l
-                break
-        self.open_selector(None, self.current_led)
 
-    def color_available(self, idx):
-        return (
-            (idx == 0 and 'R' in self.color_order)
-            or (idx == 1 and 'G' in self.color_order)
-            or (idx == 2 and 'B' in self.color_order)
-            or (idx == 3 and 'W' in self.color_order)
-        )
+        self.grid = Gtk.Grid()
+        self.grid.set_hexpand(True)
+        self.grid.set_vexpand(False)
 
-    def activate(self):
-        if self.current_led is not None:
-            self.set_title(f"{self.current_led}")
-
-    def set_title(self, title):
-        self._screen.base_panel.set_title(self.prettify(title))
-
-    # def back(self):
-    #     # if len(self.leds) > 1 and self.current_led:
-    #     #     self.set_title(self._screen.panels[self._screen._cur_panels[-1]].title)
-    #     #     self.open_selector(led=None)
-    #     #     return True
-    #     # return False
-    #     if self.current_led:
-    #         self.open_selector(self.current_led)
-    #     return True
-
-    def open_selector(self, widget=None, led=None):
-        # for child in self.content.get_children():
-        #     self.content.remove(child)
-        if led is not None:
-        #     self.content.add(self.led_selector())
-        # else:
-            self.content.add(self.color_selector(led))
-        self.content.show_all()
-
-    def led_selector(self):
-        self.current_led = None
-        columns = 3 if self._screen.vertical_mode else 4
-        grid = self._gtk.HomogeneousGrid()
-        for i, led in enumerate(self.leds):
-            name = led.split()[1] if len(led.split()) > 1 else led
-            button = self._gtk.Button(None, name.upper(), style=f"color{(i % 4) + 1}")
-            button.connect("clicked", self.open_selector, led)
-            grid.attach(button, (i % columns), int(i / columns), 1, 1)
         scroll = self._gtk.ScrolledWindow()
-        scroll.add(grid)
-        return scroll
+        scroll.add(self.grid)
+        self.content.add(scroll)
 
-    def color_selector(self, led):
-        logging.info(led)
-        self.current_led = led
-        self.set_title(f"{self.current_led}")
-        grid = self._gtk.HomogeneousGrid()
-        self.color_order = self._printer.get_led_color_order(led)
-        if self.color_order is None:
-            logging.error("Error: Color order is None")
-            # self.back()
+        self.load_leds()
+
+    @staticmethod
+    def led_name(led):
+        return led.split()[1] if len(led.split()) > 1 else led
+
+    def load_leds(self):
+        if not self.leds:
+            self.grid.attach(Gtk.Label(label=_("No info available"), vexpand=True), 0, 0, 1, 1)
             return
-        on = [1 if self.color_available(i) else 0 for i in range(4)]
-        self.presets["on"] = on
-        scale_grid = self._gtk.HomogeneousGrid()
-        for idx, col_value in enumerate(self.color_data):
-            if not self.color_available(idx):
-                continue
-            color = [0, 0, 0, 0]
-            color[idx] = 1
 
-            stop_btn = self._gtk.Button("cancel", _("Turn off"), "color1")
-            stop_btn.set_hexpand(False)
-            stop_btn.connect("clicked", self.update_brightness, [0,0,0,0])
-            max_btn = self._gtk.Button("light", _("Brightest"), "color2")
-            max_btn.set_hexpand(False)
-            max_btn.connect("clicked", self.update_brightness, [1, 1, 1, 1])
+        for row, led in enumerate(self.leds):
+            name = Gtk.Label()
+            name.set_markup(f"<big><b>{self.prettify(self.led_name(led))}</b></big>")
+            name.set_hexpand(True)
+            name.set_halign(Gtk.Align.START)
+            name.set_valign(Gtk.Align.CENTER)
+            name.set_line_wrap(True)
+            name.set_line_wrap_mode(Pango.WrapMode.WORD_CHAR)
 
-            button = self._gtk.Button()
-            preview = Gtk.DrawingArea(width_request=self.da_size, height_request=self.da_size)
-            preview.connect("draw", self.on_draw, color)
-            button.set_image(preview)
-            button.connect("clicked", self.apply_preset, color)
-            button.set_hexpand(False)
-            scale = Gtk.Scale.new_with_range(orientation=Gtk.Orientation.HORIZONTAL, min=0, max=255, step=1)
-            scale.set_value(round(col_value * 255))
+            off = self._gtk.Button("cancel", _("Turn off"), "color1", self.bts, Gtk.PositionType.LEFT, 1)
+            off.set_hexpand(False)
+            off.connect("clicked", self.set_brightness, led, 0)
+
+            scale = Gtk.Scale.new_with_range(Gtk.Orientation.HORIZONTAL, 0, 100, 1)
+            scale.set_value(round(self.get_brightness(led) * 100))
             scale.set_digits(0)
             scale.set_hexpand(True)
             scale.set_has_origin(True)
             scale.get_style_context().add_class("fan_slider")
-            scale.connect("button-release-event", self.apply_scales)
-            scale.connect("value_changed", self.update_preview)
-            self.scales[idx] = scale
-            scale_grid.attach(stop_btn, 0, idx, 1, 1)
-            scale_grid.attach(scale, 1, idx, 3, 1)
-            scale_grid.attach(max_btn, 4, idx, 1, 1)
-        grid.attach(scale_grid, 0, 0, 1, 1)
+            scale.connect("button-release-event", self.apply_scale, led)
+            self.scales[led] = scale
 
-        columns = 3 if self._screen.vertical_mode else 2
-        data_misc = self._screen.apiclient.send_request(
-            "server/database/item?namespace=mainsail&key=miscellaneous.entries")
-        if data_misc:
-            presets_data = data_misc['result']['value'][next(iter(data_misc["result"]["value"]))]['presets']
-            if presets_data:
-                self.presets.update(self.parse_presets(presets_data))
-        for i, key in enumerate(self.presets):
-            logging.info(f'Adding preset: {key}')
-            preview = Gtk.DrawingArea(width_request=self.da_size, height_request=self.da_size)
-            preview.connect("draw", self.on_draw, self.presets[key])
-            button = self._gtk.Button()
-            button.set_image(preview)
-            button.connect("clicked", self.apply_preset, self.presets[key])
-            self.preset_list.attach(button, i % columns, int(i / columns) + 1, 1, 1)
+            full = self._gtk.Button("light", _("Brightest"), "color2", self.bts, Gtk.PositionType.LEFT, 1)
+            full.set_hexpand(False)
+            full.connect("clicked", self.set_brightness, led, 1)
 
-        scroll = self._gtk.ScrolledWindow()
-        scroll.add(self.preset_list)
-        preview_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
-        preview_box.add(self.preview_label)
-        preview_box.add(self.preview)
-        preview_box.set_homogeneous(True)
-        box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        box.add(preview_box)
-        box.add(scroll)
-        # if self._screen.vertical_mode:
-        #     grid.attach(box, 0, 1, 3, 1)
-        # else:
-        #     grid.attach(box, 3, 0, 2, 1)
-        return grid
+            item = Gtk.Grid()
+            item.get_style_context().add_class("frame-item")
+            item.set_hexpand(True)
+            item.set_vexpand(False)
+            item.attach(name, 0, 0, 3, 1)
+            item.attach(off, 0, 1, 1, 1)
+            item.attach(scale, 1, 1, 1, 1)
+            item.attach(full, 2, 1, 1, 1)
+            self.grid.attach(item, 0, row, 1, 1)
 
-    def on_draw(self, da, ctx, color=None):
-        if color is None:
-            color = self.color_data
-        ctx.set_source_rgb(*self.rgbw_to_rgb(color))
-        # Set the size of the rectangle
-        width = height = da.get_allocated_width() * .9
-        x = da.get_allocated_width() * .05
-        # Set the radius of the corners
-        radius = width / 2 * 0.2
-        ctx.arc(x + radius, radius, radius, pi, 3 * pi / 2)
-        ctx.arc(x + width - radius, radius, radius, 3 * pi / 2, 0)
-        ctx.arc(x + width - radius, height - radius, radius, 0, pi / 2)
-        ctx.arc(x + radius, height - radius, radius, pi / 2, pi)
-        ctx.close_path()
-        ctx.fill()
+        self.grid.show_all()
 
-    def update_preview(self, args):
-        self.update_color_data()
-        self.preview.queue_draw()
-        self.preview_label.set_label(self.rgb_to_hex(self.rgbw_to_rgb(self.color_data)))
+    def get_led_color_order(self, led):
+        color_order = self._printer.get_led_color_order(led)
+        if color_order is None:
+            logging.error(f"Error getting color order for {led}")
+            return ""
+        return color_order
+
+    def get_brightness_index(self, led):
+        color_order = self.get_led_color_order(led)
+        if "W" in color_order:
+            return 3
+        for idx, channel in enumerate(("R", "G", "B")):
+            if channel in color_order:
+                return idx
+        return 3
+
+    def get_current_color_data(self, led):
+        color_data = self._printer.get_stat(led, "color_data")
+        if isinstance(color_data, list) and color_data:
+            color = list(color_data[0])
+            return (color + [0, 0, 0, 0])[:4]
+        return [0, 0, 0, 0]
+
+    def get_brightness(self, led):
+        color = self.get_current_color_data(led)
+        return color[self.get_brightness_index(led)]
+
+    def brightness_to_color(self, led, brightness):
+        color_order = self.get_led_color_order(led)
+        color = [0, 0, 0, 0]
+        if "W" in color_order:
+            color[3] = brightness
+            return color
+        for idx, channel in enumerate(("R", "G", "B")):
+            if channel in color_order:
+                color[idx] = brightness
+        return color
 
     def process_update(self, action, data):
         if action != 'notify_status_update':
             return
-        if self.current_led in data and "color_data" in data[self.current_led]:
-            self.update_scales(data[self.current_led]["color_data"][0])
-            self.preview.queue_draw()
+        for led in self.scales:
+            if led in data and "color_data" in data[led]:
+                color = list(data[led]["color_data"][0])
+                color = (color + [0, 0, 0, 0])[:4]
+                self.scales[led].set_value(round(color[self.get_brightness_index(led)] * 100))
 
-    def update_scales(self, color_data):
-        for idx in self.scales:
-            self.scales[idx].set_value(int(color_data[idx] * 255))
-        self.color_data = color_data
+    def apply_scale(self, widget, event, led):
+        self.set_led_color(led, widget.get_value() / 100)
 
-    def update_color_data(self):
-        for idx in self.scales:
-            self.color_data[idx] = self.scales[idx].get_value() / 255
+    def set_brightness(self, widget, led, brightness):
+        if led in self.scales:
+            self.scales[led].set_value(brightness * 100)
+        self.set_led_color(led, brightness)
 
-    def apply_preset(self, widget, color_data):
-        self.update_scales(color_data)
-        self.apply_scales()
-
-    def apply_scales(self, *args):
-        self.update_color_data()
-        self.set_led_color(self.color_data)
-
-    def set_led_color(self, color_data):
-        name = self.current_led.split()[1] if len(self.current_led.split()) > 1 else self.current_led
+    def set_led_color(self, led, brightness):
+        name = self.led_name(led)
+        color = self.brightness_to_color(led, brightness)
         self._screen._send_action(None, "printer.gcode.script",
-                                  {"script": KlippyGcodes.set_led_color(name, color_data)})
-        
-    def update_brightness(self, widget, color_data):
-        self.set_led_color(color_data)
-
-    @staticmethod
-    def parse_presets(presets_data) -> {}:
-        parsed = {}
-        for i, preset in enumerate(presets_data.values()):
-            name = i if preset["name"] == '' else preset["name"].lower()
-            parsed[name] = []
-            for color in ["red", "green", "blue", "white"]:
-                if color not in preset or preset[color] is None:
-                    parsed[name].append(0)
-                    continue
-                parsed[name].append(preset[color] / 255)
-        return parsed
-
-    @staticmethod
-    def rgb_to_hex(color):
-        hex_color = '#'
-        for value in color:
-            int_value = round(value * 255)
-            hex_color += hex(int_value)[2:].zfill(2)
-        return hex_color.upper()
-
-    @staticmethod
-    def rgbw_to_rgb(color):
-        # The idea here is to use the white channel as a saturation control
-        # The white channel 'washes' the color
-        return (
-            [color[3] for i in range(3)]  # Special case of only white channel
-            if color[0] == 0 and color[1] == 0 and color[2] == 0
-            else [color[i] + (1 - color[i]) * color[3] / 3 for i in range(3)]
-        )
+                                  {"script": KlippyGcodes.set_led_color(name, color)})

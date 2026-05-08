@@ -19,7 +19,6 @@ class Panel(MenuPanel):
         self.main_menu = self._gtk.HomogeneousGrid()
         self.main_menu.set_hexpand(True)
         self.main_menu.set_vexpand(True)
-        scroll = self._gtk.ScrolledWindow()
         self.numpad_visible = False
 
         logging.info("### Making MainMenu")
@@ -30,12 +29,12 @@ class Panel(MenuPanel):
             self.main_menu.attach(self.create_left_panel(), 0, 0, 1, 1)
         if self._screen.vertical_mode:
             self.labels['menu'] = self.arrangeMenuItems(items, 3, True)
-            scroll.add(self.labels['menu'])
-            self.main_menu.attach(scroll, 0, 1, 1, 1)
+            self.scroll.add(self.labels['menu'])
+            self.main_menu.attach(self.scroll, 0, 1, 1, 1)
         else:
             self.labels['menu'] = self.arrangeMenuItems(items, 2, True)
-            scroll.add(self.labels['menu'])
-            self.main_menu.attach(scroll, 1, 0, 1, 1)
+            self.scroll.add(self.labels['menu'])
+            self.main_menu.attach(self.scroll, 1, 0, 1, 1)
         self.content.add(self.main_menu)
 
     def update_graph_visibility(self):
@@ -252,10 +251,10 @@ class Panel(MenuPanel):
 
         if self._screen.vertical_mode:
             self.main_menu.remove_row(1)
-            self.main_menu.attach(self.labels['menu'], 0, 1, 1, 1)
+            self.main_menu.attach(self.scroll, 0, 1, 1, 1)
         else:
             self.main_menu.remove_column(1)
-            self.main_menu.attach(self.labels['menu'], 1, 0, 1, 1)
+            self.main_menu.attach(self.scroll, 1, 0, 1, 1)
         self.main_menu.show_all()
         self.numpad_visible = False
         self._screen.base_panel.set_control_sensitive(False, control='back')
