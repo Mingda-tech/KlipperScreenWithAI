@@ -123,14 +123,18 @@ class Panel(ScreenPanel):
         # --- Manual detection buttons (3 columns x 2 rows) ---
         detect_grid = self._gtk.HomogeneousGrid()
         button_styles = ["color1", "color2", "color3", "color1", "color2"]
-        for idx, dt in enumerate(DETECTION_TYPES):
+        available_detection_types = [
+            dt for dt in DETECTION_TYPES if self._is_detection_macro_available(dt)
+        ]
+        for idx, dt in enumerate(available_detection_types):
             key = dt["key"]
             btn = self._gtk.Button(None, _(dt["short_name"]), button_styles[idx])
             btn.connect("clicked", self.manual_detect, key)
             self.labels[f"btn_{key}"] = btn
             col, row = idx % 3, idx // 3
             detect_grid.attach(btn, col, row, 1, 1)
-        page.pack_start(detect_grid, True, True, 0)
+        if available_detection_types:
+            page.pack_start(detect_grid, True, True, 0)
 
         # --- Pause on defect toggle ---
         pause_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
@@ -180,7 +184,10 @@ class Panel(ScreenPanel):
         grid.set_column_homogeneous(True)
         row_idx = 0
 
-        for idx, dt in enumerate(DETECTION_TYPES):
+        available_detection_types = [
+            dt for dt in DETECTION_TYPES if self._is_detection_macro_available(dt)
+        ]
+        for idx, dt in enumerate(available_detection_types):
             key = dt['key']
 
             # --- Section header ---
@@ -199,7 +206,9 @@ class Panel(ScreenPanel):
             en_label = Gtk.Label()
             en_label.set_markup(f"<b>{GLib.markup_escape_text(_('Enabled'))}</b>")
             self.labels[f'{key}_enabled'] = Gtk.Switch()
-            self.labels[f'{key}_enabled'].set_active(True)
+            macro_available = self._is_detection_macro_available(dt)
+            self.labels[f'{key}_enabled'].set_active(macro_available)
+            self.labels[f'{key}_enabled'].set_sensitive(macro_available)
             self.labels[f'{key}_enabled'].set_property("width-request", round(self._gtk.font_size * 5))
             self.labels[f'{key}_enabled'].set_property("height-request", round(self._gtk.font_size * 3))
 
@@ -228,7 +237,7 @@ class Panel(ScreenPanel):
             grid.attach(conf_row, 0, row_idx, 4, 1)
             row_idx += 1
 
-            if idx < len(DETECTION_TYPES) - 1:
+            if idx < len(available_detection_types) - 1:
                 separator = Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL)
                 grid.attach(separator, 0, row_idx, 4, 1)
                 row_idx += 1
@@ -330,20 +339,20 @@ class Panel(ScreenPanel):
             categories = data.get('categories', {})
             if not isinstance(categories, dict):
                 return
-            self._set_detection_settings(categories)
+            categories = self._set_detection_settings(categories)
 
             if 'pause_on_defect' in data:
                 self._set_pause_switch(bool(data['pause_on_defect']))
 
             for dt in DETECTION_TYPES:
                 key = dt['key']
-                if key not in categories:
-                    continue
-                cat = categories[key]
+                cat = categories.get(key, {})
                 if not isinstance(cat, dict):
                     continue
                 if f'{key}_enabled' in self.labels:
-                    self.labels[f'{key}_enabled'].set_active(bool(cat.get('enabled', True)))
+                    macro_available = self._is_detection_macro_available(dt)
+                    self.labels[f'{key}_enabled'].set_active(bool(cat.get('enabled', False)))
+                    self.labels[f'{key}_enabled'].set_sensitive(macro_available)
                 if f'{key}_threshold' in self.labels:
                     try:
                         val = float(cat.get('confidence_threshold', dt['default_threshold']))
@@ -415,17 +424,17 @@ class Panel(ScreenPanel):
         if not dt_info:
             logging.error(f"AI detection: unknown defect type: {defect_type}")
             return
-        if not self._is_detection_enabled(defect_type):
-            self._screen.show_popup_message(
-                _("'%s' is disabled in AI detection settings. Please enable it first.") % _(dt_info['name']),
-                level=2,
-            )
-            return
         macro = dt_info['macro']
-        if macro not in self._printer.get_gcode_macros():
+        if not self._is_detection_macro_available(dt_info):
             logging.warning(f"AI detection: macro not found: {macro}")
             self._screen.show_popup_message(
                 _("Macro %s is undefined. Please check whether ai_setting.cfg is loaded.") % macro,
+                level=2,
+            )
+            return
+        if not self._is_detection_enabled(defect_type):
+            self._screen.show_popup_message(
+                _("'%s' is disabled in AI detection settings. Please enable it first.") % _(dt_info['name']),
                 level=2,
             )
             return
@@ -456,9 +465,22 @@ class Panel(ScreenPanel):
                 detection_interval = int(existing.get('detection_interval', dt['default_interval']))
             except (TypeError, ValueError):
                 detection_interval = dt['default_interval']
+            macro_available = self._is_detection_macro_available(dt)
+            if macro_available:
+                enabled = self.labels[f'{key}_enabled'].get_active()
+                confidence_threshold = round(self.labels[f'{key}_threshold'].get_value(), 2)
+            else:
+                enabled = False
+                confidence_threshold = existing.get('confidence_threshold', dt['default_threshold'])
+                try:
+                    confidence_threshold = round(float(confidence_threshold), 2)
+                except (TypeError, ValueError):
+                    confidence_threshold = dt['default_threshold']
+            if not macro_available and f'{key}_enabled' in self.labels:
+                self.labels[f'{key}_enabled'].set_active(False)
             category = {
-                "enabled": self.labels[f'{key}_enabled'].get_active(),
-                "confidence_threshold": round(self.labels[f'{key}_threshold'].get_value(), 2),
+                "enabled": enabled,
+                "confidence_threshold": confidence_threshold,
                 "scheduled": bool(existing.get('scheduled', False)),
                 "detection_interval": max(10, min(300, detection_interval)),
             }
@@ -488,15 +510,53 @@ class Panel(ScreenPanel):
         )
 
     def _is_detection_enabled(self, defect_type):
+        dt = next((d for d in DETECTION_TYPES if d['key'] == defect_type), None)
+        if dt is not None and not self._is_detection_macro_available(dt):
+            return False
         category = self.settings.get(defect_type)
         if isinstance(category, dict) and 'enabled' in category:
             return bool(category.get('enabled'))
-        return True
+        return dt is not None
 
     def _set_detection_settings(self, categories):
         if isinstance(categories, dict):
+            categories = self._apply_detection_defaults(categories)
             self.settings = categories
             self._screen.update_ai_detection_settings_cache(categories=categories)
+            return categories
+        return {}
+
+    def _get_gcode_macro_names(self):
+        try:
+            return {str(macro).casefold() for macro in self._printer.get_gcode_macros()}
+        except Exception as e:
+            logging.warning(f"AI detection: failed to read gcode macros: {e}")
+            return set()
+
+    def _is_detection_macro_available(self, detection_type):
+        if not isinstance(detection_type, dict):
+            return False
+        macro = detection_type.get("macro")
+        if not macro:
+            return False
+        return str(macro).casefold() in self._get_gcode_macro_names()
+
+    def _apply_detection_defaults(self, categories):
+        normalized = {
+            str(key): dict(value)
+            for key, value in categories.items()
+            if isinstance(value, dict)
+        }
+        for dt in DETECTION_TYPES:
+            key = dt["key"]
+            category = normalized.get(key, {})
+            macro_available = self._is_detection_macro_available(dt)
+            if not macro_available:
+                category["enabled"] = False
+            elif "enabled" not in category:
+                category["enabled"] = True
+            normalized[key] = category
+        return normalized
 
     def _normalize_result_payload(self, data):
         if isinstance(data, dict):
