@@ -208,6 +208,7 @@ class KlipperScreen(Gtk.Window):
         self.confirm = None
         self.ai_detection_dialog = None
         self.ai_detection_last_signature = None
+        self.ai_detection_error_last_signature = None
         self.ai_pause_active = False
         self.ai_pause_requested = False
         self.ai_pause_on_defect_enabled = True
@@ -1109,6 +1110,38 @@ class KlipperScreen(Gtk.Window):
             result.get("output_path"),
         )
 
+    def _ai_detection_error_signature(self, result):
+        if not isinstance(result, dict):
+            return None
+        return (
+            result.get("timestamp"),
+            result.get("request_id"),
+            result.get("model_name"),
+            result.get("defect_type"),
+            result.get("error"),
+            result.get("message"),
+            result.get("last_error"),
+            result.get("service_error"),
+        )
+
+    def _get_ai_detection_error_message(self, result):
+        if not isinstance(result, dict):
+            return None
+        if result.get("success", True) is not False:
+            return None
+        error = (
+            result.get("error")
+            or result.get("message")
+            or result.get("last_error")
+            or result.get("service_error")
+        )
+        if error is None:
+            error = _("AI detection failed")
+        dtype = self._translate_ai_detection_name(
+            result.get("model_name", result.get("defect_type"))
+        )
+        return _("AI Detection Error") + f" [{dtype}]: {error}"
+
     def _get_primary_ai_detection(self, result):
         if not isinstance(result, dict):
             return {}
@@ -1469,6 +1502,17 @@ class KlipperScreen(Gtk.Window):
         if not isinstance(result, dict):
             logging.warning("AI detection: ignored result because it is not a dict: %s", type(result).__name__)
             return
+        error_message = self._get_ai_detection_error_message(result)
+        if error_message is not None:
+            signature = self._ai_detection_error_signature(result)
+            if signature != self.ai_detection_error_last_signature:
+                self.ai_detection_error_last_signature = signature
+                logging.warning("AI detection: showing error popup: %s", error_message)
+                self.show_popup_message(error_message, 3)
+            self.ai_detection_last_signature = None
+            self._close_ai_detection_dialog()
+            return
+
         if not result.get("has_defect", False):
             logging.info(
                 "AI detection: result is normal, dialog will be closed. model_name=%s defect_type=%s confidence=%s",

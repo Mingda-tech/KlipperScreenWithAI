@@ -93,7 +93,6 @@ class Panel(ScreenPanel):
         self.pause_on_defect = True
         self.last_result = None
         self._active = False
-        self.detection_types = self._get_available_detection_types()
 
         self.labels['main_menu'] = self._build_main_page()
         self.labels['settings_menu'] = self._build_settings_page()
@@ -124,9 +123,7 @@ class Panel(ScreenPanel):
         # --- Manual detection buttons (3 columns x 2 rows) ---
         detect_grid = self._gtk.HomogeneousGrid()
         button_styles = ["color1", "color2", "color3", "color1", "color2"]
-        if not self.detection_types:
-            detect_grid.attach(Gtk.Label(label=_("No info available"), vexpand=True), 0, 0, 1, 1)
-        for idx, dt in enumerate(self.detection_types):
+        for idx, dt in enumerate(DETECTION_TYPES):
             key = dt["key"]
             btn = self._gtk.Button(None, _(dt["short_name"]), button_styles[idx])
             btn.connect("clicked", self.manual_detect, key)
@@ -183,13 +180,7 @@ class Panel(ScreenPanel):
         grid.set_column_homogeneous(True)
         row_idx = 0
 
-        if not self.detection_types:
-            grid.attach(Gtk.Label(label=_("No info available"), vexpand=True), 0, 0, 4, 1)
-            scroll = self._gtk.ScrolledWindow()
-            scroll.add(grid)
-            return scroll
-
-        for idx, dt in enumerate(self.detection_types):
+        for idx, dt in enumerate(DETECTION_TYPES):
             key = dt['key']
 
             # --- Section header ---
@@ -237,7 +228,7 @@ class Panel(ScreenPanel):
             grid.attach(conf_row, 0, row_idx, 4, 1)
             row_idx += 1
 
-            if idx < len(self.detection_types) - 1:
+            if idx < len(DETECTION_TYPES) - 1:
                 separator = Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL)
                 grid.attach(separator, 0, row_idx, 4, 1)
                 row_idx += 1
@@ -273,9 +264,14 @@ class Panel(ScreenPanel):
         return False
 
     def process_update(self, action, data):
-        if action == "notify_ai_detection_result":
-            if isinstance(data, dict):
-                self.last_result = data
+        if action in (
+            "notify_ai_detection_result",
+            "notify_detection_complete",
+            "notify_ai_detection_detection_complete",
+        ):
+            result = self._normalize_result_payload(data)
+            if result is not None:
+                self.last_result = result
                 self._update_result_display()
 
     # ==================== REST API ====================
@@ -339,7 +335,7 @@ class Panel(ScreenPanel):
             if 'pause_on_defect' in data:
                 self._set_pause_switch(bool(data['pause_on_defect']))
 
-            for dt in self.detection_types:
+            for dt in DETECTION_TYPES:
                 key = dt['key']
                 if key not in categories:
                     continue
@@ -388,6 +384,19 @@ class Panel(ScreenPanel):
         r = self.last_result
 
         dtype = self._translate_detection_name(r.get('model_name', r.get('defect_type')))
+        error_msg = self._get_result_error(r)
+        if error_msg:
+            escaped_type = GLib.markup_escape_text(dtype)
+            escaped_error = GLib.markup_escape_text(error_msg)
+            status = (
+                f'<span foreground="red">'
+                f'{GLib.markup_escape_text(_("Error"))}</span>'
+            )
+            self.labels['result_text'].set_markup(
+                f"<b>{escaped_type}</b>\n{status}\n{escaped_error}"
+            )
+            return
+
         defect = bool(r.get('has_defect', False))
         status_label = _("Defect") if defect else _("Normal")
         status_color = "red" if defect else "green"
@@ -402,7 +411,7 @@ class Panel(ScreenPanel):
             self._screen.show_popup_message(_("AI service offline. Detection unavailable."), level=2)
             return
 
-        dt_info = next((d for d in self.detection_types if d['key'] == defect_type), None)
+        dt_info = next((d for d in DETECTION_TYPES if d['key'] == defect_type), None)
         if not dt_info:
             logging.error(f"AI detection: unknown defect type: {defect_type}")
             return
@@ -413,7 +422,7 @@ class Panel(ScreenPanel):
             )
             return
         macro = dt_info['macro']
-        if not self._is_macro_defined(macro):
+        if macro not in self._printer.get_gcode_macros():
             logging.warning(f"AI detection: macro not found: {macro}")
             self._screen.show_popup_message(
                 _("Macro %s is undefined. Please check whether ai_setting.cfg is loaded.") % macro,
@@ -438,7 +447,7 @@ class Panel(ScreenPanel):
 
     def save_settings(self, widget):
         categories = {}
-        for dt in self.detection_types:
+        for dt in DETECTION_TYPES:
             key = dt['key']
             existing = self.settings.get(key, {})
             if not isinstance(existing, dict):
@@ -472,13 +481,6 @@ class Panel(ScreenPanel):
 
     # ==================== Helpers ====================
 
-    def _get_available_detection_types(self):
-        return [dt for dt in DETECTION_TYPES if self._is_macro_defined(dt["macro"])]
-
-    def _is_macro_defined(self, macro):
-        macros = {m.casefold() for m in self._printer.get_gcode_macros()}
-        return macro.casefold() in macros
-
     def _set_status_label(self, text, color):
         self.labels['status_label'].set_markup(
             f'<big><b>{GLib.markup_escape_text(_("AI Status"))}:</b> '
@@ -495,6 +497,28 @@ class Panel(ScreenPanel):
         if isinstance(categories, dict):
             self.settings = categories
             self._screen.update_ai_detection_settings_cache(categories=categories)
+
+    def _normalize_result_payload(self, data):
+        if isinstance(data, dict):
+            return data
+        if isinstance(data, list) and data and isinstance(data[0], dict):
+            return data[0]
+        return None
+
+    def _get_result_error(self, result):
+        if not isinstance(result, dict):
+            return None
+        if result.get("success", True) is not False:
+            return None
+        error = (
+            result.get("error") or
+            result.get("message") or
+            result.get("last_error") or
+            result.get("service_error")
+        )
+        if error is None:
+            return _("AI detection failed")
+        return str(error)
 
     def _translate_detection_name(self, raw_name):
         if raw_name is None:
