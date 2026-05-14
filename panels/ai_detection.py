@@ -136,22 +136,6 @@ class Panel(ScreenPanel):
         status_row.pack_end(settings_btn, False, False, 5)
         page.pack_start(status_row, False, False, 0)
 
-        # --- Manual detection buttons (3 columns x 2 rows) ---
-        detect_grid = self._gtk.HomogeneousGrid()
-        button_styles = ["color1", "color2", "color3", "color1", "color2"]
-        available_detection_types = [
-            dt for dt in DETECTION_TYPES if self._is_detection_macro_available(dt)
-        ]
-        for idx, dt in enumerate(available_detection_types):
-            key = dt["key"]
-            btn = self._gtk.Button(None, _(dt["short_name"]), button_styles[idx])
-            btn.connect("clicked", self.manual_detect, key)
-            self.labels[f"btn_{key}"] = btn
-            col, row = idx % 3, idx // 3
-            detect_grid.attach(btn, col, row, 1, 1)
-        if available_detection_types:
-            page.pack_start(detect_grid, True, True, 0)
-
         # --- Pause on defect toggle ---
         pause_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
         pause_row.get_style_context().add_class("frame-item")
@@ -474,32 +458,6 @@ class Panel(ScreenPanel):
         self.labels['result_text'].set_markup("\n".join(lines))
 
     # ==================== User Actions ====================
-
-    def manual_detect(self, widget, defect_type):
-        if not self.ai_online:
-            self._screen.show_popup_message(_("AI service offline. Detection unavailable."), level=2)
-            return
-
-        dt_info = next((d for d in DETECTION_TYPES if d['key'] == defect_type), None)
-        if not dt_info:
-            logging.error(f"AI detection: unknown defect type: {defect_type}")
-            return
-        macro = dt_info['macro']
-        if not self._is_detection_macro_available(dt_info):
-            logging.warning(f"AI detection: macro not found: {macro}")
-            self._screen.show_popup_message(
-                _("Macro %s is undefined. Please check whether ai_setting.cfg is loaded.") % macro,
-                level=2,
-            )
-            return
-        if not self._is_detection_enabled(defect_type):
-            self._screen.show_popup_message(
-                _("'%s' is disabled in AI detection settings. Please enable it first.") % _(dt_info['name']),
-                level=2,
-            )
-            return
-        self._screen._ws.klippy.gcode_script(macro)
-        self._screen.show_popup_message(_("%s triggered.") % _(dt_info['name']), level=1)
 
     def on_pause_toggled(self, switch, gparam):
         active = switch.get_active()
