@@ -1738,6 +1738,13 @@ msgstr "Detektering av uppkrullad kant"
 msgid "Nozzle Blob Detection"
 msgstr "Detektering av klump på munstycket"
 
+msgid "Pause Count"
+msgstr "Antal pauser"
+
+#, python-format
+msgid "Pause Count: %(count)d/%(required)d"
+msgstr "Antal pauser: %(count)d/%(required)d"
+
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' är inaktiverad i AI-detekteringsinställningarna. Aktivera den först."
 

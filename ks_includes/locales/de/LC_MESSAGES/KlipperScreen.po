@@ -1731,6 +1731,13 @@ msgstr "Erkennung von Kantenwölbung"
 msgid "Nozzle Blob Detection"
 msgstr "Erkennung von Düsenklumpen"
 
+msgid "Pause Count"
+msgstr "Pausenzähler"
+
+#, python-format
+msgid "Pause Count: %(count)d/%(required)d"
+msgstr "Pausenzähler: %(count)d/%(required)d"
+
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' ist in den KI-Erkennungseinstellungen deaktiviert. Bitte aktivieren Sie es zuerst."
 

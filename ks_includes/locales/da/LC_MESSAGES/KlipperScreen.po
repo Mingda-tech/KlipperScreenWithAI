@@ -1691,6 +1691,13 @@ msgstr "Detektion af kantløft"
 msgid "Nozzle Blob Detection"
 msgstr "Registrering af klump på dysen"
 
+msgid "Pause Count"
+msgstr "Pauseantal"
+
+#, python-format
+msgid "Pause Count: %(count)d/%(required)d"
+msgstr "Pauseantal: %(count)d/%(required)d"
+
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' er deaktiveret i AI-detektionsindstillingerne. Aktivér det først."
 

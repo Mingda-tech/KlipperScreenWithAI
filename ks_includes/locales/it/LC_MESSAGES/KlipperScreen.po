@@ -1820,6 +1820,13 @@ msgstr "Rilevamento bordo sollevato"
 msgid "Nozzle Blob Detection"
 msgstr "Rilevamento accumulo sull'ugello"
 
+msgid "Pause Count"
+msgstr "Conteggio pause"
+
+#, python-format
+msgid "Pause Count: %(count)d/%(required)d"
+msgstr "Conteggio pause: %(count)d/%(required)d"
+
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' è disabilitato nelle impostazioni di rilevamento AI. Abilitalo prima."
 

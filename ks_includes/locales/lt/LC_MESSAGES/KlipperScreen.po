@@ -1664,6 +1664,13 @@ msgstr "Užsirietusio krašto aptikimas"
 msgid "Nozzle Blob Detection"
 msgstr "Antgalio gumulo aptikimas"
 
+msgid "Pause Count"
+msgstr "Pauzių skaičius"
+
+#, python-format
+msgid "Pause Count: %(count)d/%(required)d"
+msgstr "Pauzių skaičius: %(count)d/%(required)d"
+
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' AI aptikimo nustatymuose yra išjungtas. Pirmiausia jį įjunkite."
 

@@ -1655,6 +1655,13 @@ msgstr "Felgörbült szél észlelése"
 msgid "Nozzle Blob Detection"
 msgstr "Fúvókalerakódás észlelése"
 
+msgid "Pause Count"
+msgstr "Szüneteltetések száma"
+
+#, python-format
+msgid "Pause Count: %(count)d/%(required)d"
+msgstr "Szüneteltetések száma: %(count)d/%(required)d"
+
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "A(z) '%s' le van tiltva az AI-észlelési beállításokban. Előbb engedélyezze."
 

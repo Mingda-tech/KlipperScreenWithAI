@@ -1751,6 +1751,13 @@ msgstr "들뜬 가장자리 감지"
 msgid "Nozzle Blob Detection"
 msgstr "노즐 뭉침 감지"
 
+msgid "Pause Count"
+msgstr "일시 정지 횟수"
+
+#, python-format
+msgid "Pause Count: %(count)d/%(required)d"
+msgstr "일시 정지 횟수: %(count)d/%(required)d"
+
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' 이(가) AI 감지 설정에서 비활성화되어 있습니다. 먼저 활성화하세요."
 

@@ -1768,6 +1768,13 @@ msgstr "Виявлення піднятого краю"
 msgid "Nozzle Blob Detection"
 msgstr "Виявлення налипання на соплі"
 
+msgid "Pause Count"
+msgstr "Кількість пауз"
+
+#, python-format
+msgid "Pause Count: %(count)d/%(required)d"
+msgstr "Кількість пауз: %(count)d/%(required)d"
+
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' вимкнено в налаштуваннях AI-виявлення. Спочатку увімкніть його."
 

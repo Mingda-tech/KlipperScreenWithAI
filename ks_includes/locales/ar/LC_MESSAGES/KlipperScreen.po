@@ -1709,6 +1709,13 @@ msgstr "كشف الحافة الملتوية"
 msgid "Nozzle Blob Detection"
 msgstr "كشف تكتل الفوهة"
 
+msgid "Pause Count"
+msgstr "عدد مرات الإيقاف المؤقت"
+
+#, python-format
+msgid "Pause Count: %(count)d/%(required)d"
+msgstr "عدد مرات الإيقاف المؤقت: %(count)d/%(required)d"
+
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' معطل في إعدادات كشف الذكاء الاصطناعي. يرجى تفعيله أولاً."
 

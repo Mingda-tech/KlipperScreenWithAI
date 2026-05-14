@@ -1767,6 +1767,13 @@ msgstr "Kalkmış kenar algılama"
 msgid "Nozzle Blob Detection"
 msgstr "Nozulda birikinti algılama"
 
+msgid "Pause Count"
+msgstr "Duraklatma sayısı"
+
+#, python-format
+msgid "Pause Count: %(count)d/%(required)d"
+msgstr "Duraklatma sayısı: %(count)d/%(required)d"
+
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' AI algılama ayarlarında devre dışı. Lütfen önce etkinleştirin."
 

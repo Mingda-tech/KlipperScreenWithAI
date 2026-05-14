@@ -19,6 +19,8 @@ def _translation_strings():
     _("Warp Edge")
     _("Warp Edge Detection")
     _("Nozzle Blob Detection")
+    _("Pause Count")
+    _("Pause Count: %(count)d/%(required)d")
 
 
 DETECTION_TYPES = [
@@ -29,6 +31,8 @@ DETECTION_TYPES = [
         "macro": "AI_DETECT_SPAGHETTI",
         "default_threshold": 0.70,
         "default_interval": 30,
+        "default_scheduled": True,
+        "default_pause_consecutive": 3,
         "aliases": [],
     },
     {
@@ -38,6 +42,9 @@ DETECTION_TYPES = [
         "macro": "AI_DETECT_WARPHEAD",
         "default_threshold": 0.75,
         "default_interval": 60,
+        "default_scheduled": False,
+        "force_scheduled": False,
+        "default_pause_consecutive": 3,
         "aliases": ["Warp Head Detection", "Warp Head", "Nozzle Blob"],
     },
     {
@@ -47,6 +54,8 @@ DETECTION_TYPES = [
         "macro": "AI_DETECT_EXTRUSION",
         "default_threshold": 0.70,
         "default_interval": 60,
+        "default_scheduled": False,
+        "default_pause_consecutive": 1,
         "aliases": [
             "Extrusion Detection",
             "Extrusion",
@@ -61,6 +70,8 @@ DETECTION_TYPES = [
         "macro": "AI_DETECT_NONSTICK",
         "default_threshold": 0.70,
         "default_interval": 120,
+        "default_scheduled": False,
+        "default_pause_consecutive": 1,
         "aliases": [],
     },
     {
@@ -70,9 +81,14 @@ DETECTION_TYPES = [
         "macro": "AI_DETECT_FOREIGNBODY",
         "default_threshold": 0.60,
         "default_interval": 60,
+        "default_scheduled": False,
+        "force_scheduled": False,
+        "default_pause_consecutive": 1,
         "aliases": ["Foreign Body Detection", "Foreign Body"],
     },
 ]
+
+DEFAULT_PAUSE_CONSECUTIVE_DETECTIONS = 1
 
 LEGACY_DETECTION_ALIASES = {
     "coco80": "General Detection",
@@ -237,6 +253,35 @@ class Panel(ScreenPanel):
             grid.attach(conf_row, 0, row_idx, 4, 1)
             row_idx += 1
 
+            # --- Auto-pause consecutive detection count ---
+            pause_count_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=5)
+            pause_count_label = Gtk.Label()
+            pause_count_label.set_markup(
+                f"<b>{GLib.markup_escape_text(_('Pause Count'))}</b>"
+            )
+            pause_count_label.set_size_request(round(self._gtk.font_size * 5), -1)
+
+            self.labels[f'{key}_pause_count'] = Gtk.SpinButton.new_with_range(
+                1, 99, 1
+            )
+            self.labels[f'{key}_pause_count'].set_value(
+                dt.get(
+                    'default_pause_consecutive',
+                    DEFAULT_PAUSE_CONSECUTIVE_DETECTIONS
+                )
+            )
+            self.labels[f'{key}_pause_count'].set_numeric(True)
+            self.labels[f'{key}_pause_count'].set_property(
+                "width-request", round(self._gtk.font_size * 6)
+            )
+
+            pause_count_row.pack_start(pause_count_label, False, False, 5)
+            pause_count_row.pack_start(
+                self.labels[f'{key}_pause_count'], False, False, 5
+            )
+            grid.attach(pause_count_row, 0, row_idx, 4, 1)
+            row_idx += 1
+
             if idx < len(available_detection_types) - 1:
                 separator = Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL)
                 grid.attach(separator, 0, row_idx, 4, 1)
@@ -280,6 +325,13 @@ class Panel(ScreenPanel):
         ):
             result = self._normalize_result_payload(data)
             if result is not None:
+                self.last_result = result
+                self._update_result_display()
+        elif action == "notify_ai_detection_defect_detected":
+            result = self._normalize_result_payload(data)
+            if result is not None:
+                result = dict(result)
+                result.setdefault("has_defect", True)
                 self.last_result = result
                 self._update_result_display()
 
@@ -359,6 +411,10 @@ class Panel(ScreenPanel):
                         self.labels[f'{key}_threshold'].set_value(max(0.1, min(1.0, val)))
                     except (TypeError, ValueError):
                         pass
+                if f'{key}_pause_count' in self.labels:
+                    self.labels[f'{key}_pause_count'].set_value(
+                        self._get_pause_consecutive_value(cat, dt)
+                    )
         except Exception as e:
             logging.exception(f"AI detection: error updating settings UI: {e}")
 
@@ -411,7 +467,11 @@ class Panel(ScreenPanel):
         status_color = "red" if defect else "green"
         escaped_type = GLib.markup_escape_text(dtype)
         status = f'<span foreground="{status_color}">{GLib.markup_escape_text(status_label)}</span>'
-        self.labels['result_text'].set_markup(f"<b>{escaped_type}</b>\n{status}")
+        lines = [f"<b>{escaped_type}</b>", status]
+        pause_progress = self._format_pause_progress(r)
+        if pause_progress:
+            lines.append(GLib.markup_escape_text(pause_progress))
+        self.labels['result_text'].set_markup("\n".join(lines))
 
     # ==================== User Actions ====================
 
@@ -466,7 +526,11 @@ class Panel(ScreenPanel):
             except (TypeError, ValueError):
                 detection_interval = dt['default_interval']
             macro_available = self._is_detection_macro_available(dt)
-            if macro_available:
+            has_controls = (
+                f'{key}_enabled' in self.labels and
+                f'{key}_threshold' in self.labels
+            )
+            if macro_available and has_controls:
                 enabled = self.labels[f'{key}_enabled'].get_active()
                 confidence_threshold = round(self.labels[f'{key}_threshold'].get_value(), 2)
             else:
@@ -476,13 +540,20 @@ class Panel(ScreenPanel):
                     confidence_threshold = round(float(confidence_threshold), 2)
                 except (TypeError, ValueError):
                     confidence_threshold = dt['default_threshold']
+            pause_count = self._get_pause_consecutive_value(existing, dt)
+            if macro_available and f'{key}_pause_count' in self.labels:
+                pause_count = int(self.labels[f'{key}_pause_count'].get_value())
             if not macro_available and f'{key}_enabled' in self.labels:
                 self.labels[f'{key}_enabled'].set_active(False)
             category = {
                 "enabled": enabled,
                 "confidence_threshold": confidence_threshold,
-                "scheduled": bool(existing.get('scheduled', False)),
+                "scheduled": self._get_scheduled_value(existing, dt),
                 "detection_interval": max(10, min(300, detection_interval)),
+                "pause_consecutive_detections": max(
+                    DEFAULT_PAUSE_CONSECUTIVE_DETECTIONS,
+                    pause_count
+                ),
             }
             categories[key] = category
 
@@ -555,8 +626,40 @@ class Panel(ScreenPanel):
                 category["enabled"] = False
             elif "enabled" not in category:
                 category["enabled"] = True
+            category["pause_consecutive_detections"] = (
+                self._get_pause_consecutive_value(category, dt)
+            )
+            if "scheduled" not in category or "force_scheduled" in dt:
+                category["scheduled"] = self._get_scheduled_value(
+                    category, dt
+                )
             normalized[key] = category
         return normalized
+
+    def _get_scheduled_value(self, category, detection_type):
+        if "force_scheduled" in detection_type:
+            return bool(detection_type["force_scheduled"])
+        default_value = bool(detection_type.get("default_scheduled", False))
+        if not isinstance(category, dict):
+            return default_value
+        return bool(category.get("scheduled", default_value))
+
+    def _get_pause_consecutive_value(self, category, detection_type):
+        default_value = detection_type.get(
+            "default_pause_consecutive",
+            DEFAULT_PAUSE_CONSECUTIVE_DETECTIONS
+        )
+        if not isinstance(category, dict):
+            category = {}
+        raw_value = category.get(
+            "pause_consecutive_detections",
+            default_value
+        )
+        try:
+            value = int(raw_value)
+        except (TypeError, ValueError):
+            value = default_value
+        return max(DEFAULT_PAUSE_CONSECUTIVE_DETECTIONS, value)
 
     def _normalize_result_payload(self, data):
         if isinstance(data, dict):
@@ -599,6 +702,26 @@ class Panel(ScreenPanel):
         if normalized in LEGACY_DETECTION_ALIASES:
             return _(LEGACY_DETECTION_ALIASES[normalized])
         return value
+
+    def _format_pause_progress(self, result):
+        if not isinstance(result, dict):
+            return None
+        if (
+            "consecutive_defects" not in result or
+            "pause_consecutive_detections" not in result
+        ):
+            return None
+        try:
+            count = int(result.get("consecutive_defects", 0))
+            required = int(result.get("pause_consecutive_detections", 0))
+        except (TypeError, ValueError):
+            return None
+        if required < DEFAULT_PAUSE_CONSECUTIVE_DETECTIONS:
+            return None
+        return _("Pause Count: %(count)d/%(required)d") % {
+            "count": max(0, count),
+            "required": required,
+        }
 
     def _set_pause_switch(self, active):
         self.pause_on_defect = active

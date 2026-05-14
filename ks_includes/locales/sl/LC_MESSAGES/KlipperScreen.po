@@ -1906,6 +1906,13 @@ msgstr "Zaznavanje zvihanega roba"
 msgid "Nozzle Blob Detection"
 msgstr "Zaznavanje kepe na šobi"
 
+msgid "Pause Count"
+msgstr "Število premorov"
+
+#, python-format
+msgid "Pause Count: %(count)d/%(required)d"
+msgstr "Število premorov: %(count)d/%(required)d"
+
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' je onemogočen v nastavitvah zaznavanja AI. Najprej ga omogočite."
 

@@ -1647,6 +1647,13 @@ msgstr "Warp Edge Detection"
 msgid "Nozzle Blob Detection"
 msgstr "Nozzle Blob Detection"
 
+msgid "Pause Count"
+msgstr "Pause Count"
+
+#, python-format
+msgid "Pause Count: %(count)d/%(required)d"
+msgstr "Pause Count: %(count)d/%(required)d"
+
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' is disabled in AI detection settings. Please enable it first."
 

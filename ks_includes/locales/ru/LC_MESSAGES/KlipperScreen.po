@@ -1856,6 +1856,13 @@ msgstr "Обнаружение задранного края"
 msgid "Nozzle Blob Detection"
 msgstr "Обнаружение налипания на сопле"
 
+msgid "Pause Count"
+msgstr "Количество пауз"
+
+#, python-format
+msgid "Pause Count: %(count)d/%(required)d"
+msgstr "Количество пауз: %(count)d/%(required)d"
+
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' отключён в настройках AI-обнаружения. Сначала включите его."
 

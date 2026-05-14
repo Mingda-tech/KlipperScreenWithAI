@@ -1834,6 +1834,13 @@ msgstr "翘边检测"
 msgid "Nozzle Blob Detection"
 msgstr "裹头检测"
 
+msgid "Pause Count"
+msgstr "暂停计数"
+
+#, python-format
+msgid "Pause Count: %(count)d/%(required)d"
+msgstr "暂停计数：%(count)d/%(required)d"
+
 msgid "Latest Detection Result"
 msgstr "最新检测结果"
 

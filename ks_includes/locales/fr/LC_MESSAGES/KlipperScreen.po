@@ -1879,6 +1879,13 @@ msgstr "Détection de bord gondolé"
 msgid "Nozzle Blob Detection"
 msgstr "Détection d'amas sur la buse"
 
+msgid "Pause Count"
+msgstr "Nombre de pauses"
+
+#, python-format
+msgid "Pause Count: %(count)d/%(required)d"
+msgstr "Nombre de pauses : %(count)d/%(required)d"
+
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' est désactivé dans les paramètres de détection IA. Veuillez d'abord l'activer."
 

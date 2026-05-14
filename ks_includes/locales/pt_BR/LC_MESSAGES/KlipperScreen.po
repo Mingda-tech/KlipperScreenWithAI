@@ -1895,6 +1895,13 @@ msgstr "Detecção de borda empenada"
 msgid "Nozzle Blob Detection"
 msgstr "Detecção de acúmulo no bico"
 
+msgid "Pause Count"
+msgstr "Contagem de pausas"
+
+#, python-format
+msgid "Pause Count: %(count)d/%(required)d"
+msgstr "Contagem de pausas: %(count)d/%(required)d"
+
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' está desabilitado nas configurações de detecção por IA. Ative-o primeiro."
 

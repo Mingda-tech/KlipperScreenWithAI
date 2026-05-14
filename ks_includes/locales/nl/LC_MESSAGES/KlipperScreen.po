@@ -1690,6 +1690,13 @@ msgstr "Detectie van opkrullende rand"
 msgid "Nozzle Blob Detection"
 msgstr "Detectie van klont aan spuitmond"
 
+msgid "Pause Count"
+msgstr "Aantal pauzes"
+
+#, python-format
+msgid "Pause Count: %(count)d/%(required)d"
+msgstr "Aantal pauzes: %(count)d/%(required)d"
+
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' is uitgeschakeld in de AI-detectie-instellingen. Schakel het eerst in."
 

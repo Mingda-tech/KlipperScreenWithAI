@@ -1890,6 +1890,13 @@ msgstr "Phát hiện cong mép"
 msgid "Nozzle Blob Detection"
 msgstr "Phát hiện nhựa bám đầu phun"
 
+msgid "Pause Count"
+msgstr "Số lần tạm dừng"
+
+#, python-format
+msgid "Pause Count: %(count)d/%(required)d"
+msgstr "Số lần tạm dừng: %(count)d/%(required)d"
+
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' đang bị tắt trong cài đặt phát hiện AI. Vui lòng bật trước."
 

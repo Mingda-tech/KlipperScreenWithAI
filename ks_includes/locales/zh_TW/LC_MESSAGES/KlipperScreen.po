@@ -1826,6 +1826,13 @@ msgstr "翹邊檢測"
 msgid "Nozzle Blob Detection"
 msgstr "噴嘴積料檢測"
 
+msgid "Pause Count"
+msgstr "暫停計數"
+
+#, python-format
+msgid "Pause Count: %(count)d/%(required)d"
+msgstr "暫停計數：%(count)d/%(required)d"
+
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' 在 AI 檢測設定中已停用，請先啟用。"
 

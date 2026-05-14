@@ -54,6 +54,7 @@ PRINTER_BASE_STATUS_OBJECTS = [
 
 klipperscreendir = pathlib.Path(__file__).parent.resolve()
 AI_DETECTION_BASE_DIR = "/home/mingda/ai_detection"
+DEFAULT_AI_DETECTION_PAUSE_CONSECUTIVE = 1
 AI_DETECTION_DISPLAY_NAMES = {
     "spaghetti": "Spaghetti Detection",
     "spaghetti detection": "Spaghetti Detection",
@@ -82,10 +83,12 @@ AI_DETECTION_DISPLAY_NAMES = {
 AI_DETECTION_CATEGORY_CONFIGS = {
     "spaghetti": {
         "default_threshold": 0.70,
+        "default_pause_consecutive": 3,
         "aliases": ("spaghetti", "spaghetti detection", "ai_detect_spaghetti"),
     },
     "warphead": {
         "default_threshold": 0.75,
+        "default_pause_consecutive": 3,
         "aliases": (
             "warphead",
             "warp head",
@@ -97,6 +100,7 @@ AI_DETECTION_CATEGORY_CONFIGS = {
     },
     "tooLessAndTooMuch": {
         "default_threshold": 0.70,
+        "default_pause_consecutive": 1,
         "aliases": (
             "tooLessAndTooMuch",
             "toolessandtoomuch",
@@ -109,6 +113,7 @@ AI_DETECTION_CATEGORY_CONFIGS = {
     },
     "warpEdgesAndNonStick": {
         "default_threshold": 0.70,
+        "default_pause_consecutive": 1,
         "aliases": (
             "warpEdgesAndNonStick",
             "warpedgesandnonstick",
@@ -122,6 +127,7 @@ AI_DETECTION_CATEGORY_CONFIGS = {
     },
     "foreignBody": {
         "default_threshold": 0.60,
+        "default_pause_consecutive": 1,
         "aliases": (
             "foreignBody",
             "foreignbody",
@@ -134,6 +140,7 @@ AI_DETECTION_CATEGORY_CONFIGS = {
     },
     "coco80": {
         "default_threshold": 0.70,
+        "default_pause_consecutive": 1,
         "aliases": ("coco80", "general", "general detection", "ai_detect_coco80"),
     },
 }
@@ -214,6 +221,7 @@ class KlipperScreen(Gtk.Window):
         self.ai_pause_on_defect_enabled = True
         self.ai_detection_categories = {}
         self.ai_detection_settings_loaded = False
+        self.ai_detection_consecutive_counts = {}
         self.auto_open_extrude_runtime_enabled = True
         self.panels_reinit = []
         self.manual_settings = {}
@@ -1157,6 +1165,7 @@ class KlipperScreen(Gtk.Window):
         self.ai_pause_on_defect_enabled = True
         self.ai_detection_categories = {}
         self.ai_detection_settings_loaded = False
+        self.ai_detection_consecutive_counts = {}
 
     def update_ai_detection_settings_cache(self, pause_on_defect=None, categories=None):
         updated = False
@@ -1238,6 +1247,45 @@ class KlipperScreen(Gtk.Window):
         except (TypeError, ValueError):
             return None
 
+    def _get_ai_detection_pause_consecutive_required(self, category_key, category_settings):
+        default_value = AI_DETECTION_CATEGORY_CONFIGS.get(category_key, {}).get(
+            "default_pause_consecutive",
+            DEFAULT_AI_DETECTION_PAUSE_CONSECUTIVE,
+        )
+        raw_value = default_value
+        if isinstance(category_settings, dict):
+            raw_value = category_settings.get(
+                "pause_consecutive_detections",
+                default_value,
+            )
+        try:
+            value = int(raw_value)
+        except (TypeError, ValueError):
+            logging.warning(
+                "AI detection: invalid pause_consecutive_detections for %s: %s",
+                category_key,
+                raw_value,
+            )
+            value = default_value
+        return max(DEFAULT_AI_DETECTION_PAUSE_CONSECUTIVE, value)
+
+    def _reset_ai_detection_consecutive_defects(self, category_key=None):
+        if category_key is None:
+            self.ai_detection_consecutive_counts = {}
+        else:
+            self.ai_detection_consecutive_counts.pop(category_key, None)
+
+    def _get_ai_detection_consecutive_defects(self, result, category_key):
+        if category_key is None:
+            return None
+        try:
+            count = int(result.get("consecutive_defects"))
+        except (TypeError, ValueError):
+            count = self.ai_detection_consecutive_counts.get(category_key, 0) + 1
+        count = max(0, count)
+        self.ai_detection_consecutive_counts[category_key] = count
+        return count
+
     def _should_show_ai_pause_dialog(self, result):
         if not isinstance(result, dict):
             return False, "invalid result payload"
@@ -1279,8 +1327,24 @@ class KlipperScreen(Gtk.Window):
         if confidence is None:
             return False, f"missing confidence for {category_key}"
         if confidence < threshold:
+            self._reset_ai_detection_consecutive_defects(category_key)
             return False, f"confidence {confidence:.3f} below threshold {threshold:.3f} for {category_key}"
-        return True, f"confidence {confidence:.3f} >= threshold {threshold:.3f} for {category_key}"
+
+        required_count = self._get_ai_detection_pause_consecutive_required(
+            category_key,
+            category_settings,
+        )
+        consecutive_defects = self._get_ai_detection_consecutive_defects(result, category_key)
+        if consecutive_defects < required_count:
+            return False, (
+                f"consecutive defects {consecutive_defects}/{required_count} "
+                f"below required count for {category_key}"
+            )
+        return True, (
+            f"confidence {confidence:.3f} >= threshold {threshold:.3f} and "
+            f"consecutive defects {consecutive_defects}/{required_count} "
+            f"for {category_key}"
+        )
 
     def _mark_ai_pause_requested(self):
         self.ai_pause_requested = True
@@ -1510,10 +1574,18 @@ class KlipperScreen(Gtk.Window):
                 logging.warning("AI detection: showing error popup: %s", error_message)
                 self.show_popup_message(error_message, 3)
             self.ai_detection_last_signature = None
+            self._reset_ai_detection_consecutive_defects()
             self._close_ai_detection_dialog()
             return
 
         if not result.get("has_defect", False):
+            primary_detection = self._get_primary_ai_detection(result)
+            category_key = self._resolve_ai_detection_category_key(
+                result.get("defect_type"),
+                result.get("model_name"),
+                primary_detection.get("class_name"),
+            )
+            self._reset_ai_detection_consecutive_defects(category_key)
             logging.info(
                 "AI detection: result is normal, dialog will be closed. model_name=%s defect_type=%s confidence=%s",
                 result.get("model_name"),

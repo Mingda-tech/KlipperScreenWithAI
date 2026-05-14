@@ -1874,6 +1874,13 @@ msgstr "זיהוי קצה מורם"
 msgid "Nozzle Blob Detection"
 msgstr "זיהוי גוש על הדיזה"
 
+msgid "Pause Count"
+msgstr "ספירת השהיות"
+
+#, python-format
+msgid "Pause Count: %(count)d/%(required)d"
+msgstr "ספירת השהיות: %(count)d/%(required)d"
+
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' מושבת בהגדרות זיהוי ה-AI. יש להפעיל אותו תחילה."
 

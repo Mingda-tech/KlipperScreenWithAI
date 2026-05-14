@@ -1588,6 +1588,13 @@ msgstr "Detekce zkroucené hrany"
 msgid "Nozzle Blob Detection"
 msgstr "Detekce nánosu na trysce"
 
+msgid "Pause Count"
+msgstr "Počet pozastavení"
+
+#, python-format
+msgid "Pause Count: %(count)d/%(required)d"
+msgstr "Počet pozastavení: %(count)d/%(required)d"
+
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' je v nastavení AI detekce zakázáno. Nejprve jej povolte."
 

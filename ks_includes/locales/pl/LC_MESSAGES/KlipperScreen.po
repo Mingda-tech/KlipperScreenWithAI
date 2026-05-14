@@ -1686,6 +1686,13 @@ msgstr "Wykrywanie podwiniętej krawędzi"
 msgid "Nozzle Blob Detection"
 msgstr "Wykrywanie grudki na dyszy"
 
+msgid "Pause Count"
+msgstr "Liczba pauz"
+
+#, python-format
+msgid "Pause Count: %(count)d/%(required)d"
+msgstr "Liczba pauz: %(count)d/%(required)d"
+
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' jest wyłączone w ustawieniach wykrywania AI. Najpierw je włącz."
 

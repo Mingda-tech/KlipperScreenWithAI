@@ -1830,6 +1830,13 @@ msgstr "Kõverdunud serva tuvastus"
 msgid "Nozzle Blob Detection"
 msgstr "Düüsi klombi tuvastamine"
 
+msgid "Pause Count"
+msgstr "Pauside arv"
+
+#, python-format
+msgid "Pause Count: %(count)d/%(required)d"
+msgstr "Pauside arv: %(count)d/%(required)d"
+
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' on AI tuvastuse seadetes keelatud. Luba see kõigepealt."
 

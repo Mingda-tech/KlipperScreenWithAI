@@ -1685,6 +1685,13 @@ msgstr "反り縁検出"
 msgid "Nozzle Blob Detection"
 msgstr "ノズル付着物検出"
 
+msgid "Pause Count"
+msgstr "一時停止回数"
+
+#, python-format
+msgid "Pause Count: %(count)d/%(required)d"
+msgstr "一時停止回数: %(count)d/%(required)d"
+
 msgid "'%s' is disabled in AI detection settings. Please enable it first."
 msgstr "'%s' は AI 検出設定で無効になっています。先に有効にしてください。"
 
