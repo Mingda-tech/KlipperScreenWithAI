@@ -80,7 +80,7 @@ class Panel(ScreenPanel):
         self.fan_speed = 35
         self.fans = self._printer.get_fans()
         self.start_time = time.monotonic()
-        self.time_out = 60     #seconds
+        self.time_out = 90     #seconds
         #Nozzle Heating
         for extruder in self._printer.get_tools():
             temp = self._printer.get_dev_stat(extruder, "temperature")
@@ -92,7 +92,7 @@ class Panel(ScreenPanel):
             if dev == "heater_bed":
                 temp = self._printer.get_dev_stat("heater_bed", "temperature")
                 if temp < self.bed_target:
-                    self.bed_target = temp + 5        
+                    self.bed_target = temp + 3        
                     self._screen._ws.klippy.set_bed_temp(self.bed_target)  
 
         #Nozzle Cooling Fan
