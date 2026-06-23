@@ -1,19 +1,31 @@
 import re
 import logging
 import gi
+import urllib.request
 
 gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk, Pango
+from gi.repository import Gtk, Pango, GdkPixbuf, GLib
 from ks_includes.KlippyGcodes import KlippyGcodes
 from ks_includes.screen_panel import ScreenPanel
 
 
 class Panel(ScreenPanel):
+    toolhead_camera_names = ("l_toolheadcam", "toolheadcam")
     distances = ['.01', '.05', '0.1', '0.5', '1', '5', '10']
     distance = distances[-2]
 
     def __init__(self, screen, title):
         super().__init__(screen, title)
+        self.camera_timeout = None
+        self.current_cam = self.get_toolhead_camera()
+        self.camera_frame = None
+        self.camera_image = None
+        if self.current_cam:
+            self.camera_frame = Gtk.Frame()
+            self.camera_image = Gtk.Image()
+            self.camera_frame.add(self.camera_image)
+            self.camera_frame.set_hexpand(True)
+            self.camera_frame.set_vexpand(True)
 
         if self.ks_printer_cfg is not None:
             dis = self.ks_printer_cfg.get("move_distances", '0.01, 0.05, 0.1, 0.5, 1, 5, 10')
@@ -124,9 +136,21 @@ class Panel(ScreenPanel):
         #     bottomgrid.attach(adjust, 3, 0, 1, 2)
 
         self.labels['move_menu'] = self._gtk.HomogeneousGrid()
-        self.labels['move_menu'].attach(grid, 0, 0, 1, 3)
-        self.labels['move_menu'].attach(bottomgrid, 0, 3, 1, 1)
-        self.labels['move_menu'].attach(distgrid, 0, 4, 1, 1)
+        if self.camera_frame:
+            if self._screen.vertical_mode:
+                self.labels['move_menu'].attach(self.camera_frame, 0, 0, 1, 2)
+                self.labels['move_menu'].attach(grid, 0, 2, 1, 3)
+                self.labels['move_menu'].attach(bottomgrid, 0, 5, 1, 1)
+                self.labels['move_menu'].attach(distgrid, 0, 6, 1, 1)
+            else:
+                self.labels['move_menu'].attach(self.camera_frame, 0, 0, 2, 6)
+                self.labels['move_menu'].attach(grid, 2, 0, 2, 3)
+                self.labels['move_menu'].attach(bottomgrid, 2, 3, 2, 1)
+                self.labels['move_menu'].attach(distgrid, 2, 4, 2, 2)
+        else:
+            self.labels['move_menu'].attach(grid, 0, 0, 1, 3)
+            self.labels['move_menu'].attach(bottomgrid, 0, 3, 1, 1)
+            self.labels['move_menu'].attach(distgrid, 0, 4, 1, 1)
 
         self.content.add(self.labels['move_menu'])
 
@@ -314,3 +338,108 @@ class Panel(ScreenPanel):
             "printer.gcode.script",
             script
         )
+
+    def get_toolhead_camera(self):
+        cameras = {
+            cam.get("name"): cam
+            for cam in self._printer.cameras
+            if cam.get("enabled") and cam.get("name") in self.toolhead_camera_names
+        }
+        camera = cameras.get("l_toolheadcam") or cameras.get("toolheadcam")
+        if camera:
+            logging.debug(f"Found zoffset camera: {camera['name']}")
+        return camera
+
+    def get_snapshot_url(self, cam):
+        url = cam.get('snapshot_url', cam.get('stream_url', ''))
+        if not url:
+            return None
+        if url.startswith('/'):
+            endpoint = self._screen.apiclient.endpoint.split(':')
+            url = f"{endpoint[0]}:{endpoint[1]}{url}"
+        return url
+
+    def start_camera(self):
+        if self.current_cam and self.camera_timeout is None:
+            logging.debug(f"Starting camera: {self.current_cam['name']}")
+            self.update_camera_image()
+
+    def stop_camera(self):
+        if self.camera_timeout:
+            GLib.source_remove(self.camera_timeout)
+            self.camera_timeout = None
+        logging.debug("Camera stopped")
+
+    def update_camera_image(self):
+        self.camera_timeout = None
+        if self.current_cam is None or self.camera_image is None:
+            return False
+
+        url = self.get_snapshot_url(self.current_cam)
+        if not url:
+            logging.error("No snapshot URL available")
+            return False
+
+        try:
+            with urllib.request.urlopen(url, timeout=2) as response:
+                data = response.read()
+
+            loader = GdkPixbuf.PixbufLoader()
+            loader.write(data)
+            loader.close()
+            pixbuf = loader.get_pixbuf()
+
+            if pixbuf:
+                rotation = self.current_cam.get('rotation', 0)
+                if rotation == 90:
+                    pixbuf = pixbuf.rotate_simple(GdkPixbuf.PixbufRotation.CLOCKWISE)
+                elif rotation == 180:
+                    pixbuf = pixbuf.rotate_simple(GdkPixbuf.PixbufRotation.UPSIDEDOWN)
+                elif rotation == 270:
+                    pixbuf = pixbuf.rotate_simple(GdkPixbuf.PixbufRotation.COUNTERCLOCKWISE)
+
+                if self.current_cam.get('flip_horizontal', False):
+                    pixbuf = pixbuf.flip(True)
+                if self.current_cam.get('flip_vertical', False):
+                    pixbuf = pixbuf.flip(False)
+
+                if self._screen.vertical_mode:
+                    max_width = max(1, self._gtk.content_width)
+                    max_height = max(1, self._gtk.content_height // 3)
+                else:
+                    max_width = max(1, self._gtk.content_width // 2)
+                    max_height = max(1, self._gtk.content_height)
+
+                img_width = pixbuf.get_width()
+                img_height = pixbuf.get_height()
+                if img_width > 0 and img_height > 0:
+                    scale = max(max_width / img_width, max_height / img_height)
+                    new_width = int(img_width * scale)
+                    new_height = int(img_height * scale)
+
+                    if new_width > 0 and new_height > 0:
+                        pixbuf = pixbuf.scale_simple(new_width, new_height, GdkPixbuf.InterpType.BILINEAR)
+
+                        if new_width > max_width or new_height > max_height:
+                            crop_x = max(0, (new_width - max_width) // 2)
+                            crop_y = max(0, (new_height - max_height) // 2)
+                            crop_w = min(max_width, new_width)
+                            crop_h = min(max_height, new_height)
+                            try:
+                                pixbuf = pixbuf.new_subpixbuf(crop_x, crop_y, crop_w, crop_h)
+                            except Exception as e:
+                                logging.warning(f"Crop failed: {e}")
+
+                self.camera_image.set_from_pixbuf(pixbuf)
+
+        except Exception as e:
+            logging.warning(f"Failed to update camera image: {e}")
+
+        self.camera_timeout = GLib.timeout_add(100, self.update_camera_image)
+        return False
+
+    def activate(self):
+        self.start_camera()
+
+    def deactivate(self):
+        self.stop_camera()
