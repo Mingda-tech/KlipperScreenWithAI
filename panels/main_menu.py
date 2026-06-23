@@ -155,7 +155,23 @@ class Panel(MenuPanel):
             "visible": visible
         }
 
-        devices = sorted(self.devices)
+        def device_sort_key(d):
+            # Keep tool heaters first, then bed, then auxiliary heaters/fans.
+            if d.startswith("extruder"):
+                return (0, d)
+            if d.startswith("heater_generic ") and "extruder" in d.lower():
+                return (0, d)
+            if d == "heater_bed" or d.startswith("heater_bed"):
+                return (1, d)
+            if d.startswith("heater_generic ") and "bed" in d.lower():
+                return (1, d)
+            if d.startswith("heater_generic "):
+                return (2, d)
+            if d.startswith("temperature_fan "):
+                return (3, d)
+            return (4, d)
+
+        devices = sorted(self.devices, key=device_sort_key)
         pos = devices.index(device) + 1
 
         self.labels['devices'].insert_row(pos)

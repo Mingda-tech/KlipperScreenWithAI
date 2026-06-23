@@ -37,7 +37,7 @@ class Panel(ScreenPanel):
         
         z_up_image = "z-farther"
         z_up_label = _("Z Raise")
-        if "MD_400D" in self._printer.get_gcode_macros():
+        if self._printer.use_bed_move():
             z_up_image = "bed_down"
             z_up_label = _("Bed Lower")
             
@@ -147,4 +147,4 @@ class Panel(ScreenPanel):
         # Scale the Pixbuf
         scaled_pixbuf = pixbuf.scale_simple(new_width, new_height, GdkPixbuf.InterpType.BILINEAR)
         
-        return scaled_pixbuf        
+        return scaled_pixbuf

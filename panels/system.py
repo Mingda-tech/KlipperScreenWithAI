@@ -60,7 +60,26 @@ class Panel(ScreenPanel):
         self.grid.attach(separator, 0, self.current_row, 2, 1)
         self.current_row += 1
 
+    def get_machine_sn(self):
+        try:
+            with open("/etc/machine_sn", "r", encoding="utf-8") as sn_file:
+                for line in sn_file:
+                    value = line.strip()
+                    if value and not value.startswith("#"):
+                        return value
+        except FileNotFoundError:
+            return None
+        except Exception as e:
+            logging.error(f"Error reading machine SN: {e}")
+        return None
+
     def populate_info(self):
+        machine_sn = self.get_machine_sn()
+        if machine_sn:
+            self.add_label_to_grid("Machine SN", 0, bold=True)
+            self.add_label_to_grid(machine_sn, 1)
+            self.add_separator()
+
         # Python
         self.add_label_to_grid("Python", 0, bold=True)
         python_info = self.sysinfo.get("python", {})
@@ -108,4 +127,3 @@ class Panel(ScreenPanel):
             self.add_label_to_grid(f"TX Queue Length: {data.get('tx_queue_len', 'Unknown')}", 1)
             self.add_label_to_grid(f"Bitrate: {data.get('bitrate', 'Unknown')}", 1)
             self.add_label_to_grid(f"Driver: {data.get('driver', 'Unknown')}", 1)
-
