@@ -143,8 +143,12 @@ class Panel(ScreenPanel):
                 speed_col = 1
                 extrude_col = 2
             grid.attach(self.labels['zoffset'], z_col, 0, 1, 1)
-            grid.attach(self.labels['z+'], z_col, 1, 1, 1)
-            grid.attach(self.labels['z-'], z_col, 2, 1, 1)
+            if self._printer.use_bed_move():
+                grid.attach(self.labels['z-'], z_col, 1, 1, 1)
+                grid.attach(self.labels['z+'], z_col, 2, 1, 1)
+            else:
+                grid.attach(self.labels['z+'], z_col, 1, 1, 1)
+                grid.attach(self.labels['z-'], z_col, 2, 1, 1)
             grid.attach(zgrid, z_col, 3, 1, 1)
             grid.attach(self.labels['speedfactor'], speed_col, 0, 1, 1)
             grid.attach(self.labels['speed+'], speed_col, 1, 1, 1)
