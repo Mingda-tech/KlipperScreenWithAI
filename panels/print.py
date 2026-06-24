@@ -82,7 +82,7 @@ class Panel(ScreenPanel):
 
     def _has_independent_dual_extruder(self):
         return (
-            "MD_400D" in self._printer.get_gcode_macros()
+            any(macro.startswith("MD_400D") for macro in self._printer.get_gcode_macros())
             or "_USE_INDEPENDENT_DUAL_EXTRUDER" in self._printer.get_hidden_gcode_macros()
         )
 

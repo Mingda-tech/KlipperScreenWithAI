@@ -327,17 +327,20 @@ class BasePanel(ScreenPanel):
             return
         ctx = self.titlebar.get_style_context()
         if active_message is not None:
-            self.control['temp_box'].set_visible(False)
-            self.control['ipaddr_box'].set_visible(False)
+            self.set_titlebar_side_boxes_visible(False)
             if not ctx.has_class(self.TITLEBAR_ERROR_CLASS):
                 ctx.add_class(self.TITLEBAR_ERROR_CLASS)
             self.titlelbl.set_label(active_message)
             return
-        self.control['temp_box'].set_visible(True)
-        self.control['ipaddr_box'].set_visible(True)
+        self.set_titlebar_side_boxes_visible(True)
         if ctx.has_class(self.TITLEBAR_ERROR_CLASS):
             ctx.remove_class(self.TITLEBAR_ERROR_CLASS)
         self.titlelbl.set_label(self.titlebar_normal_label)
+
+    def set_titlebar_side_boxes_visible(self, visible):
+        for item in ("temp_box", "ipaddr_box"):
+            self.control[item].set_no_show_all(not visible)
+            self.control[item].set_visible(visible)
 
     def process_titlebar_gcode_button_alerts(self, data):
         if self.LOW_WATER_LEVEL_BUTTON not in data:
