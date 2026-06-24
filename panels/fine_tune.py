@@ -207,7 +207,7 @@ class Panel(ScreenPanel):
                     logging.info(f"Setting extrudefactor to {self._screen.manual_settings[self.current_extruder]['extrudefactor']}, {self.current_extruder}")
                 
                 # logging.info(f"Setting zoffset to {self._screen.manual_settings[self.current_extruder]['zoffset']}, {self.current_extruder}")
-                if abs(self._screen.manual_settings[self.current_extruder]["zoffset"]) < 10:
+                if 0.001 < abs(self._screen.manual_settings[self.current_extruder]["zoffset"]) < 10:
                     self._screen._ws.klippy.gcode_script(f"SET_GCODE_OFFSET Z={self._screen.manual_settings[self.current_extruder]['zoffset']} MOVE=1")
                     logging.info(f"Setting zoffset to {self._screen.manual_settings[self.current_extruder]['zoffset']}, {self.current_extruder}")
                 self.previous_extruder = self.current_extruder
