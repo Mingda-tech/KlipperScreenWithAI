@@ -28,8 +28,13 @@ class Panel(ScreenPanel):
             self.init_ui()
 
     def get_printer_model(self):
-        printer_model_keys = self._get_printer_model_keys()
+        printer_model_names = self._get_printer_model_names()
         manual_models = self._get_available_manual_models()
+        exact_model = self._match_exact_manual_model(printer_model_names, manual_models)
+        if exact_model:
+            return exact_model
+
+        printer_model_keys = self._get_printer_model_keys(printer_model_names)
         for manual_model in manual_models:
             if self._model_keys(manual_model) & printer_model_keys:
                 return manual_model
@@ -88,7 +93,7 @@ class Panel(ScreenPanel):
                 models.append(entry.name)
         return models
 
-    def _get_printer_model_keys(self):
+    def _get_printer_model_names(self):
         model_names = set()
         if self._printer is not None:
             available_commands = getattr(self._printer, "available_commands", {})
@@ -109,11 +114,28 @@ class Panel(ScreenPanel):
             getattr(self._screen, "connected_printer", None),
             getattr(self._screen, "connecting_to_printer", None),
         )))
+        return model_names
+
+    def _get_printer_model_keys(self, model_names=None):
+        if model_names is None:
+            model_names = self._get_printer_model_names()
         return {
             key
             for model_name in model_names
             for key in self._model_keys(model_name)
         }
+
+    @staticmethod
+    def _match_exact_manual_model(model_names, manual_models):
+        model_names = {
+            str(model_name).strip().casefold()
+            for model_name in model_names
+            if model_name is not None and str(model_name).strip()
+        }
+        for manual_model in manual_models:
+            if manual_model.casefold() in model_names:
+                return manual_model
+        return None
 
     @staticmethod
     def _model_keys(model_name):
