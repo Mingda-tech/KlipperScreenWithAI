@@ -1855,3 +1855,6 @@ msgstr "Otomatik yenileme başarısız oldu. Mevcut QR kodunun süresi yakında 
 
 msgid "QR code expired. Tap Refresh to load a new one."
 msgstr "QR kodunun süresi doldu. Yeni bir kod yüklemek için Yenile'ye dokunun."
+
+msgid "Danger: Water-cooling system has low water level!"
+msgstr "Tehlike: Su soğutma sisteminde su seviyesi düşük!"

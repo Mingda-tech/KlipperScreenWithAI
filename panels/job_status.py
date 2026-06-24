@@ -174,6 +174,9 @@ class Panel(ScreenPanel):
             return
         if not self._zoffset_in_safe_range(self.zoffset):
             return
+        current_zoffset = self._screen.manual_settings[self.current_extruder]["zoffset"]
+        if not self._zoffset_is_adjusted(current_zoffset) and not self._zoffset_is_adjusted(self.zoffset):
+            return
         self._screen.manual_settings[self.current_extruder]["zoffset"] = self.zoffset
 
     def create_status_grid(self, widget=None):
@@ -767,7 +770,7 @@ class Panel(ScreenPanel):
                             logging.info(f"Setting extrudefactor to {self._screen.manual_settings[self.current_extruder]['extrudefactor']}, {self.current_extruder}")
                         
                         # logging.info(f"Setting zoffset to {self._screen.manual_settings[self.current_extruder]['zoffset']}, {self.current_extruder}")
-                        if abs(self._screen.manual_settings[self.current_extruder]["zoffset"]) < 10:
+                        if self._zoffset_is_adjusted(self._screen.manual_settings[self.current_extruder]["zoffset"]):
                             if self._printer.get_stat("toolhead", "homed_axes") != "xyz":
                                 self._screen._ws.klippy.gcode_script(f"SET_GCODE_OFFSET Z={self._screen.manual_settings[self.current_extruder]['zoffset']} MOVE=0")
                             else:

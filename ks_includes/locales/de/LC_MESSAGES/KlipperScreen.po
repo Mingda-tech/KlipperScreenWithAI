@@ -1819,3 +1819,6 @@ msgstr "Die automatische Aktualisierung ist fehlgeschlagen. Der aktuelle QR-Code
 
 msgid "QR code expired. Tap Refresh to load a new one."
 msgstr "Der QR-Code ist abgelaufen. Tippen Sie auf Aktualisieren, um einen neuen zu laden."
+
+msgid "Danger: Water-cooling system has low water level!"
+msgstr "Gefahr: Niedriger Wasserstand im Wasserkühlsystem!"

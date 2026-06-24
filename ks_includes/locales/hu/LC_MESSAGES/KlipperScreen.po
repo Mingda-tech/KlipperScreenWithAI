@@ -1743,3 +1743,6 @@ msgstr "Az automatikus frissítés nem sikerült. Az aktuális QR-kód hamarosan
 
 msgid "QR code expired. Tap Refresh to load a new one."
 msgstr "A QR-kód lejárt. Koppintson a Frissítés gombra egy új betöltéséhez."
+
+msgid "Danger: Water-cooling system has low water level!"
+msgstr "Veszély: Alacsony vízszint a vízhűtő rendszerben!"

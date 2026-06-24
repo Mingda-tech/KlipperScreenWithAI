@@ -1908,3 +1908,6 @@ msgstr "Impossibile aggiornare automaticamente. L'attuale codice QR scadrà pres
 
 msgid "QR code expired. Tap Refresh to load a new one."
 msgstr "Il codice QR è scaduto. Tocca Aggiorna per caricarne uno nuovo."
+
+msgid "Danger: Water-cooling system has low water level!"
+msgstr "Pericolo: livello dell'acqua basso nel sistema di raffreddamento a liquido!"

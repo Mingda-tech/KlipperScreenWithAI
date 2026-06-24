@@ -794,3 +794,6 @@ msgstr ""
 
 msgid "mm³/s"
 msgstr ""
+
+msgid "Danger: Water-cooling system has low water level!"
+msgstr ""

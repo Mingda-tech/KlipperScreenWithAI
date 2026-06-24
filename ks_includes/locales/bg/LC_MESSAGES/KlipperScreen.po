@@ -1325,3 +1325,6 @@ msgstr "Автоматичното опресняване не бе успешн
 
 msgid "QR code expired. Tap Refresh to load a new one."
 msgstr "QR кодът е изтекъл. Натиснете „Обновяване“, за да заредите нов."
+
+msgid "Danger: Water-cooling system has low water level!"
+msgstr "Опасност: Ниско ниво на водата в системата за водно охлаждане!"

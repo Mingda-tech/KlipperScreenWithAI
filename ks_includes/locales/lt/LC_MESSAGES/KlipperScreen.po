@@ -1752,3 +1752,6 @@ msgstr "Nepavyko automatiškai atnaujinti. Dabartinio QR kodo galiojimas netruku
 
 msgid "QR code expired. Tap Refresh to load a new one."
 msgstr "QR kodo galiojimas baigėsi. Palieskite Atnaujinti, kad įkeltumėte naują."
+
+msgid "Danger: Water-cooling system has low water level!"
+msgstr "Pavojus: vandens aušinimo sistemoje žemas vandens lygis!"

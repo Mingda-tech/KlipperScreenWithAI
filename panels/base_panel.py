@@ -14,6 +14,10 @@ from ks_includes.screen_panel import ScreenPanel
 
 
 class BasePanel(ScreenPanel):
+    TITLEBAR_ERROR_CLASS = "message_popup_error"
+    TITLEBAR_ALERT_PRIORITY = ("water_level", "system_usage")
+    LOW_WATER_LEVEL_BUTTON = "gcode_button low_water_level_detection_button"
+
     def __init__(self, screen, title):
         super().__init__(screen, title)
         self.current_panel = None
@@ -23,6 +27,8 @@ class BasePanel(ScreenPanel):
         self.current_extruder = None
         self.last_usage_report = datetime.now()
         self.usage_report = 0
+        self.titlebar_alerts = {}
+        self.titlebar_normal_label = ""
         # Action bar buttons
         self.abscale = self.bts * 1.1
         self.control['back'] = self._gtk.Button('back', scale=self.abscale)
@@ -215,26 +221,21 @@ class BasePanel(ScreenPanel):
         if action == "notify_proc_stat_update":
             cpu = data["system_cpu_usage"]["cpu"]
             memory = (data["system_memory"]["used"] / data["system_memory"]["total"]) * 100
-            error = "message_popup_error"
-            ctx = self.titlebar.get_style_context()
             msg = f"CPU: {cpu:2.0f}%    RAM: {memory:2.0f}%"
             if cpu > 80 or memory > 85:
                 if self.usage_report < 3:
                     self.usage_report += 1
                     return
                 self.last_usage_report = datetime.now()
-                if not ctx.has_class(error):
-                    ctx.add_class(error)
                 self._screen.log_notification(f"{self._screen.connecting_to_printer}: {msg}", 2)
-                self.titlelbl.set_label(msg)
+                self.set_titlebar_alert("system_usage", msg)
                 logging.warning(msg)
-            elif ctx.has_class(error):
+            elif "system_usage" in self.titlebar_alerts:
                 if (datetime.now() - self.last_usage_report).seconds < 5:
-                    self.titlelbl.set_label(msg)
+                    self.set_titlebar_alert("system_usage", msg)
                     return
                 self.usage_report = 0
-                ctx.remove_class(error)
-                self.titlelbl.set_label(f"{self._screen.connecting_to_printer}")
+                self.clear_titlebar_alert("system_usage")
             return
 
         if action == "notify_update_response":
@@ -259,6 +260,7 @@ class BasePanel(ScreenPanel):
 
         if action != "notify_status_update" or self._screen.printer is None:
             return
+        self.process_titlebar_gcode_button_alerts(data)
         devices = (self._printer.get_temp_devices())
         if devices is not None:
             for device in devices:
@@ -302,9 +304,60 @@ class BasePanel(ScreenPanel):
     def show_printer_select(self, show=True):
         self.control['printer_select'].set_visible(show)
 
+    def set_titlebar_alert(self, key, message):
+        self.titlebar_alerts[key] = message
+        self.refresh_titlebar_alert()
+
+    def clear_titlebar_alert(self, key):
+        if key in self.titlebar_alerts:
+            del self.titlebar_alerts[key]
+            self.refresh_titlebar_alert()
+
+    def refresh_titlebar_alert(self):
+        active_message = next(
+            (
+                self.titlebar_alerts[key]
+                for key in self.TITLEBAR_ALERT_PRIORITY
+                if key in self.titlebar_alerts
+            ),
+            None
+        )
+        if not hasattr(self, "titlebar"):
+            self.titlelbl.set_label(active_message or self.titlebar_normal_label)
+            return
+        ctx = self.titlebar.get_style_context()
+        if active_message is not None:
+            self.set_titlebar_side_boxes_visible(False)
+            if not ctx.has_class(self.TITLEBAR_ERROR_CLASS):
+                ctx.add_class(self.TITLEBAR_ERROR_CLASS)
+            self.titlelbl.set_label(active_message)
+            return
+        self.set_titlebar_side_boxes_visible(True)
+        if ctx.has_class(self.TITLEBAR_ERROR_CLASS):
+            ctx.remove_class(self.TITLEBAR_ERROR_CLASS)
+        self.titlelbl.set_label(self.titlebar_normal_label)
+
+    def set_titlebar_side_boxes_visible(self, visible):
+        for item in ("temp_box", "ipaddr_box"):
+            self.control[item].set_no_show_all(not visible)
+            self.control[item].set_visible(visible)
+
+    def process_titlebar_gcode_button_alerts(self, data):
+        if self.LOW_WATER_LEVEL_BUTTON not in data:
+            return
+        button_data = data[self.LOW_WATER_LEVEL_BUTTON]
+        if not isinstance(button_data, dict):
+            return
+        state = button_data.get("state")
+        if state == "PRESSED":
+            self.set_titlebar_alert("water_level", _("Danger: Water-cooling system has low water level!"))
+        elif state == "RELEASED":
+            self.clear_titlebar_alert("water_level")
+
     def set_title(self, title):
         if not title:
-            self.titlelbl.set_label(f"{self._screen.connecting_to_printer}")
+            self.titlebar_normal_label = f"{self._screen.connecting_to_printer}"
+            self.refresh_titlebar_alert()
             return
         try:
             env = Environment(extensions=["jinja2.ext.i18n"], autoescape=True)
@@ -314,7 +367,8 @@ class BasePanel(ScreenPanel):
         except Exception as e:
             logging.debug(f"Error parsing jinja for title: {title}\n{e}")
 
-        self.titlelbl.set_label(f"{self._screen.connecting_to_printer} | {title}")
+        self.titlebar_normal_label = f"{self._screen.connecting_to_printer} | {title}"
+        self.refresh_titlebar_alert()
 
     def update_ipaddr(self):
         new_ipaddr = self.get_host_ip()
@@ -335,6 +389,8 @@ class BasePanel(ScreenPanel):
         return ip
     
     def set_ks_printer_cfg(self, printer):
+        self.titlebar_alerts.clear()
+        self.refresh_titlebar_alert()
         ScreenPanel.ks_printer_cfg = self._config.get_printer_config(printer)
         if self.ks_printer_cfg is not None:
             self.titlebar_name_type = self.ks_printer_cfg.get("titlebar_name_type", None)

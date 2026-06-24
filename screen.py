@@ -53,6 +53,7 @@ PRINTER_BASE_STATUS_OBJECTS = [
 ]
 
 klipperscreendir = pathlib.Path(__file__).parent.resolve()
+MACHINE_SN_PATH = "/etc/machine_sn"
 AI_DETECTION_BASE_DIR = "/home/mingda/ai_detection"
 DEFAULT_AI_DETECTION_PAUSE_CONSECUTIVE = 1
 AI_DETECTION_DISPLAY_NAMES = {
@@ -179,6 +180,20 @@ def state_execute(callback):
     return False
 
 
+def read_machine_sn():
+    try:
+        with open(MACHINE_SN_PATH, "r", encoding="utf-8") as sn_file:
+            for line in sn_file:
+                value = line.strip()
+                if value and not value.startswith("#"):
+                    return value
+    except FileNotFoundError:
+        return None
+    except Exception as e:
+        logging.warning(f"Unable to read machine_sn from {MACHINE_SN_PATH}: {e}")
+    return None
+
+
 class KlipperScreen(Gtk.Window):
     """ Class for creating a screen for Klipper via HDMI """
     _cur_panels = []
@@ -261,6 +276,9 @@ class KlipperScreen(Gtk.Window):
         self.aspect_ratio = self.width / self.height
         self.vertical_mode = self.aspect_ratio < 1.0
         logging.info(f"Screen resolution: {self.width}x{self.height}")
+        machine_sn = read_machine_sn()
+        if machine_sn:
+            logging.info(f"machine_sn: {machine_sn}")
         self.theme = self._config.get_main_config().get('theme', "colorized")
            
         self.show_cursor = self._config.get_main_config().getboolean("show_cursor", fallback=False)
@@ -449,6 +467,8 @@ class KlipperScreen(Gtk.Window):
             requested_updates['objects'][f] = ["enabled", "filament_detected"]
         for p in self.printer.get_output_pins():
             requested_updates['objects'][p] = ["value"]
+        for b in self.printer.get_gcode_buttons():
+            requested_updates['objects'][b] = ["state"]
         for led in self.printer.get_leds():
             requested_updates['objects'][led] = ["color_data"]
 
@@ -1796,6 +1816,7 @@ class KlipperScreen(Gtk.Window):
                        + self.printer.get_fans()
                        + self.printer.get_filament_sensors()
                        + self.printer.get_output_pins()
+                       + self.printer.get_gcode_buttons()
                        + self.printer.get_leds()
                        )
 

@@ -1921,3 +1921,6 @@ msgstr "Automaatne värskendamine ebaõnnestus. Praegune QR-kood aegub peagi."
 
 msgid "QR code expired. Tap Refresh to load a new one."
 msgstr "QR-kood on aegunud. Uue laadimiseks puudutage nuppu Värskenda."
+
+msgid "Danger: Water-cooling system has low water level!"
+msgstr "Oht: vesijahutussüsteemi veetase on madal!"

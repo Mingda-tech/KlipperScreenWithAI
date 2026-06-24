@@ -155,7 +155,19 @@ class Panel(MenuPanel):
             "visible": visible
         }
 
-        devices = sorted(self.devices)
+        def device_sort_key(d):
+            # Keep tool heaters first, then bed, then auxiliary heaters/fans.
+            if d.startswith("extruder"):
+                return (0, d)
+            if d == "heater_bed" or d.startswith("heater_bed"):
+                return (1, d)
+            if d.startswith("heater_generic "):
+                return (2, d)
+            if d.startswith("temperature_fan "):
+                return (3, d)
+            return (4, d)
+
+        devices = sorted(self.devices, key=device_sort_key)
         pos = devices.index(device) + 1
 
         self.labels['devices'].insert_row(pos)
@@ -206,7 +218,8 @@ class Panel(MenuPanel):
 
     def pid_calibrate(self, temp):
         if self.verify_max_temp(temp):
-            script = {"script": f"PID_CALIBRATE HEATER={self.active_heater} TARGET={temp}"}
+            heater = self.active_heater.split()[1] if len(self.active_heater.split()) > 1 else self.active_heater
+            script = {"script": f"PID_CALIBRATE HEATER={heater} TARGET={temp}"}
             self._screen._confirm_send_action(
                 None,
                 _("Initiate a PID calibration for:") + f" {self.active_heater} @ {temp} ºC"
