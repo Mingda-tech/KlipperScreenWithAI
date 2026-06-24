@@ -2009,3 +2009,6 @@ msgstr "4. 在线功能依赖互联网、云服务和第三方服务，可能出
 
 msgid "5. You must protect your account, password, tokens, and pairing QR code and install updates promptly. By tapping Agree, this device will store your choice locally; if you do not agree, connected features will remain unavailable."
 msgstr "5. 您应妥善保护您的账号、密码、令牌和配对二维码，并及时安装更新。点击“同意”后，本机会在本地保存您的选择；如果您不同意，联网功能将保持不可用。"
+
+msgid "Danger: Water-cooling system has low water level!"
+msgstr "危险：水冷系统水位过低！"

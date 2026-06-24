@@ -1676,3 +1676,6 @@ msgstr "Automatické obnovení se nezdařilo. Platnost aktuálního QR kódu brz
 
 msgid "QR code expired. Tap Refresh to load a new one."
 msgstr "Platnost QR kódu vypršela. Klepnutím na Obnovit načtěte nový."
+
+msgid "Danger: Water-cooling system has low water level!"
+msgstr "Nebezpečí: Nízká hladina vody v systému vodního chlazení!"

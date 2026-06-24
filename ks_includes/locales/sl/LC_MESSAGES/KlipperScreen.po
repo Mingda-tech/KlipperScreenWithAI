@@ -1994,3 +1994,6 @@ msgstr "Samodejno osveževanje ni uspelo. Trenutna koda QR bo kmalu potekla."
 
 msgid "QR code expired. Tap Refresh to load a new one."
 msgstr "Koda QR je potekla. Tapnite Osveži, da naložite novo."
+
+msgid "Danger: Water-cooling system has low water level!"
+msgstr "Nevarnost: nizka raven vode v sistemu vodnega hlajenja!"

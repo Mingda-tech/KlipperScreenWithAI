@@ -1735,3 +1735,6 @@ msgstr "Unable to refresh automatically. The current QR code will expire soon."
 
 msgid "QR code expired. Tap Refresh to load a new one."
 msgstr "QR code expired. Tap Refresh to load a new one."
+
+msgid "Danger: Water-cooling system has low water level!"
+msgstr "Danger: Water-cooling system has low water level!"

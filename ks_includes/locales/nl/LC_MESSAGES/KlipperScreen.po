@@ -1778,3 +1778,6 @@ msgstr "Automatisch vernieuwen is mislukt. De huidige QR-code verloopt binnenkor
 
 msgid "QR code expired. Tap Refresh to load a new one."
 msgstr "De QR-code is verlopen. Tik op Vernieuwen om een nieuwe te laden."
+
+msgid "Danger: Water-cooling system has low water level!"
+msgstr "Gevaar: laag waterniveau in het waterkoelsysteem!"

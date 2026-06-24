@@ -17,7 +17,6 @@ class BasePanel(ScreenPanel):
     TITLEBAR_ERROR_CLASS = "message_popup_error"
     TITLEBAR_ALERT_PRIORITY = ("water_level", "system_usage")
     LOW_WATER_LEVEL_BUTTON = "gcode_button low_water_level_detection_button"
-    LOW_WATER_LEVEL_MESSAGE = "Water cooling: low water level!"
 
     def __init__(self, screen, title):
         super().__init__(screen, title)
@@ -328,10 +327,14 @@ class BasePanel(ScreenPanel):
             return
         ctx = self.titlebar.get_style_context()
         if active_message is not None:
+            self.control['temp_box'].set_visible(False)
+            self.control['ipaddr_box'].set_visible(False)
             if not ctx.has_class(self.TITLEBAR_ERROR_CLASS):
                 ctx.add_class(self.TITLEBAR_ERROR_CLASS)
             self.titlelbl.set_label(active_message)
             return
+        self.control['temp_box'].set_visible(True)
+        self.control['ipaddr_box'].set_visible(True)
         if ctx.has_class(self.TITLEBAR_ERROR_CLASS):
             ctx.remove_class(self.TITLEBAR_ERROR_CLASS)
         self.titlelbl.set_label(self.titlebar_normal_label)
@@ -344,7 +347,7 @@ class BasePanel(ScreenPanel):
             return
         state = button_data.get("state")
         if state == "PRESSED":
-            self.set_titlebar_alert("water_level", self.LOW_WATER_LEVEL_MESSAGE)
+            self.set_titlebar_alert("water_level", _("Danger: Water-cooling system has low water level!"))
         elif state == "RELEASED":
             self.clear_titlebar_alert("water_level")
 

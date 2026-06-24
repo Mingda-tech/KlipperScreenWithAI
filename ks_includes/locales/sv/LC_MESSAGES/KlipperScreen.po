@@ -1826,3 +1826,6 @@ msgstr "Automatisk uppdatering misslyckades. Den aktuella QR-koden går snart ut
 
 msgid "QR code expired. Tap Refresh to load a new one."
 msgstr "QR-koden har gått ut. Tryck på Uppdatera för att läsa in en ny."
+
+msgid "Danger: Water-cooling system has low water level!"
+msgstr "Fara: låg vattennivå i vattenkylningssystemet!"

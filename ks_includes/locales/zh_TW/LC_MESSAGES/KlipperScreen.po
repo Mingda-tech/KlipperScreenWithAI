@@ -1913,3 +1913,6 @@ msgstr "無法自動重新整理，目前的 QR Code 即將過期。"
 
 msgid "QR code expired. Tap Refresh to load a new one."
 msgstr "QR Code 已過期，請點擊「重新整理」載入新的 QR Code。"
+
+msgid "Danger: Water-cooling system has low water level!"
+msgstr "危險：水冷系統水位過低！"

@@ -1962,3 +1962,6 @@ msgstr "לא ניתן לרענן אוטומטית. תוקף קוד ה-QR הנו�
 
 msgid "QR code expired. Tap Refresh to load a new one."
 msgstr "תוקף קוד ה-QR פג. הקש על רענון כדי לטעון קוד חדש."
+
+msgid "Danger: Water-cooling system has low water level!"
+msgstr "סכנה: מפלס המים במערכת הקירור במים נמוך!"

@@ -1856,3 +1856,6 @@ msgstr "Не вдалося оновити автоматично. Термін 
 
 msgid "QR code expired. Tap Refresh to load a new one."
 msgstr "Термін дії QR-коду сплив. Натисніть «Оновити», щоб завантажити новий."
+
+msgid "Danger: Water-cooling system has low water level!"
+msgstr "Небезпека: низький рівень води в системі водяного охолодження!"
