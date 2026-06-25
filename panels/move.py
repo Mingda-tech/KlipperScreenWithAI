@@ -28,7 +28,7 @@ class Panel(ScreenPanel):
             config = self._printer.get_config_section(axis)
             if config and 'position_max' in config:
                 max_position = max(max_position, float(config['position_max']))
-        if max_position > 500 and '500' not in self.distances:
+        if max_position > 600 and '500' not in self.distances:
             self.distances = self.distances + ['500']
 
         self.settings = {}
