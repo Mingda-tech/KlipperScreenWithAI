@@ -91,18 +91,8 @@ class Panel(ScreenPanel):
         grid = self._gtk.HomogeneousGrid()
         grid.set_row_homogeneous(False)
 
-        if self._printer.use_bed_move():
-            z_up_image = "bed_down"
-            z_down_image = "bed_up"
-            z_up_label = _("Lower")
-            z_down_label = _("Raise")
-        else:
-            z_up_image = "z-farther"
-            z_down_image = "z-closer"
-            z_up_label = "Z+"
-            z_down_label = "Z-"
-        self.labels['z+'] = self._gtk.Button(z_up_image, z_up_label, "color1")
-        self.labels['z-'] = self._gtk.Button(z_down_image, z_down_label, "color1")
+        self.labels['z+'] = self._gtk.Button("z-offset-plus", None, "color1")
+        self.labels['z-'] = self._gtk.Button("z-offset-minus", None, "color1")
         self.labels['zoffset'] = self._gtk.Button("refresh", '  0.00' + _("mm"),
                                                   "color1", self.bts, Gtk.PositionType.LEFT, 1)
         self.labels['speed+'] = self._gtk.Button("speed+", _("Speed +"), "color3")
@@ -120,17 +110,17 @@ class Panel(ScreenPanel):
                 grid.attach(self.camera_frame, 0, 0, 3, 2)
                 row_offset = 2
             grid.attach(self.labels['z+'], 0, row_offset, 1, 1)
-            grid.attach(self.labels['z-'], 1, row_offset, 1, 1)
-            grid.attach(self.labels['zoffset'], 2, row_offset, 1, 1)
-            grid.attach(zgrid, 0, row_offset + 1, 3, 1)
-            grid.attach(self.labels['speed-'], 0, row_offset + 2, 1, 1)
-            grid.attach(self.labels['speed+'], 1, row_offset + 2, 1, 1)
-            grid.attach(self.labels['speedfactor'], 2, row_offset + 2, 1, 1)
-            grid.attach(spdgrid, 0, row_offset + 3, 3, 1)
-            grid.attach(self.labels['extrude-'], 0, row_offset + 4, 1, 1)
-            grid.attach(self.labels['extrude+'], 1, row_offset + 4, 1, 1)
-            grid.attach(self.labels['extrudefactor'], 2, row_offset + 4, 1, 1)
-            grid.attach(extgrid, 0, row_offset + 5, 3, 1)
+            grid.attach(self.labels['z-'], 0, row_offset + 1, 1, 1)
+            grid.attach(self.labels['zoffset'], 1, row_offset, 2, 2)
+            grid.attach(zgrid, 0, row_offset + 2, 3, 1)
+            grid.attach(self.labels['speed-'], 0, row_offset + 3, 1, 1)
+            grid.attach(self.labels['speed+'], 1, row_offset + 3, 1, 1)
+            grid.attach(self.labels['speedfactor'], 2, row_offset + 3, 1, 1)
+            grid.attach(spdgrid, 0, row_offset + 4, 3, 1)
+            grid.attach(self.labels['extrude-'], 0, row_offset + 5, 1, 1)
+            grid.attach(self.labels['extrude+'], 1, row_offset + 5, 1, 1)
+            grid.attach(self.labels['extrudefactor'], 2, row_offset + 5, 1, 1)
+            grid.attach(extgrid, 0, row_offset + 6, 3, 1)
         else:
             if self.camera_frame:
                 grid.set_column_homogeneous(False)
@@ -143,12 +133,8 @@ class Panel(ScreenPanel):
                 speed_col = 1
                 extrude_col = 2
             grid.attach(self.labels['zoffset'], z_col, 0, 1, 1)
-            if self._printer.use_bed_move():
-                grid.attach(self.labels['z-'], z_col, 1, 1, 1)
-                grid.attach(self.labels['z+'], z_col, 2, 1, 1)
-            else:
-                grid.attach(self.labels['z+'], z_col, 1, 1, 1)
-                grid.attach(self.labels['z-'], z_col, 2, 1, 1)
+            grid.attach(self.labels['z+'], z_col, 1, 1, 1)
+            grid.attach(self.labels['z-'], z_col, 2, 1, 1)
             grid.attach(zgrid, z_col, 3, 1, 1)
             grid.attach(self.labels['speedfactor'], speed_col, 0, 1, 1)
             grid.attach(self.labels['speed+'], speed_col, 1, 1, 1)
