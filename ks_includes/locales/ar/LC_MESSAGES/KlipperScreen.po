@@ -95,6 +95,9 @@ msgstr "معايرة تلقائية"
 msgid "Auto-close notifications"
 msgstr "إغلاق الإشعار التلقائي"
 
+msgid "Auto update reminder"
+msgstr "تذكير تلقائي بالتحديث"
+
 msgid "Auto-open Extrude On Pause"
 msgstr "بثق الفتح التلقائي عند الإيقاف المؤقت"
 
@@ -923,6 +926,9 @@ msgstr "اخر تحديث حتي الان"
 
 msgid "Update"
 msgstr "حدث"
+
+msgid "Update available"
+msgstr "يتوفر تحديث"
 
 msgid "Updating"
 msgstr "يتم التحديث الان"

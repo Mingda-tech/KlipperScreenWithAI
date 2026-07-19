@@ -156,7 +156,7 @@ class KlipperScreenConfig:
                 bools = (
                     'invert_x', 'invert_y', 'invert_z',  'show_cursor', 'confirm_estop',
                     'autoclose_popups', 'use_dpms', 'use_default_menu', 'use-matchbox-keyboard',
-                      "voice_notify", "shutdown_print_end", "filament_box_power"
+                      "voice_notify", "shutdown_print_end", "filament_box_power", "auto_update_reminder"
                 )
                 strs = (
                     'default_printer', 'language', 'print_sort_dir', 'screen_blanking', 
@@ -274,6 +274,8 @@ class KlipperScreenConfig:
                           "value": "True", "callback": screen.set_dpms}},
             {"autoclose_popups": {"section": "main", "name": _("Auto-close notifications"), "type": "binary",
                                   "value": "True"}},
+            {"auto_update_reminder": {"section": "main", "name": _("Auto update reminder"), "type": "binary",
+                                      "value": "True"}},
             # {"show_heater_power": {"section": "main", "name": _("Show Heater Power"), "type": "binary",
             #                        "value": "False", "callback": screen.reload_panels}},
             # {"show_scroll_steppers": {"section": "main", "name": _("Show Scrollbars Buttons"), "type": "binary",

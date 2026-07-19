@@ -91,6 +91,9 @@ msgstr "Calibration Automatique"
 msgid "Auto-close notifications"
 msgstr "Fermeture automatique des notifications"
 
+msgid "Auto update reminder"
+msgstr "Rappel automatique de mise à jour"
+
 msgid "Auto-open Extrude On Pause"
 msgstr "Ouverture automatique de l'extrusion en cas de pause"
 
@@ -741,6 +744,9 @@ msgstr "À jour"
 
 msgid "Update"
 msgstr "Mise à jour"
+
+msgid "Update available"
+msgstr "Mise à jour disponible"
 
 msgid "Updating"
 msgstr "Mise à jour"

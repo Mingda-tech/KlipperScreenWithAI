@@ -90,6 +90,9 @@ msgstr "Otomatik-Kalibrasyon"
 msgid "Auto-close notifications"
 msgstr "Bildirimleri otomatik kapat"
 
+msgid "Auto update reminder"
+msgstr "Otomatik güncelleme hatırlatıcısı"
+
 msgid "Auto-open Extrude On Pause"
 msgstr "Duraklatıldığında Ekstrüzyonu Otomatik Aç"
 
@@ -736,6 +739,9 @@ msgstr "Güncel"
 
 msgid "Update"
 msgstr "Güncelle"
+
+msgid "Update available"
+msgstr "Güncelleme mevcut"
 
 msgid "Updating"
 msgstr "Yükleniyor"

@@ -89,6 +89,9 @@ msgstr "Tự động hiệu chuẩn"
 msgid "Auto-close notifications"
 msgstr "Tự động đóng thông báo"
 
+msgid "Auto update reminder"
+msgstr "Nhắc nhở cập nhật tự động"
+
 msgid "Auto-open Extrude On Pause"
 msgstr "Tự động mở Extrude Khi Tạm Dừng"
 
@@ -920,6 +923,9 @@ msgstr "Cập Nhật"
 
 msgid "Update"
 msgstr "Cập nhật"
+
+msgid "Update available"
+msgstr "Có bản cập nhật"
 
 msgid "Updating"
 msgstr "Đang cập nhật"

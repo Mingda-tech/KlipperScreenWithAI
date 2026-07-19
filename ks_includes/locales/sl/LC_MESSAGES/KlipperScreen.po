@@ -95,6 +95,9 @@ msgstr "Samodejna umeritev"
 msgid "Auto-close notifications"
 msgstr "Samodejno zapri obvestila"
 
+msgid "Auto update reminder"
+msgstr "Samodejni opomnik za posodobitev"
+
 msgid "Auto-open Extrude On Pause"
 msgstr ""
 
@@ -916,6 +919,9 @@ msgstr "Posodobljeno"
 
 msgid "Update"
 msgstr "Posodobi"
+
+msgid "Update available"
+msgstr "Posodobitev je na voljo"
 
 msgid "Updating"
 msgstr "Posodabljam"

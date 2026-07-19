@@ -238,6 +238,8 @@ class KlipperScreen(Gtk.Window):
         self.ai_detection_settings_loaded = False
         self.ai_detection_consecutive_counts = {}
         self.auto_open_extrude_runtime_enabled = True
+        self.auto_update_reminder_checked = False
+        self.auto_update_reminder_pending = False
         self.panels_reinit = []
         self.manual_settings = {}
 
@@ -403,6 +405,8 @@ class KlipperScreen(Gtk.Window):
 
         self.connecting = True
         self.initialized = False
+        self.auto_update_reminder_checked = False
+        self.auto_update_reminder_pending = False
 
         ind = 0
         logging.info(f"Connecting to printer: {name}")
@@ -963,6 +967,87 @@ class KlipperScreen(Gtk.Window):
         if self.on_auto_extruder_switch:
             script = 'ENABLE_AUTO_EXTRUDER_SWITCH'
             self._ws.klippy.gcode_script(script)
+
+        self._schedule_auto_update_reminder()
+
+    def _auto_update_reminder_enabled(self):
+        return self._config.get_main_config().getboolean("auto_update_reminder", fallback=True)
+
+    def _schedule_auto_update_reminder(self):
+        if not self._auto_update_reminder_enabled():
+            return False
+        if self.auto_update_reminder_checked or self.auto_update_reminder_pending:
+            return False
+        if self.updating or not self.initialized or self._ws is None or not self._ws.connected:
+            return False
+        if self.printer is None or self.printer.state != "ready":
+            return False
+        self.auto_update_reminder_pending = True
+        GLib.timeout_add_seconds(2, self._request_auto_update_status)
+        return False
+
+    def _request_auto_update_status(self):
+        if not self._auto_update_reminder_enabled():
+            self.auto_update_reminder_pending = False
+            return False
+        if self.updating or not self.initialized or self._ws is None or not self._ws.connected:
+            self.auto_update_reminder_pending = False
+            return False
+        if self.printer is None or self.printer.state != "ready":
+            self.auto_update_reminder_pending = False
+            return False
+        self.auto_update_reminder_checked = True
+        if not self._ws.send_method("machine.update.status", callback=self._auto_update_status_callback):
+            logging.info("Auto update reminder skipped: unable to request update status")
+            self.auto_update_reminder_pending = False
+        return False
+
+    def _auto_update_status_callback(self, response, method, params):
+        self.auto_update_reminder_pending = False
+        if not self._auto_update_reminder_enabled():
+            logging.info("Auto update reminder skipped: disabled")
+            return
+        if not response or "result" not in response:
+            logging.info(f"Auto update reminder skipped: update manager unavailable ({response})")
+            return
+        result = response["result"]
+        if not isinstance(result, dict):
+            logging.info(f"Auto update reminder skipped: invalid update status ({response})")
+            return
+        version_info = result.get("version_info", {})
+        if not isinstance(version_info, dict) or not any(
+                self._update_info_needs_attention(info) for info in version_info.values()):
+            logging.info("Auto update reminder: no updates available")
+            return
+        if self.updating or self.printer is None or self.printer.state != "ready":
+            logging.info("Auto update reminder skipped: printer is not ready")
+            return
+        if self._cur_panels and self._cur_panels[-1] == "updater":
+            logging.info("Auto update reminder skipped: updater panel already open")
+            return
+        logging.info("Auto update reminder: updates available")
+        self.log_notification(_("Update available"), 1)
+        self.show_panel("updater", _("Update"), remove_all=False)
+
+    @staticmethod
+    def _update_info_needs_attention(info):
+        if not isinstance(info, dict):
+            return False
+        if info.get("configured_type") == "git_repo":
+            if not info.get("is_valid", True) or info.get("is_dirty", False):
+                return True
+            version = info.get("version")
+            remote_version = info.get("remote_version")
+            return version is not None and remote_version is not None and version != remote_version
+        if "package_count" in info:
+            try:
+                return int(info.get("package_count") or 0) > 0
+            except (TypeError, ValueError):
+                logging.info(f"Auto update reminder: invalid package_count in {info}")
+                return False
+        version = info.get("version")
+        remote_version = info.get("remote_version")
+        return version is not None and remote_version is not None and version != remote_version
 
     def state_startup(self):
         self.printer_initializing(_("Firmware is attempting to start"))

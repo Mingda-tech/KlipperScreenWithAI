@@ -92,6 +92,9 @@ msgstr "כיול אוטומטי"
 msgid "Auto-close notifications"
 msgstr "סגירת התראות אוטומטית"
 
+msgid "Auto update reminder"
+msgstr "תזכורת אוטומטית לעדכון"
+
 msgid "Auto-open Extrude On Pause"
 msgstr ""
 
@@ -734,6 +737,9 @@ msgstr "עדכני"
 
 msgid "Update"
 msgstr "עדכון"
+
+msgid "Update available"
+msgstr "עדכון זמין"
 
 msgid "Updating"
 msgstr "מעדכן"

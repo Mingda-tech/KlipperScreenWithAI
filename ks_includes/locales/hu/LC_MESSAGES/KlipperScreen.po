@@ -134,6 +134,9 @@ msgstr "Automatikus kalibrálás"
 msgid "Auto-close notifications"
 msgstr "Értesítések automatikus bezárása"
 
+msgid "Auto update reminder"
+msgstr "Automatikus frissítési emlékeztető"
+
 msgid "Auto-open Extrude On Pause"
 msgstr "Automatikus megnyitás adagolás szünetelése után"
 
@@ -780,6 +783,9 @@ msgstr "Naprakész"
 
 msgid "Update"
 msgstr "Frissítés"
+
+msgid "Update available"
+msgstr "Frissítés érhető el"
 
 msgid "Updating"
 msgstr "Frissítés"

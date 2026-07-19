@@ -90,6 +90,9 @@ msgstr "自動校準"
 msgid "Auto-close notifications"
 msgstr "自動關閉通知"
 
+msgid "Auto update reminder"
+msgstr "自動更新提醒"
+
 msgid "Auto-open Extrude On Pause"
 msgstr ""
 
@@ -733,6 +736,9 @@ msgstr "最新版本"
 
 msgid "Update"
 msgstr "更新"
+
+msgid "Update available"
+msgstr "有可用更新"
 
 msgid "Updating"
 msgstr "正在更新"

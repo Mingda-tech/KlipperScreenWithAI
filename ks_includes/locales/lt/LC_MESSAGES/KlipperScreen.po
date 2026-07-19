@@ -91,6 +91,9 @@ msgstr "Automatinis kalibravimas"
 msgid "Auto-close notifications"
 msgstr "Automatinis pranešimų slėpimas"
 
+msgid "Auto update reminder"
+msgstr "Automatinis naujinimo priminimas"
+
 msgid "Auto-open Extrude On Pause"
 msgstr "Automatiškai atidaryti Extruderio menių kai suveikia Pauzė"
 
@@ -738,6 +741,9 @@ msgstr "Atnaujinta"
 
 msgid "Update"
 msgstr "Atnaujinimai"
+
+msgid "Update available"
+msgstr "Yra naujinys"
 
 msgid "Updating"
 msgstr "Atnaujinama"

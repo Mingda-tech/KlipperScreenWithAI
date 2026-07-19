@@ -85,6 +85,9 @@ msgstr "Automatisk kalibrering"
 msgid "Auto-close notifications"
 msgstr ""
 
+msgid "Auto update reminder"
+msgstr "Automatisk opdateringspåmindelse"
+
 msgid "Auto-open Extrude On Pause"
 msgstr ""
 
@@ -729,6 +732,9 @@ msgstr "Up-to-Date"
 
 msgid "Update"
 msgstr "Opdater"
+
+msgid "Update available"
+msgstr "Opdatering tilgængelig"
 
 msgid "Updating"
 msgstr "Opdatering"

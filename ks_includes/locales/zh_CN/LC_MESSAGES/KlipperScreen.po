@@ -91,6 +91,9 @@ msgstr "自动校准"
 msgid "Auto-close notifications"
 msgstr "自动关闭通知"
 
+msgid "Auto update reminder"
+msgstr "自动更新提醒"
+
 msgid "Auto-open Extrude On Pause"
 msgstr "暂停打印时自动打开挤出控制界面"
 
@@ -754,6 +757,9 @@ msgstr "最新版本"
 
 msgid "Update"
 msgstr "更新"
+
+msgid "Update available"
+msgstr "有可用更新"
 
 msgid "Updating"
 msgstr "正在更新"

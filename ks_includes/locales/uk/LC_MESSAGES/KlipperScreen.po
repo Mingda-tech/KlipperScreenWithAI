@@ -138,6 +138,9 @@ msgstr "Автоматичне калібрування"
 msgid "Auto-close notifications"
 msgstr "Автоматичне закриття сповіщень"
 
+msgid "Auto update reminder"
+msgstr "Автоматичне нагадування про оновлення"
+
 msgid "Auto-open Extrude On Pause"
 msgstr "Автоматично відкриває меню Екструзії під час Паузи"
 
@@ -799,6 +802,9 @@ msgstr "Актуально"
 
 msgid "Update"
 msgstr "Оновлення"
+
+msgid "Update available"
+msgstr "Доступне оновлення"
 
 msgid "Updating"
 msgstr "Оновлення"

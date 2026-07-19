@@ -134,6 +134,9 @@ msgstr "자동 교정"
 msgid "Auto-close notifications"
 msgstr "자동 알림 닫기"
 
+msgid "Auto update reminder"
+msgstr "자동 업데이트 알림"
+
 msgid "Auto-open Extrude On Pause"
 msgstr "일시정지 시 압출 가능"
 
@@ -777,6 +780,9 @@ msgstr "최신 버전 유지 중"
 
 msgid "Update"
 msgstr "업데이트"
+
+msgid "Update available"
+msgstr "업데이트가 있습니다"
 
 msgid "Updating"
 msgstr "업데이트 중"

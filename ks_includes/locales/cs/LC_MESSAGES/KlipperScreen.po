@@ -91,6 +91,9 @@ msgstr "Auto-kalibrace"
 msgid "Auto-close notifications"
 msgstr "Automaticky zavřít upozornění"
 
+msgid "Auto update reminder"
+msgstr "Automatické upozornění na aktualizaci"
+
 msgid "Auto-open Extrude On Pause"
 msgstr "Automatické otevření Extruze při pauze"
 
@@ -734,6 +737,9 @@ msgstr "Aktuální"
 
 msgid "Update"
 msgstr "Aktualizuj"
+
+msgid "Update available"
+msgstr "Je dostupná aktualizace"
 
 msgid "Updating"
 msgstr "Aktualizuji"

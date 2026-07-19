@@ -85,6 +85,9 @@ msgstr ""
 msgid "Auto-close notifications"
 msgstr ""
 
+msgid "Auto update reminder"
+msgstr ""
+
 msgid "Auto-open Extrude On Pause"
 msgstr ""
 
@@ -725,6 +728,9 @@ msgid "Up To Date"
 msgstr ""
 
 msgid "Update"
+msgstr ""
+
+msgid "Update available"
 msgstr ""
 
 msgid "Updating"

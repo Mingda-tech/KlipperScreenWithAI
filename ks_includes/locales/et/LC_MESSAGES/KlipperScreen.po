@@ -89,6 +89,9 @@ msgstr "Automaatne kalibreerimine"
 msgid "Auto-close notifications"
 msgstr "Teatiste automaatne sulgemine"
 
+msgid "Auto update reminder"
+msgstr "Automaatne uuenduse meeldetuletus"
+
 msgid "Auto-open Extrude On Pause"
 msgstr "Pausi ajal ekstrusiooni automaatne avamine"
 
@@ -908,6 +911,9 @@ msgstr "Kuni kuupäevani"
 
 msgid "Update"
 msgstr "Uuenda"
+
+msgid "Update available"
+msgstr "Uuendus on saadaval"
 
 msgid "Updating"
 msgstr "Uuendamine"
