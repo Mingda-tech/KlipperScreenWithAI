@@ -1332,5 +1332,25 @@ msgstr "Автоматичното опресняване не бе успешн
 msgid "QR code expired. Tap Refresh to load a new one."
 msgstr "QR кодът е изтекъл. Натиснете „Обновяване“, за да заредите нов."
 
+msgid "Warning"
+msgstr "Предупреждение"
+
+msgid ""
+"To protect print quality and equipment safety, do not modify printer "
+"parameters without authorization. You are responsible for any consequences "
+"resulting from unauthorized modifications."
+msgstr ""
+"За да се гарантират качеството на печат и безопасността на устройството, не "
+"променяйте параметрите на принтера без разрешение. Потребителят носи "
+"отговорност за всички последствия от неоторизирани промени."
+
 msgid "Danger: Water-cooling system has low water level!"
 msgstr "Опасност: Ниско ниво на водата в системата за водно охлаждане!"
+
+
+msgid "Open the top cover of the machine, then use flush cutters to cut the cable ties inside the machine."
+msgstr "Отворете горния капак на машината, след което използвайте клещи резачки, за да прережете кабелните превръзки вътре в машината."
+
+
+msgid "Please press the Z‑axis lift button to raise the Z‑axis, then remove the foam padding and the tool box located around the bottom of the machine chassis."
+msgstr "Натиснете бутона за повдигане на оста Z, за да повдигнете оста Z, след което отстранете дунапреновите уплътнения и кутията с инструменти около долната част на корпуса на машината."

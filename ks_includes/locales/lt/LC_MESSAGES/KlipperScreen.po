@@ -1759,5 +1759,22 @@ msgstr "Nepavyko automatiškai atnaujinti. Dabartinio QR kodo galiojimas netruku
 msgid "QR code expired. Tap Refresh to load a new one."
 msgstr "QR kodo galiojimas baigėsi. Palieskite Atnaujinti, kad įkeltumėte naują."
 
+msgid ""
+"To protect print quality and equipment safety, do not modify printer "
+"parameters without authorization. You are responsible for any consequences "
+"resulting from unauthorized modifications."
+msgstr ""
+"Siekiant užtikrinti spausdinimo kokybę ir įrenginio saugą, nekeiskite "
+"spausdintuvo parametrų be leidimo. Už bet kokias neleistinų pakeitimų "
+"pasekmes atsako naudotojas."
+
 msgid "Danger: Water-cooling system has low water level!"
 msgstr "Pavojus: vandens aušinimo sistemoje žemas vandens lygis!"
+
+
+msgid "Open the top cover of the machine, then use flush cutters to cut the cable ties inside the machine."
+msgstr "Atidarykite viršutinį įrenginio dangtį, tada žnyplėmis nukirpkite įrenginio viduje esančius kabelių dirželius."
+
+
+msgid "Please press the Z‑axis lift button to raise the Z‑axis, then remove the foam padding and the tool box located around the bottom of the machine chassis."
+msgstr "Paspauskite Z ašies pakėlimo mygtuką, kad pakeltumėte Z ašį, tada išimkite putplasčio paminkštinimą ir įrankių dėžę, esančius aplink įrenginio korpuso apačią."

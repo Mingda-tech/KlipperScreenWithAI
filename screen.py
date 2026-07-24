@@ -240,8 +240,10 @@ class KlipperScreen(Gtk.Window):
         self.auto_open_extrude_runtime_enabled = True
         self.auto_update_reminder_checked = False
         self.auto_update_reminder_pending = False
+        self.first_boot_parameter_warning_shown = False
         self.panels_reinit = []
         self.manual_settings = {}
+        self.manual_settings_print_active = False
 
         configfile = os.path.normpath(os.path.expanduser(args.configfile))
 
@@ -407,6 +409,7 @@ class KlipperScreen(Gtk.Window):
         self.initialized = False
         self.auto_update_reminder_checked = False
         self.auto_update_reminder_pending = False
+        self.first_boot_parameter_warning_shown = False
 
         ind = 0
         logging.info(f"Connecting to printer: {name}")
@@ -886,6 +889,7 @@ class KlipperScreen(Gtk.Window):
         self.printer_initializing(msg + "\n" + state, remove=True)
 
     def state_paused(self):
+        self._start_manual_settings_print_session()
         ai_pause = bool(
             self.ai_pause_active
             or self.ai_pause_requested
@@ -911,6 +915,7 @@ class KlipperScreen(Gtk.Window):
         self.show_panel("job_status", _("Printing"), remove_all=True, preserve_dialogs=preserve_dialogs)
 
     def state_printing(self):
+        self._start_manual_settings_print_session()
         preserve_ai_dialog = self.ai_detection_dialog is not None and not self.ai_pause_active
         if self.ai_pause_active:
             logging.info("Printing state resumed after AI pause, clearing AI detection dialog")
@@ -927,6 +932,7 @@ class KlipperScreen(Gtk.Window):
         self._show_job_status_panel(preserve_ai_detection_dialog=preserve_ai_dialog)
 
     def state_ready(self, wait=True):
+        self.manual_settings_print_active = False
         self._clear_ai_pause_state()
         self._close_ai_detection_dialog()
         # Do not return to main menu if completing a job, timeouts/user input will return
@@ -954,6 +960,7 @@ class KlipperScreen(Gtk.Window):
         if self.setup_init == 1:
             # Always show language selection first
             self.show_panel("setup_wizard", _("Choose Language"), remove_all=True)
+            self.show_first_boot_parameter_warning()
         elif self.auto_check:
             self.show_panel("self_check", _("Self-check"), remove_all=True)
         self.auto_check = False
@@ -970,10 +977,85 @@ class KlipperScreen(Gtk.Window):
 
         self._schedule_auto_update_reminder()
 
+    def show_first_boot_parameter_warning(self):
+        if self.first_boot_parameter_warning_shown:
+            return
+
+        self.first_boot_parameter_warning_shown = True
+        warning = _(
+            "To protect print quality and equipment safety, do not modify printer parameters without authorization. "
+            "You are responsible for any consequences resulting from unauthorized modifications."
+        )
+        if "。" in warning:
+            warning = warning.replace("。", "。\n\n", 1)
+        elif ". " in warning:
+            warning = warning.replace(". ", ".\n\n", 1)
+
+        content_width = int(self.width * (0.86 if self.vertical_mode else 0.72))
+        spacing = max(8, int(self.gtk.font_size * 0.55))
+        content = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=spacing)
+        content.set_halign(Gtk.Align.CENTER)
+        content.set_valign(Gtk.Align.CENTER)
+        content.set_size_request(content_width, -1)
+        content.get_style_context().add_class("first-boot-warning")
+
+        icon_size = int(self.gtk.img_scale * 1.6)
+        icon = self.gtk.Image("warning", icon_size, icon_size)
+        icon.set_halign(Gtk.Align.CENTER)
+        icon.get_style_context().add_class("first-boot-warning-icon")
+        content.pack_start(icon, False, False, 0)
+
+        title = Gtk.Label(label=_("Warning"))
+        title.set_halign(Gtk.Align.CENTER)
+        title.get_style_context().add_class("first-boot-warning-title")
+        content.pack_start(title, False, False, 0)
+
+        divider = Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL)
+        divider.set_hexpand(True)
+        divider.get_style_context().add_class("first-boot-warning-divider")
+        content.pack_start(divider, False, False, 0)
+
+        message = Gtk.Label(label=warning)
+        message.set_line_wrap(True)
+        message.set_line_wrap_mode(Pango.WrapMode.WORD_CHAR)
+        message.set_justify(Gtk.Justification.LEFT if self.lang_ltr else Gtk.Justification.RIGHT)
+        message.set_xalign(0 if self.lang_ltr else 1)
+        message.set_halign(Gtk.Align.FILL)
+        message.set_hexpand(True)
+        message.get_style_context().add_class("first-boot-warning-message")
+        content.pack_start(message, False, False, 0)
+
+        buttons = [
+            {"name": _("Accept"), "response": Gtk.ResponseType.OK},
+        ]
+        dialog = self.gtk.Dialog(
+            _("Warning"),
+            buttons,
+            content,
+            self._first_boot_parameter_warning_response,
+        )
+        dialog.get_style_context().add_class("first-boot-warning-dialog")
+        confirm = dialog.get_widget_for_response(Gtk.ResponseType.OK)
+        confirm.get_style_context().add_class("first-boot-warning-confirm")
+
+    def _first_boot_parameter_warning_response(self, dialog, response_id):
+        self.gtk.remove_dialog(dialog)
+
+    def _start_manual_settings_print_session(self):
+        if not self.manual_settings_print_active:
+            self.manual_settings.clear()
+            self.manual_settings_print_active = True
+
     def _auto_update_reminder_enabled(self):
         return self._config.get_main_config().getboolean("auto_update_reminder", fallback=True)
 
+    def _first_boot_setup_active(self):
+        return self.setup_init != 0
+
     def _schedule_auto_update_reminder(self):
+        if self._first_boot_setup_active():
+            logging.info("Auto update reminder skipped: first-boot setup is active")
+            return False
         if not self._auto_update_reminder_enabled():
             return False
         if self.auto_update_reminder_checked or self.auto_update_reminder_pending:
@@ -987,6 +1069,10 @@ class KlipperScreen(Gtk.Window):
         return False
 
     def _request_auto_update_status(self):
+        if self._first_boot_setup_active():
+            logging.info("Auto update reminder skipped: first-boot setup is active")
+            self.auto_update_reminder_pending = False
+            return False
         if not self._auto_update_reminder_enabled():
             self.auto_update_reminder_pending = False
             return False
@@ -1004,6 +1090,9 @@ class KlipperScreen(Gtk.Window):
 
     def _auto_update_status_callback(self, response, method, params):
         self.auto_update_reminder_pending = False
+        if self._first_boot_setup_active():
+            logging.info("Auto update reminder skipped: first-boot setup is active")
+            return
         if not self._auto_update_reminder_enabled():
             logging.info("Auto update reminder skipped: disabled")
             return

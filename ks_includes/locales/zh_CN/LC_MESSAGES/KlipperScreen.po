@@ -1379,6 +1379,14 @@ msgstr "确定"
 msgid "Warning"
 msgstr "警告"
 
+msgid ""
+"To protect print quality and equipment safety, do not modify printer "
+"parameters without authorization. You are responsible for any consequences "
+"resulting from unauthorized modifications."
+msgstr ""
+"为保障打印质量与设备安全，禁止擅自更改打印机参数。因擅自更改造成的相关后果，"
+"由用户自行承担。"
+
 msgid "Do you want to enable multi-material box?"
 msgstr "是否要启用多材料盒？"
 
@@ -2018,3 +2026,11 @@ msgstr "5. 您应妥善保护您的账号、密码、令牌和配对二维码，
 
 msgid "Danger: Water-cooling system has low water level!"
 msgstr "危险：水冷系统水位过低！"
+
+
+msgid "Open the top cover of the machine, then use flush cutters to cut the cable ties inside the machine."
+msgstr "打开机器顶盖，然后使用斜口钳剪断机器内部的扎带。"
+
+
+msgid "Please press the Z‑axis lift button to raise the Z‑axis, then remove the foam padding and the tool box located around the bottom of the machine chassis."
+msgstr "请按下 Z 轴抬升按钮以抬升 Z 轴，然后取出位于机器机箱底部周围的泡沫垫和工具箱。"

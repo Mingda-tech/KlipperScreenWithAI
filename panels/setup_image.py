@@ -4,6 +4,7 @@ import pathlib
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, GdkPixbuf, Pango
+from ks_includes.foam_images import printer_matches_model, resolve_foam_image_path
 from ks_includes.screen_panel import ScreenPanel
 
 klipperscreendir = pathlib.Path(__file__).parent.resolve().parent
@@ -12,8 +13,15 @@ class Panel(ScreenPanel):
     def __init__(self, screen, title):
         super().__init__(screen, title)
         
-        # You can change this path to your desired image
-        self.image_path = os.path.join(klipperscreendir, "ks_includes", "locales", "en", "manual", "remove_foam1.jpg")
+        manual_path = os.path.join(
+            klipperscreendir, "ks_includes", "locales", "en", "manual"
+        )
+        self.image_path = resolve_foam_image_path(
+            manual_path,
+            self._printer,
+            self._screen,
+            "remove_foam1.jpg",
+        )
         self.init_ui()
 
     def init_ui(self):
@@ -34,8 +42,15 @@ class Panel(ScreenPanel):
         self.update_image()
         grid.attach(self.image, 0, 1, 5, 4)  # Changed from (0, 2, 5, 8) to (0, 2, 5, 4)
         
+        instruction_text = _(
+            "Open the top cover of the machine, then use flush cutters to cut "
+            "the cable ties inside the machine."
+        ) if printer_matches_model(self._printer, self._screen, "MD_T450") else _(
+            "Please remove the extruder foam and take out the door handle."
+        )
+
         tip_label = Gtk.Label()
-        tip_label.set_markup(f'<span foreground="red">{_("Please remove the extruder foam and take out the door handle.")}</span>')
+        tip_label.set_markup(f'<span foreground="red">{instruction_text}</span>')
         # 设置自动换行以防止文字越界
         tip_label.set_line_wrap(True)
         tip_label.set_line_wrap_mode(Pango.WrapMode.WORD_CHAR)

@@ -2001,5 +2001,22 @@ msgstr "Samodejno osveževanje ni uspelo. Trenutna koda QR bo kmalu potekla."
 msgid "QR code expired. Tap Refresh to load a new one."
 msgstr "Koda QR je potekla. Tapnite Osveži, da naložite novo."
 
+msgid ""
+"To protect print quality and equipment safety, do not modify printer "
+"parameters without authorization. You are responsible for any consequences "
+"resulting from unauthorized modifications."
+msgstr ""
+"Zaradi zagotavljanja kakovosti tiskanja in varnosti naprave ne spreminjajte "
+"parametrov tiskalnika brez dovoljenja. Uporabnik je odgovoren za vse "
+"posledice nepooblaščenih sprememb."
+
 msgid "Danger: Water-cooling system has low water level!"
 msgstr "Nevarnost: nizka raven vode v sistemu vodnega hlajenja!"
+
+
+msgid "Open the top cover of the machine, then use flush cutters to cut the cable ties inside the machine."
+msgstr "Odprite zgornji pokrov naprave, nato pa s kleščami za rezanje prerežite kabelske vezice v notranjosti naprave."
+
+
+msgid "Please press the Z‑axis lift button to raise the Z‑axis, then remove the foam padding and the tool box located around the bottom of the machine chassis."
+msgstr "Pritisnite gumb za dvig osi Z, da dvignete os Z, nato pa odstranite penasto oblazinjenje in škatlo z orodjem ob spodnjem delu ohišja naprave."

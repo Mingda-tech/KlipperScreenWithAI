@@ -217,15 +217,12 @@ class Panel(ScreenPanel):
     def update_image(self):
         if self.image_files:
             filename = self.image_files[self.current_image_index]
-            new_width = 900
-            new_height = 450
-            if self._screen.width == 1280 and self._screen.height == 800:
-                new_width = 1000
-                new_height = 600
-            elif self._screen.width == 800 and self._screen.height == 480:
-                new_width = 600
-                new_height = 320
-            scaled_pixbuf = scale_image(filename, new_width, new_height)
+            # The image spans five of the grid's six homogeneous rows. Scale it
+            # against the actual content area so larger displays are not limited
+            # to the old 900x450 fallback size.
+            max_width = max(1, int(self._gtk.content_width * .96))
+            max_height = max(1, int(self._gtk.content_height * .80))
+            scaled_pixbuf = scale_image(filename, max_width, max_height)
             self.image.set_from_pixbuf(scaled_pixbuf)
 
     def update_label(self):
@@ -249,7 +246,12 @@ class Panel(ScreenPanel):
             self.update_label()
 
 
-def scale_image(filename, new_width, new_height):
+def scale_image(filename, max_width, max_height):
     pixbuf = GdkPixbuf.Pixbuf.new_from_file(filename)
+    width = pixbuf.get_width()
+    height = pixbuf.get_height()
+    scale = min(max_width / width, max_height / height)
+    new_width = max(1, round(width * scale))
+    new_height = max(1, round(height * scale))
     scaled_pixbuf = pixbuf.scale_simple(new_width, new_height, GdkPixbuf.InterpType.BILINEAR)
     return scaled_pixbuf

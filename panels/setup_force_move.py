@@ -5,6 +5,7 @@ import pathlib
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, GdkPixbuf, Pango
+from ks_includes.foam_images import printer_matches_model, resolve_foam_image_path
 from ks_includes.screen_panel import ScreenPanel
 
 klipperscreendir = pathlib.Path(__file__).parent.resolve().parent
@@ -24,7 +25,15 @@ class Panel(ScreenPanel):
                 logging.info("Setup Force Move: Z axis is not homed. Enabling stepper_z.")
                 self._screen._send_action(None, "printer.gcode.script", {"script": "SET_STEPPER_ENABLE STEPPER=stepper_z ENABLE=1"})
                 self._screen._send_action(None, "printer.gcode.script", {"script": "G4 P2000"})
-        self.image_path = os.path.join(klipperscreendir, "ks_includes", "locales", "en", "manual", "remove_foam2.jpg")
+        manual_path = os.path.join(
+            klipperscreendir, "ks_includes", "locales", "en", "manual"
+        )
+        self.image_path = resolve_foam_image_path(
+            manual_path,
+            self._printer,
+            self._screen,
+            "remove_foam2.jpg",
+        )
         self.init_ui()
 
     def init_ui(self):
@@ -38,8 +47,8 @@ class Panel(ScreenPanel):
         z_up_image = "z-farther"
         z_up_label = _("Z Raise")
         if self._printer.use_bed_move():
-            z_up_image = "bed_down"
-            z_up_label = _("Bed Lower")
+            z_up_image = "bed_up"
+            z_up_label = _("Bed Raise")
             
         self.z_raise_btn = self._gtk.Button(z_up_image, None, "color3", scale=.66)
         self.z_raise_btn.connect("clicked", self.move_z_up)
@@ -53,7 +62,14 @@ class Panel(ScreenPanel):
         self.update_image()
         grid.attach(self.image, 0, 1, 5, 4)
 
-        instruction_text = _("Please click the Z raise button to raise the Z axis to remove the foam around the bottom of the case.")
+        instruction_text = _(
+            "Please press the Z‑axis lift button to raise the Z‑axis, then "
+            "remove the foam padding and the tool box located around the "
+            "bottom of the machine chassis."
+        ) if printer_matches_model(self._printer, self._screen, "MD_T450") else _(
+            "Please click the Z raise button to raise the Z axis to remove "
+            "the foam around the bottom of the case."
+        )
             
         tip_label = Gtk.Label()
         tip_label.set_markup(f'<span foreground="red">{instruction_text}</span>')
@@ -82,7 +98,7 @@ class Panel(ScreenPanel):
         self.distance = dist
 
     def move_z_up(self, widget):
-        dist = 70.0
+        dist = -70.0 if self._printer.use_bed_move() else 70.0
         speed = 2  # Z speed in mm/s
         
         # Check if Z is homed
@@ -97,7 +113,7 @@ class Panel(ScreenPanel):
             else:
                 # Use force move if not homed
                 logging.info(f"Force moving Z up by {dist}mm at {speed}mm/s (not homed)")
-                if dist >= 2:
+                if abs(dist) >= 2:
                     accel = 60
                     self._screen._send_action(None, "printer.gcode.script",
                         {"script": f"FORCE_MOVE STEPPER=stepper_z DISTANCE={dist} VELOCITY={speed} ACCEL={accel}"})

@@ -6,6 +6,12 @@ import urllib.request
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, GdkPixbuf, GLib
 from ks_includes.KlippyGcodes import KlippyGcodes
+from ks_includes.manual_settings import (
+    build_zoffset_restore_command,
+    ensure_manual_settings,
+    get_manual_zoffset,
+    store_manual_zoffset,
+)
 from ks_includes.screen_panel import ScreenPanel
 
 
@@ -24,6 +30,16 @@ class Panel(ScreenPanel):
 
     def __init__(self, screen, title):
         super().__init__(screen, title)
+        self.z_offset = 0.0
+        self.speed = 100
+        self.extrusion = 100
+        self.previous_extruder = ''
+        self.extruder_target = 0
+        ensure_manual_settings(
+            self._screen.manual_settings,
+            self._printer.get_tools(),
+            right_zoffset=self._get_configured_right_zoffset(),
+        )
         self.camera_timeout = None
         self.current_cam = None
         self.cameras = self.get_toolhead_cameras()
@@ -158,13 +174,47 @@ class Panel(ScreenPanel):
         self.update_camera_for_extruder()
         self.content.add(grid)
 
+    def _get_configured_right_zoffset(self):
+        if self._screen.klippy_config is None:
+            self._screen.load_klipper_config()
+        if self._screen.klippy_config is None:
+            return 0.0
+        try:
+            return self._screen.klippy_config.getfloat("Variables", "e1_zoffset", fallback=0.0)
+        except (TypeError, ValueError):
+            logging.warning("Invalid saved right extruder Z offset; using 0")
+            return 0.0
+
+    def _restore_zoffset(self, extruder):
+        zoffset = get_manual_zoffset(self._screen.manual_settings, extruder)
+        script = build_zoffset_restore_command(
+            zoffset,
+            homed=self._printer.get_stat("toolhead", "homed_axes") == "xyz",
+        )
+        if script is None:
+            logging.info(f"Z offset for {extruder} is unknown; keeping the value set by the tool change")
+            return
+        self._screen._ws.klippy.gcode_script(script)
+        logging.info(f"Restoring Z offset to {zoffset} for {extruder}")
+
     def process_update(self, action, data):
         if action != "notify_status_update":
             return
+        current_extruder = self._printer.get_stat("toolhead", "extruder")
+        tool_changed = current_extruder != self.current_extruder
+        self.current_extruder = current_extruder
+        self.update_camera_for_extruder()
         if "gcode_move" in data:
             if "homing_origin" in data["gcode_move"]:
                 self.labels['zoffset'].set_label(f'  {data["gcode_move"]["homing_origin"][2]:.3f}mm')
                 self.z_offset = float(data["gcode_move"]["homing_origin"][2])
+                if not tool_changed or get_manual_zoffset(
+                        self._screen.manual_settings, self.current_extruder) is None:
+                    store_manual_zoffset(
+                        self._screen.manual_settings,
+                        self.current_extruder,
+                        self.z_offset,
+                    )
             if "extrude_factor" in data["gcode_move"]:
                 self.extrusion = round(float(data["gcode_move"]["extrude_factor"]) * 100)
                 self.labels['extrudefactor'].set_label(f"  {self.extrusion:3}%")
@@ -172,8 +222,6 @@ class Panel(ScreenPanel):
                 self.speed = round(float(data["gcode_move"]["speed_factor"]) * 100)
                 self.labels['speedfactor'].set_label(f"  {self.speed:3}%")
 
-        self.current_extruder = self._printer.get_stat("toolhead", "extruder")
-        self.update_camera_for_extruder()
         for x in self._printer.get_temp_devices():
             if x in data and x == self.current_extruder:
                 self.extruder_target = self._printer.get_dev_stat(x, "target")
@@ -197,12 +245,18 @@ class Panel(ScreenPanel):
                     logging.info(f"Setting extrudefactor to {self._screen.manual_settings[self.current_extruder]['extrudefactor']}, {self.current_extruder}")
                 
                 # logging.info(f"Setting zoffset to {self._screen.manual_settings[self.current_extruder]['zoffset']}, {self.current_extruder}")
-                if 0.001 < abs(self._screen.manual_settings[self.current_extruder]["zoffset"]) < 10:
-                    self._screen._ws.klippy.gcode_script(f"SET_GCODE_OFFSET Z={self._screen.manual_settings[self.current_extruder]['zoffset']} MOVE=1")
-                    logging.info(f"Setting zoffset to {self._screen.manual_settings[self.current_extruder]['zoffset']}, {self.current_extruder}")
+                self._restore_zoffset(self.current_extruder)
                 self.previous_extruder = self.current_extruder
     def change_babystepping(self, widget, direction):
+        current_extruder = self._printer.get_stat("toolhead", "extruder")
         if direction == "reset":
+            self.z_offset = 0.0
+            store_manual_zoffset(
+                self._screen.manual_settings,
+                current_extruder,
+                self.z_offset,
+                manually_set=True,
+            )
             self.labels['zoffset'].set_label('  0.00mm')
             self._screen._send_action(widget, "printer.gcode.script", {"script": "SET_GCODE_OFFSET Z=0 MOVE=1"})
             return
@@ -210,8 +264,12 @@ class Panel(ScreenPanel):
             self.z_offset += float(self.z_delta)
         elif direction == "-":
             self.z_offset -= float(self.z_delta)
-        current_extruder = self._printer.get_stat("toolhead", "extruder")
-        self._screen.manual_settings[current_extruder]["zoffset"] = self.z_offset
+        store_manual_zoffset(
+            self._screen.manual_settings,
+            current_extruder,
+            self.z_offset,
+            manually_set=True,
+        )
         self.labels['zoffset'].set_label(f'  {self.z_offset:.3f}mm')
         self._screen._send_action(widget, "printer.gcode.script",
                                   {"script": f"SET_GCODE_OFFSET Z_ADJUST={direction}{self.z_delta} MOVE=1"})

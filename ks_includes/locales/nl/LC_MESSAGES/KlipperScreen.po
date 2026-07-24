@@ -1785,5 +1785,22 @@ msgstr "Automatisch vernieuwen is mislukt. De huidige QR-code verloopt binnenkor
 msgid "QR code expired. Tap Refresh to load a new one."
 msgstr "De QR-code is verlopen. Tik op Vernieuwen om een nieuwe te laden."
 
+msgid ""
+"To protect print quality and equipment safety, do not modify printer "
+"parameters without authorization. You are responsible for any consequences "
+"resulting from unauthorized modifications."
+msgstr ""
+"Wijzig de printerparameters niet zonder toestemming, om de afdrukkwaliteit "
+"en de veiligheid van het apparaat te waarborgen. De gebruiker is "
+"verantwoordelijk voor alle gevolgen van ongeoorloofde wijzigingen."
+
 msgid "Danger: Water-cooling system has low water level!"
 msgstr "Gevaar: laag waterniveau in het waterkoelsysteem!"
+
+
+msgid "Open the top cover of the machine, then use flush cutters to cut the cable ties inside the machine."
+msgstr "Open de bovenklep van de machine en knip vervolgens met een vlakkniptang de kabelbinders in de machine door."
+
+
+msgid "Please press the Z‑axis lift button to raise the Z‑axis, then remove the foam padding and the tool box located around the bottom of the machine chassis."
+msgstr "Druk op de knop om de Z-as omhoog te brengen en verwijder vervolgens de schuimvulling en de gereedschapskist rond de onderkant van het machinechassis."

@@ -1920,5 +1920,21 @@ msgstr "無法自動重新整理，目前的 QR Code 即將過期。"
 msgid "QR code expired. Tap Refresh to load a new one."
 msgstr "QR Code 已過期，請點擊「重新整理」載入新的 QR Code。"
 
+msgid ""
+"To protect print quality and equipment safety, do not modify printer "
+"parameters without authorization. You are responsible for any consequences "
+"resulting from unauthorized modifications."
+msgstr ""
+"為保障列印品質與設備安全，禁止擅自更改印表機參數。因擅自更改造成的相關後果，"
+"由使用者自行承擔。"
+
 msgid "Danger: Water-cooling system has low water level!"
 msgstr "危險：水冷系統水位過低！"
+
+
+msgid "Open the top cover of the machine, then use flush cutters to cut the cable ties inside the machine."
+msgstr "打開機器頂蓋，然後使用斜口鉗剪斷機器內部的束帶。"
+
+
+msgid "Please press the Z‑axis lift button to raise the Z‑axis, then remove the foam padding and the tool box located around the bottom of the machine chassis."
+msgstr "請按下 Z 軸抬升按鈕以抬升 Z 軸，然後取出位於機器機箱底部周圍的泡棉墊和工具箱。"

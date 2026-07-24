@@ -1846,5 +1846,21 @@ msgstr "자동 새로고침에 실패했습니다. 현재 QR 코드는 곧 만�
 msgid "QR code expired. Tap Refresh to load a new one."
 msgstr "QR 코드가 만료되었습니다. 새 코드를 불러오려면 새로고침을 누르세요."
 
+msgid ""
+"To protect print quality and equipment safety, do not modify printer "
+"parameters without authorization. You are responsible for any consequences "
+"resulting from unauthorized modifications."
+msgstr ""
+"출력 품질과 장비 안전을 위해 허가 없이 프린터 매개변수를 변경하지 마십시오. 무단 "
+"변경으로 인해 발생하는 모든 결과에 대한 책임은 사용자에게 있습니다."
+
 msgid "Danger: Water-cooling system has low water level!"
 msgstr "위험: 수랭 시스템의 수위가 낮습니다!"
+
+
+msgid "Open the top cover of the machine, then use flush cutters to cut the cable ties inside the machine."
+msgstr "장비의 상단 커버를 연 다음 플러시 커터를 사용하여 장비 내부의 케이블 타이를 자르십시오."
+
+
+msgid "Please press the Z‑axis lift button to raise the Z‑axis, then remove the foam padding and the tool box located around the bottom of the machine chassis."
+msgstr "Z축 상승 버튼을 눌러 Z축을 올린 다음 장비 섀시 하단 주변에 있는 폼 완충재와 공구 상자를 제거하십시오."

@@ -304,6 +304,36 @@ trough {
     border-bottom-color: @error;
 }
 
+.dialog.first-boot-warning-dialog button {
+    border-bottom-color: @warning;
+    font-weight: bold;
+}
+
+.first-boot-warning {
+    padding: .5em 1.5em 0;
+}
+
+.first-boot-warning-icon {
+    margin-bottom: .2em;
+}
+
+.first-boot-warning-title {
+    color: @warning;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.first-boot-warning-divider {
+    background-color: @warning;
+    min-height: .12em;
+    margin: .15em 1.5em .35em;
+}
+
+.first-boot-warning-message {
+    font-size: 1.05em;
+    padding: .4em 1em 0;
+}
+
 .distbutton_active {
     background-color: @active;
     font-weight: 600;

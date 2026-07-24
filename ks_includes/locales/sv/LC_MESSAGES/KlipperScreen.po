@@ -1833,5 +1833,22 @@ msgstr "Automatisk uppdatering misslyckades. Den aktuella QR-koden går snart ut
 msgid "QR code expired. Tap Refresh to load a new one."
 msgstr "QR-koden har gått ut. Tryck på Uppdatera för att läsa in en ny."
 
+msgid ""
+"To protect print quality and equipment safety, do not modify printer "
+"parameters without authorization. You are responsible for any consequences "
+"resulting from unauthorized modifications."
+msgstr ""
+"För att säkerställa utskriftskvaliteten och utrustningens säkerhet får "
+"skrivarens parametrar inte ändras utan tillstånd. Användaren ansvarar för "
+"alla konsekvenser av obehöriga ändringar."
+
 msgid "Danger: Water-cooling system has low water level!"
 msgstr "Fara: låg vattennivå i vattenkylningssystemet!"
+
+
+msgid "Open the top cover of the machine, then use flush cutters to cut the cable ties inside the machine."
+msgstr "Öppna maskinens övre kåpa och använd sedan en sidavbitare för att klippa av buntbanden inuti maskinen."
+
+
+msgid "Please press the Z‑axis lift button to raise the Z‑axis, then remove the foam padding and the tool box located around the bottom of the machine chassis."
+msgstr "Tryck på knappen för att höja Z-axeln och ta sedan bort skumplastskyddet och verktygslådan runt maskinchassits nedre del."

@@ -1683,5 +1683,22 @@ msgstr "Automatické obnovení se nezdařilo. Platnost aktuálního QR kódu brz
 msgid "QR code expired. Tap Refresh to load a new one."
 msgstr "Platnost QR kódu vypršela. Klepnutím na Obnovit načtěte nový."
 
+msgid ""
+"To protect print quality and equipment safety, do not modify printer "
+"parameters without authorization. You are responsible for any consequences "
+"resulting from unauthorized modifications."
+msgstr ""
+"V zájmu zachování kvality tisku a bezpečnosti zařízení neupravujte parametry "
+"tiskárny bez oprávnění. Uživatel nese odpovědnost za veškeré následky "
+"neoprávněných úprav."
+
 msgid "Danger: Water-cooling system has low water level!"
 msgstr "Nebezpečí: Nízká hladina vody v systému vodního chlazení!"
+
+
+msgid "Open the top cover of the machine, then use flush cutters to cut the cable ties inside the machine."
+msgstr "Otevřete horní kryt stroje a poté pomocí štípacích kleští přestřihněte stahovací pásky uvnitř stroje."
+
+
+msgid "Please press the Z‑axis lift button to raise the Z‑axis, then remove the foam padding and the tool box located around the bottom of the machine chassis."
+msgstr "Stisknutím tlačítka pro zvednutí osy Z zvedněte osu Z a poté odstraňte pěnové výplně a skříňku s nářadím umístěné kolem spodní části šasi stroje."

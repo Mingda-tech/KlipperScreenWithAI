@@ -1804,5 +1804,21 @@ msgstr "تعذر التحديث تلقائيًا. سينتهي رمز QR الح�
 msgid "QR code expired. Tap Refresh to load a new one."
 msgstr "انتهت صلاحية رمز QR. اضغط على تحديث لتحميل رمز جديد."
 
+msgid ""
+"To protect print quality and equipment safety, do not modify printer "
+"parameters without authorization. You are responsible for any consequences "
+"resulting from unauthorized modifications."
+msgstr ""
+"لضمان جودة الطباعة وسلامة الجهاز، لا تعدّل معلمات الطابعة دون تصريح. يتحمل "
+"المستخدم مسؤولية أي عواقب ناتجة عن تعديلات غير مصرح بها."
+
 msgid "Danger: Water-cooling system has low water level!"
 msgstr "خطر: مستوى الماء في نظام التبريد المائي منخفض!"
+
+
+msgid "Open the top cover of the machine, then use flush cutters to cut the cable ties inside the machine."
+msgstr "افتح الغطاء العلوي للجهاز، ثم استخدم كماشة قطع مسطحة لقطع أربطة الكابلات داخل الجهاز."
+
+
+msgid "Please press the Z‑axis lift button to raise the Z‑axis, then remove the foam padding and the tool box located around the bottom of the machine chassis."
+msgstr "يرجى الضغط على زر رفع المحور Z لرفع المحور Z، ثم إزالة حشوة الإسفنج وصندوق الأدوات الموجودين حول الجزء السفلي من هيكل الجهاز."

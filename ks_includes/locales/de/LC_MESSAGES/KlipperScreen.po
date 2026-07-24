@@ -1826,5 +1826,22 @@ msgstr "Die automatische Aktualisierung ist fehlgeschlagen. Der aktuelle QR-Code
 msgid "QR code expired. Tap Refresh to load a new one."
 msgstr "Der QR-Code ist abgelaufen. Tippen Sie auf Aktualisieren, um einen neuen zu laden."
 
+msgid ""
+"To protect print quality and equipment safety, do not modify printer "
+"parameters without authorization. You are responsible for any consequences "
+"resulting from unauthorized modifications."
+msgstr ""
+"Um Druckqualität und Gerätesicherheit zu gewährleisten, dürfen die "
+"Druckerparameter nicht ohne Genehmigung geändert werden. Für Folgen "
+"eigenmächtiger Änderungen ist der Benutzer selbst verantwortlich."
+
 msgid "Danger: Water-cooling system has low water level!"
 msgstr "Gefahr: Niedriger Wasserstand im Wasserkühlsystem!"
+
+
+msgid "Open the top cover of the machine, then use flush cutters to cut the cable ties inside the machine."
+msgstr "Öffnen Sie die obere Abdeckung des Geräts und durchtrennen Sie anschließend mit einem Seitenschneider die Kabelbinder im Inneren des Geräts."
+
+
+msgid "Please press the Z‑axis lift button to raise the Z‑axis, then remove the foam padding and the tool box located around the bottom of the machine chassis."
+msgstr "Drücken Sie die Taste zum Anheben der Z-Achse, um die Z-Achse anzuheben. Entfernen Sie anschließend die Schaumstoffpolsterung und den Werkzeugkasten im unteren Bereich des Gerätegehäuses."

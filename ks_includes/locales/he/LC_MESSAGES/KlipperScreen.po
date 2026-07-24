@@ -1969,5 +1969,21 @@ msgstr "לא ניתן לרענן אוטומטית. תוקף קוד ה-QR הנו�
 msgid "QR code expired. Tap Refresh to load a new one."
 msgstr "תוקף קוד ה-QR פג. הקש על רענון כדי לטעון קוד חדש."
 
+msgid ""
+"To protect print quality and equipment safety, do not modify printer "
+"parameters without authorization. You are responsible for any consequences "
+"resulting from unauthorized modifications."
+msgstr ""
+"כדי להבטיח את איכות ההדפסה ואת בטיחות המכשיר, אין לשנות את פרמטרי המדפסת ללא "
+"הרשאה. המשתמש נושא באחריות לכל תוצאה הנובעת משינויים לא מורשים."
+
 msgid "Danger: Water-cooling system has low water level!"
 msgstr "סכנה: מפלס המים במערכת הקירור במים נמוך!"
+
+
+msgid "Open the top cover of the machine, then use flush cutters to cut the cable ties inside the machine."
+msgstr "פתחו את המכסה העליון של המכונה, ולאחר מכן השתמשו בקאטר שטוח כדי לחתוך את אזיקוני הכבלים שבתוך המכונה."
+
+
+msgid "Please press the Z‑axis lift button to raise the Z‑axis, then remove the foam padding and the tool box located around the bottom of the machine chassis."
+msgstr "לחצו על לחצן הרמת ציר Z כדי להרים את ציר Z, ולאחר מכן הסירו את ריפוד הקצף ואת ארגז הכלים הנמצאים סביב החלק התחתון של שלדת המכונה."

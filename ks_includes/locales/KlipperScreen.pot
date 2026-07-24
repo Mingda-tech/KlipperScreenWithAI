@@ -193,6 +193,12 @@ msgstr ""
 msgid "Distance (mm)"
 msgstr ""
 
+msgid ""
+"To protect print quality and equipment safety, do not modify printer "
+"parameters without authorization. You are responsible for any consequences "
+"resulting from unauthorized modifications."
+msgstr ""
+
 #, python-format
 msgid "Do you want to recover %s?"
 msgstr ""
@@ -744,6 +750,9 @@ msgstr ""
 msgid "Uploaded"
 msgstr ""
 
+msgid "Warning"
+msgstr ""
+
 msgid "XY Move Speed (mm/s)"
 msgstr ""
 
@@ -802,4 +811,10 @@ msgid "mm³/s"
 msgstr ""
 
 msgid "Danger: Water-cooling system has low water level!"
+msgstr ""
+
+msgid "Open the top cover of the machine, then use flush cutters to cut the cable ties inside the machine."
+msgstr ""
+
+msgid "Please press the Z‑axis lift button to raise the Z‑axis, then remove the foam padding and the tool box located around the bottom of the machine chassis."
 msgstr ""

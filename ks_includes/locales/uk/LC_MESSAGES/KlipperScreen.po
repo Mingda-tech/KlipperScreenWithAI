@@ -1863,5 +1863,22 @@ msgstr "Не вдалося оновити автоматично. Термін 
 msgid "QR code expired. Tap Refresh to load a new one."
 msgstr "Термін дії QR-коду сплив. Натисніть «Оновити», щоб завантажити новий."
 
+msgid ""
+"To protect print quality and equipment safety, do not modify printer "
+"parameters without authorization. You are responsible for any consequences "
+"resulting from unauthorized modifications."
+msgstr ""
+"Для забезпечення якості друку та безпеки обладнання не змінюйте параметри "
+"принтера без дозволу. Користувач несе відповідальність за будь-які наслідки "
+"несанкціонованих змін."
+
 msgid "Danger: Water-cooling system has low water level!"
 msgstr "Небезпека: низький рівень води в системі водяного охолодження!"
+
+
+msgid "Open the top cover of the machine, then use flush cutters to cut the cable ties inside the machine."
+msgstr "Відкрийте верхню кришку принтера, потім за допомогою кусачок переріжте кабельні стяжки всередині принтера."
+
+
+msgid "Please press the Z‑axis lift button to raise the Z‑axis, then remove the foam padding and the tool box located around the bottom of the machine chassis."
+msgstr "Натисніть кнопку підняття осі Z, щоб підняти вісь Z, потім вийміть пінопластові прокладки та ящик з інструментами, розташовані в нижній частині корпусу принтера."

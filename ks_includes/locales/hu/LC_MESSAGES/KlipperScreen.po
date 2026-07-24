@@ -1750,5 +1750,22 @@ msgstr "Az automatikus frissítés nem sikerült. Az aktuális QR-kód hamarosan
 msgid "QR code expired. Tap Refresh to load a new one."
 msgstr "A QR-kód lejárt. Koppintson a Frissítés gombra egy új betöltéséhez."
 
+msgid ""
+"To protect print quality and equipment safety, do not modify printer "
+"parameters without authorization. You are responsible for any consequences "
+"resulting from unauthorized modifications."
+msgstr ""
+"A nyomtatási minőség és a berendezés biztonsága érdekében ne módosítsa "
+"engedély nélkül a nyomtató paramétereit. Az engedély nélküli módosítások "
+"következményeiért a felhasználó felel."
+
 msgid "Danger: Water-cooling system has low water level!"
 msgstr "Veszély: Alacsony vízszint a vízhűtő rendszerben!"
+
+
+msgid "Open the top cover of the machine, then use flush cutters to cut the cable ties inside the machine."
+msgstr "Nyissa fel a gép felső fedelét, majd egy oldalcsípőfogóval vágja el a gép belsejében található kábelkötegelőket."
+
+
+msgid "Please press the Z‑axis lift button to raise the Z‑axis, then remove the foam padding and the tool box located around the bottom of the machine chassis."
+msgstr "Nyomja meg a Z-tengely emelésére szolgáló gombot a Z-tengely felemeléséhez, majd távolítsa el a gépváz alja körül található habszivacs párnázást és a szerszámosdobozt."

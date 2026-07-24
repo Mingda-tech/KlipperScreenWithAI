@@ -1862,5 +1862,22 @@ msgstr "Otomatik yenileme başarısız oldu. Mevcut QR kodunun süresi yakında 
 msgid "QR code expired. Tap Refresh to load a new one."
 msgstr "QR kodunun süresi doldu. Yeni bir kod yüklemek için Yenile'ye dokunun."
 
+msgid ""
+"To protect print quality and equipment safety, do not modify printer "
+"parameters without authorization. You are responsible for any consequences "
+"resulting from unauthorized modifications."
+msgstr ""
+"Baskı kalitesini ve cihaz güvenliğini sağlamak için yazıcı parametrelerini "
+"izinsiz değiştirmeyin. Yetkisiz değişikliklerden doğabilecek tüm sonuçlardan "
+"kullanıcı sorumludur."
+
 msgid "Danger: Water-cooling system has low water level!"
 msgstr "Tehlike: Su soğutma sisteminde su seviyesi düşük!"
+
+
+msgid "Open the top cover of the machine, then use flush cutters to cut the cable ties inside the machine."
+msgstr "Makinenin üst kapağını açın, ardından makinenin içindeki kablo bağlarını kesmek için yan keski kullanın."
+
+
+msgid "Please press the Z‑axis lift button to raise the Z‑axis, then remove the foam padding and the tool box located around the bottom of the machine chassis."
+msgstr "Z eksenini yükseltmek için Z ekseni kaldırma düğmesine basın, ardından makine kasasının alt kısmının çevresindeki köpük dolguyu ve alet kutusunu çıkarın."

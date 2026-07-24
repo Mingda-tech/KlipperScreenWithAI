@@ -1951,5 +1951,22 @@ msgstr "Не удалось обновить автоматически. Сро�
 msgid "QR code expired. Tap Refresh to load a new one."
 msgstr "Срок действия QR-кода истек. Нажмите «Обновить», чтобы загрузить новый."
 
+msgid ""
+"To protect print quality and equipment safety, do not modify printer "
+"parameters without authorization. You are responsible for any consequences "
+"resulting from unauthorized modifications."
+msgstr ""
+"Для обеспечения качества печати и безопасности оборудования не изменяйте "
+"параметры принтера без разрешения. Пользователь несет ответственность за "
+"любые последствия несанкционированных изменений."
+
 msgid "Danger: Water-cooling system has low water level!"
 msgstr "Опасность: низкий уровень воды в системе водяного охлаждения!"
+
+
+msgid "Open the top cover of the machine, then use flush cutters to cut the cable ties inside the machine."
+msgstr "Откройте верхнюю крышку принтера, затем с помощью кусачек перережьте кабельные стяжки внутри принтера."
+
+
+msgid "Please press the Z‑axis lift button to raise the Z‑axis, then remove the foam padding and the tool box located around the bottom of the machine chassis."
+msgstr "Нажмите кнопку подъёма оси Z, чтобы поднять ось Z, затем извлеките пенопластовые прокладки и ящик с инструментами, расположенные в нижней части корпуса принтера."

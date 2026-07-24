@@ -1985,5 +1985,22 @@ msgstr "Không thể tự động làm mới. Mã QR hiện tại sẽ sớm h�
 msgid "QR code expired. Tap Refresh to load a new one."
 msgstr "Mã QR đã hết hạn. Nhấn Làm mới để tải mã mới."
 
+msgid ""
+"To protect print quality and equipment safety, do not modify printer "
+"parameters without authorization. You are responsible for any consequences "
+"resulting from unauthorized modifications."
+msgstr ""
+"Để bảo đảm chất lượng in và an toàn thiết bị, không tự ý thay đổi các thông "
+"số của máy in. Người dùng tự chịu trách nhiệm về mọi hậu quả phát sinh từ "
+"việc thay đổi trái phép."
+
 msgid "Danger: Water-cooling system has low water level!"
 msgstr "Nguy hiểm: Mực nước trong hệ thống làm mát bằng nước thấp!"
+
+
+msgid "Open the top cover of the machine, then use flush cutters to cut the cable ties inside the machine."
+msgstr "Mở nắp trên của máy, sau đó dùng kìm cắt sát để cắt các dây rút bên trong máy."
+
+
+msgid "Please press the Z‑axis lift button to raise the Z‑axis, then remove the foam padding and the tool box located around the bottom of the machine chassis."
+msgstr "Vui lòng nhấn nút nâng trục Z để nâng trục Z, sau đó lấy lớp đệm xốp và hộp dụng cụ nằm quanh phần đáy khung máy ra."
