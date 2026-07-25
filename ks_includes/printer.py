@@ -278,6 +278,10 @@ class Printer:
                 "cameras": {"count": len(self.cameras)},
                 "spoolman": self.spoolman,
                 "leds": {"count": self.ledcount},
+                "z_offset_calibration": (
+                    self.get_probe() is not None
+                    or "MD_DIST_CALIBRATE" in self.available_commands
+                ),
             }
         }
 
