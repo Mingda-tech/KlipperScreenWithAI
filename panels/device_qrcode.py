@@ -1,6 +1,7 @@
 import json
 import logging
 import threading
+import time
 from datetime import datetime
 from io import BytesIO
 
@@ -15,12 +16,11 @@ from ks_includes.screen_panel import ScreenPanel
 
 
 class Panel(ScreenPanel):
-    QR_ENDPOINT = "http://61.144.188.241:9000/iot/tool/qrCode"
+    SDK_QR_ENDPOINT = "http://127.0.0.1:8765/app/device/qr-pairing"
     MACHINE_SN_PATH = "/etc/machine_sn"
-    REQUEST_TIMEOUT = 5
+    REQUEST_TIMEOUT = 12
     TERMS_KEY = "device_qr_terms_agreed"
-    AUTO_REFRESH_SECONDS = 270
-    QR_EXPIRY_SECONDS = 300
+    AUTO_REFRESH_MARGIN_SECONDS = 30
 
     def __init__(self, screen, title):
         super().__init__(screen, title)
@@ -188,15 +188,13 @@ class Panel(ScreenPanel):
         GLib.idle_add(self._set_loading_state, _("Requesting device QR code..."), preserve_qr)
 
         try:
-            response = requests.get(
-                self.QR_ENDPOINT,
-                params={"deviceSn": device_sn},
+            response = requests.post(
+                self.SDK_QR_ENDPOINT,
                 timeout=self.REQUEST_TIMEOUT,
             )
             response.raise_for_status()
             payload = response.json()
-            data = self._validate_response(payload)
-            qr_payload = json.dumps(data, ensure_ascii=False, separators=(",", ":"))
+            data, qr_payload = self._validate_response(payload, device_sn)
             png_bytes = self._build_qr_png(qr_payload)
             updated_at = self._format_timestamp(data.get("ts"))
         except requests.exceptions.RequestException as e:
@@ -248,9 +246,20 @@ class Panel(ScreenPanel):
             updated_at,
             preserve_qr,
             auto_refresh,
+            data.get("exp"),
         )
 
-    def _finish_request(self, request_id, state, message, png_bytes, updated_at, preserve_qr, auto_refresh):
+    def _finish_request(
+        self,
+        request_id,
+        state,
+        message,
+        png_bytes,
+        updated_at,
+        preserve_qr,
+        auto_refresh,
+        expires_at=None,
+    ):
         if not self._active or request_id != self._request_serial:
             return False
 
@@ -279,8 +288,8 @@ class Panel(ScreenPanel):
         self._has_valid_qr = True
         self._last_updated_text = updated_at
         self.labels["updated_at"].set_text(f"{_('Last updated')}: {self._last_updated_text}")
-        self._schedule_auto_refresh()
-        self._schedule_expiry_timer()
+        self._schedule_auto_refresh(expires_at)
+        self._schedule_expiry_timer(expires_at)
         self._set_status(message, "green")
         return False
 
@@ -314,18 +323,46 @@ class Panel(ScreenPanel):
             logging.error(f"Unable to determine network state: {e}")
             return False
 
-    def _validate_response(self, payload):
+    def _validate_response(self, payload, expected_device_sn):
         if not isinstance(payload, dict):
             raise ValueError("response is not a JSON object")
-        if str(payload.get("code")) != "200":
-            raise ValueError(f"unexpected response code: {payload.get('code')}")
-        data = payload.get("data")
-        if not isinstance(data, dict):
-            raise ValueError("response data is missing")
-        for key in ("deviceSn", "token", "ts"):
-            if key not in data:
+        if str(payload.get("version")) != "2":
+            raise ValueError(f"unsupported QR version: {payload.get('version')}")
+        for key in ("sid", "deviceSn", "token", "ts", "exp"):
+            value = payload.get(key)
+            if key not in payload:
                 raise ValueError(f"missing response field: {key}")
-        return data
+            if value is None or (isinstance(value, str) and not value.strip()):
+                raise ValueError(f"empty response field: {key}")
+
+        if str(payload.get("deviceSn")).strip() != expected_device_sn:
+            raise ValueError("response device serial number does not match this printer")
+
+        try:
+            issued_at = int(payload.get("ts"))
+            expires_at = int(payload.get("exp"))
+        except (TypeError, ValueError) as exc:
+            raise ValueError("invalid QR timestamps") from exc
+        if issued_at <= 0 or expires_at <= issued_at:
+            raise ValueError("invalid QR expiry")
+        if expires_at <= int(time.time() * 1000):
+            raise ValueError("QR pairing response is already expired")
+
+        qr_uri = payload.get("uri")
+        if isinstance(qr_uri, str) and qr_uri.strip():
+            qr_payload = qr_uri.strip()
+        else:
+            qr_data = payload.get("payload")
+            if not isinstance(qr_data, dict):
+                raise ValueError("response QR payload is missing")
+            if (
+                qr_data.get("type") != "mingda3d.printer.bind"
+                or str(qr_data.get("version")) != "2"
+            ):
+                raise ValueError("response QR payload is invalid")
+            qr_payload = json.dumps(qr_data, ensure_ascii=False, separators=(",", ":"))
+
+        return payload, qr_payload
 
     def _build_qr_png(self, payload):
         try:
@@ -333,12 +370,13 @@ class Panel(ScreenPanel):
         except ImportError as e:
             raise RuntimeError(_("Failed to generate the QR code image.")) from e
 
-        qr_code = qrcode.QRCode(border=2, box_size=10)
+        qr_code = qrcode.QRCode(border=4, box_size=1)
         qr_code.add_data(payload)
         qr_code.make(fit=True)
+        target_size = self._get_qr_image_size()
+        module_count = qr_code.modules_count + qr_code.border * 2
+        qr_code.box_size = max(1, target_size // module_count)
         image = qr_code.make_image(fill_color="black", back_color="white").convert("RGB")
-        size = self._get_qr_image_size()
-        image = image.resize((size, size))
 
         image_bytes = BytesIO()
         image.save(image_bytes, format="PNG")
@@ -387,9 +425,20 @@ class Panel(ScreenPanel):
         self._set_refresh_sensitive(True)
         self._set_status(message, "red")
 
-    def _schedule_auto_refresh(self):
+    def _seconds_until_expiry(self, expires_at):
+        try:
+            remaining = (int(expires_at) - int(time.time() * 1000)) / 1000.0
+        except (TypeError, ValueError):
+            return 1
+        return max(1, int(remaining))
+
+    def _schedule_auto_refresh(self, expires_at):
         self._cancel_auto_refresh_timer()
-        self._auto_refresh_timer = GLib.timeout_add_seconds(self.AUTO_REFRESH_SECONDS, self._handle_auto_refresh)
+        refresh_after = max(
+            1,
+            self._seconds_until_expiry(expires_at) - self.AUTO_REFRESH_MARGIN_SECONDS,
+        )
+        self._auto_refresh_timer = GLib.timeout_add_seconds(refresh_after, self._handle_auto_refresh)
 
     def _handle_auto_refresh(self):
         self._auto_refresh_timer = None
@@ -398,9 +447,10 @@ class Panel(ScreenPanel):
         self._request_qrcode(auto_refresh=True)
         return False
 
-    def _schedule_expiry_timer(self):
+    def _schedule_expiry_timer(self, expires_at):
         self._cancel_expiry_timer()
-        self._expiry_timer = GLib.timeout_add_seconds(self.QR_EXPIRY_SECONDS, self._expire_qrcode)
+        expires_after = self._seconds_until_expiry(expires_at)
+        self._expiry_timer = GLib.timeout_add_seconds(expires_after, self._expire_qrcode)
 
     def _expire_qrcode(self):
         self._expiry_timer = None
