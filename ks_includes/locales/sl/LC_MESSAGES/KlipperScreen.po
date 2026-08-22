@@ -2020,3 +2020,177 @@ msgstr "Odprite zgornji pokrov naprave, nato pa s kleščami za rezanje prereži
 
 msgid "Please press the Z‑axis lift button to raise the Z‑axis, then remove the foam padding and the tool box located around the bottom of the machine chassis."
 msgstr "Pritisnite gumb za dvig osi Z, da dvignete os Z, nato pa odstranite penasto oblazinjenje in škatlo z orodjem ob spodnjem delu ohišja naprave."
+
+msgid "Watching"
+msgstr "Spremljanje"
+
+msgid "Not Watching"
+msgstr "Ne spremljanje"
+
+msgid "Default Settings"
+msgstr "Privzete nastavitve"
+
+msgid "Sensitivity"
+msgstr "Občutljivost"
+
+msgid "Low"
+msgstr "Nizka"
+
+msgid "High"
+msgstr "visoko"
+
+msgid "Action"
+msgstr "Akcija"
+
+msgid "Notify Only"
+msgstr "Samo obvestilo"
+
+msgid "Auto Pause"
+msgstr "Samodejna premor"
+
+msgid "Follow Default"
+msgstr "Sledi privzeto"
+
+msgid "Detection Types"
+msgstr "Vrste odkrivanja"
+
+msgid "Configure"
+msgstr "Konfiguriraj"
+
+msgid "No detection types are available for this printer"
+msgstr "Za ta tiskalnik ni na voljo nobena vrsta zaznavanja"
+
+msgid "Safe mode"
+msgstr "Varen način"
+
+msgid "Applied"
+msgstr "Uporabljeno"
+
+msgid "Synced"
+msgstr "Sinhronizirano"
+
+msgid "Applied locally"
+msgstr "Uporablja se lokalno"
+
+msgid "Applied locally, waiting for cloud sync"
+msgstr "Uporabljeno lokalno, čakanje na sinhronizacijo v oblaku"
+
+msgid "Applying on this printer"
+msgstr "Prijavljanje na tem tiskalniku"
+
+msgid "Waiting for cloud sync"
+msgstr "Čakanje na sinhronizacijo v oblaku"
+
+msgid "Syncing with cloud"
+msgstr "Sinhronizacija z oblakom"
+
+msgid "Applied locally, merging cloud settings"
+msgstr "Uporabljeno lokalno, združuje nastavitve oblaka"
+
+msgid "Applied locally, cloud settings conflict"
+msgstr "Uporabljeno lokalno, nastavitve oblaka so v nasprotju"
+
+msgid "Applied locally, cloud sync failed"
+msgstr "Uporabljeno lokalno, sinhronizacija v oblaku ni uspela"
+
+msgid "Sync failed"
+msgstr "Sinhronizacija ni uspela"
+
+msgid "Unsaved changes"
+msgstr "Neshranjene spremembe"
+
+msgid "Reloading current settings"
+msgstr "Ponovno nalaganje trenutnih nastavitev"
+
+msgid "Settings could not be applied"
+msgstr "Nastavitev ni bilo mogoče uporabiti"
+
+msgid "Settings unavailable"
+msgstr "Nastavitve niso na voljo"
+
+msgid "Policy changed elsewhere. Latest settings will be reloaded."
+msgstr "Politika se je spremenila drugje. Zadnje nastavitve bodo znova naložene."
+
+msgid "Disabled by user"
+msgstr "Onemogočil uporabnik"
+
+msgid "Unsupported printer model"
+msgstr "Nepodprt model tiskalnika"
+
+msgid "AI Agent unavailable"
+msgstr "Agent AI ni na voljo"
+
+msgid "NPU unavailable"
+msgstr "NPU ni na voljo"
+
+msgid "No camera"
+msgstr "Brez kamere"
+
+msgid "Camera unavailable"
+msgstr "Kamera ni na voljo"
+
+msgid "Printer is not printing"
+msgstr "Tiskalnik ne tiska"
+
+msgid "Waiting for the first AI detection"
+msgstr "Čakam na prvo zaznavo AI"
+
+msgid "AI detection results are delayed"
+msgstr "Rezultati zaznavanja AI so zakasnjeni"
+
+msgid "Camera capture or AI inference failed"
+msgstr "Zajem kamere ali sklepanje AI ni uspelo"
+
+msgid "Camera snapshot is stale"
+msgstr "Posnetek kamere je zastarel"
+
+msgid "Print session is unavailable"
+msgstr "Seja tiskanja ni na voljo"
+
+msgid "Print state is unavailable"
+msgstr "Stanje tiskanja ni na voljo"
+
+msgid "AI model version mismatch"
+msgstr "Neujemanje različice modela AI"
+
+msgid "Muted for this print"
+msgstr "Utišan za ta natis"
+
+msgid "All detection types are disabled"
+msgstr "Vse vrste zaznavanja so onemogočene"
+
+msgid "No valid AI policy"
+msgstr "Ni veljavne politike AI"
+
+msgid "AI configuration is being prepared"
+msgstr "Konfiguracija AI je v pripravi"
+
+msgid "Policy verification failed"
+msgstr "Preverjanje pravilnika ni uspelo"
+
+msgid "Nozzle Blob"
+msgstr "Macka na šobi"
+
+msgid "First Layer Extrusion"
+msgstr "Težava pri iztiskanju prve plasti"
+
+msgid "Warp or Detachment"
+msgstr "Zvijanje ali odstop"
+
+msgid "Off"
+msgstr "Izključeno"
+
+msgid "For the pre-print foreign-object check, Critical blocks printing only when Auto Pause is selected."
+msgstr "Za preverjanje tujkov pred tiskanjem Kritično blokira tiskanje le, če je izbrana možnost Auto Pause."
+
+msgid "Safe mode is active. The pre-print check will notify only and will not block printing."
+msgstr "Varni način je aktiven. Preverjanje pred tiskanjem bo samo obvestilo in ne bo blokiralo tiskanja."
+
+msgid "AI Platform V3 is required"
+msgstr "Zahtevana je platforma AI Platform V3"
+
+msgid "Device locked"
+msgstr "Naprava je zaklenjena"
+
+msgid "This printer has been locked by an administrator.\nPlease contact the administrator."
+msgstr "Ta tiskalnik je zaklenil skrbnik.\nObrnite se na skrbnika."

@@ -165,6 +165,10 @@ install_systemd_service()
 {
     echo_text "Installing KlipperScreen unit file"
 
+    # Release archives may be assembled on Windows and lose POSIX mode bits.
+    # Restore every executable that the unit or maintenance scripts launch.
+    chmod 0755 "$KSPATH/screen.py" "$SCRIPTPATH"/*.sh
+
     SERVICE=$(cat "$SCRIPTPATH"/KlipperScreen.service)
     SERVICE=${SERVICE//KS_USER/$USER}
     SERVICE=${SERVICE//KS_ENV/$KSENV}
