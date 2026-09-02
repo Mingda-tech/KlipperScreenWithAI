@@ -1274,9 +1274,15 @@ class KlipperScreen(Gtk.Window):
     def _first_boot_setup_active(self):
         return self.setup_init != 0
 
+    def _auto_update_reminder_blocked_by_self_check(self):
+        return bool(self._cur_panels and self._cur_panels[-1] == "self_check")
+
     def _schedule_auto_update_reminder(self):
         if self._first_boot_setup_active():
             logging.info("Auto update reminder skipped: first-boot setup is active")
+            return False
+        if self._auto_update_reminder_blocked_by_self_check():
+            logging.info("Auto update reminder deferred: self-check is active")
             return False
         if not self._auto_update_reminder_enabled():
             return False
@@ -1293,6 +1299,10 @@ class KlipperScreen(Gtk.Window):
     def _request_auto_update_status(self):
         if self._first_boot_setup_active():
             logging.info("Auto update reminder skipped: first-boot setup is active")
+            self.auto_update_reminder_pending = False
+            return False
+        if self._auto_update_reminder_blocked_by_self_check():
+            logging.info("Auto update reminder deferred: self-check is active")
             self.auto_update_reminder_pending = False
             return False
         if not self._auto_update_reminder_enabled():
@@ -1314,6 +1324,10 @@ class KlipperScreen(Gtk.Window):
         self.auto_update_reminder_pending = False
         if self._first_boot_setup_active():
             logging.info("Auto update reminder skipped: first-boot setup is active")
+            return
+        if self._auto_update_reminder_blocked_by_self_check():
+            logging.info("Auto update reminder deferred: self-check is active")
+            self.auto_update_reminder_checked = False
             return
         if not self._auto_update_reminder_enabled():
             logging.info("Auto update reminder skipped: disabled")

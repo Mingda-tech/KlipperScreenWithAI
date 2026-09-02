@@ -223,10 +223,11 @@ class Panel(ScreenPanel):
                 self.steps.remove(step)
 
     def confirm_action(self, widget):
-        self._screen._ws.klippy.gcode_script("TURN_OFF_HEATERS")                           
-        self._screen._ws.klippy.gcode_script("M106 S0")                           
+        self._screen._ws.klippy.gcode_script("TURN_OFF_HEATERS")
+        self._screen._ws.klippy.gcode_script("M106 S0")
         self._screen.show_panel("main_menu", None, remove_all=True, items=self._config.get_menu_items("__main"))
+        self._screen._schedule_auto_update_reminder()
+
     def process_update(self, action, data):
         if action == "notify_status_update":
             self.self_test()
-            
