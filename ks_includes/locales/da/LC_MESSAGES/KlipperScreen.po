@@ -1953,11 +1953,14 @@ msgstr "Politikbekræftelse mislykkedes"
 msgid "Nozzle Blob"
 msgstr "Klat på dysen"
 
-msgid "First Layer Extrusion"
-msgstr "Første lags ekstruderingsproblem"
+msgid "Under Extrusion"
+msgstr "Under Extrusion"
 
-msgid "Warp or Detachment"
-msgstr "Vridning eller løsrivelse"
+msgid "Over Extrusion"
+msgstr "Over Extrusion"
+
+msgid "Warping"
+msgstr "Warping"
 
 msgid "Off"
 msgstr "Fra"

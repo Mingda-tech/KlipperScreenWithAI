@@ -2171,11 +2171,14 @@ msgstr "Preverjanje pravilnika ni uspelo"
 msgid "Nozzle Blob"
 msgstr "Macka na šobi"
 
-msgid "First Layer Extrusion"
-msgstr "Težava pri iztiskanju prve plasti"
+msgid "Under Extrusion"
+msgstr "Under Extrusion"
 
-msgid "Warp or Detachment"
-msgstr "Zvijanje ali odstop"
+msgid "Over Extrusion"
+msgstr "Over Extrusion"
+
+msgid "Warping"
+msgstr "Warping"
 
 msgid "Off"
 msgstr "Izključeno"

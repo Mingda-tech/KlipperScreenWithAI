@@ -2160,11 +2160,14 @@ msgstr "Falha na verificação da política"
 msgid "Nozzle Blob"
 msgstr "Bolha no bocal"
 
-msgid "First Layer Extrusion"
-msgstr "Problema de extrusão da primeira camada"
+msgid "Under Extrusion"
+msgstr "Under Extrusion"
 
-msgid "Warp or Detachment"
-msgstr "Deformação ou descolamento"
+msgid "Over Extrusion"
+msgstr "Over Extrusion"
+
+msgid "Warping"
+msgstr "Warping"
 
 msgid "Off"
 msgstr "Desligado"

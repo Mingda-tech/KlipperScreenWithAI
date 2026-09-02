@@ -1853,11 +1853,14 @@ msgstr "Ověření zásad se nezdařilo"
 msgid "Nozzle Blob"
 msgstr "Kapka na trysce"
 
-msgid "First Layer Extrusion"
-msgstr "Problém s vytlačováním první vrstvy"
+msgid "Under Extrusion"
+msgstr "Under Extrusion"
 
-msgid "Warp or Detachment"
-msgstr "Pokřivení nebo oddělení"
+msgid "Over Extrusion"
+msgstr "Over Extrusion"
+
+msgid "Warping"
+msgstr "Warping"
 
 msgid "Off"
 msgstr "Vypnuto"

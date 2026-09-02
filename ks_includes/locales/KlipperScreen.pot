@@ -1000,10 +1000,13 @@ msgstr ""
 msgid "Nozzle Blob"
 msgstr ""
 
-msgid "First Layer Extrusion"
+msgid "Under Extrusion"
 msgstr ""
 
-msgid "Warp or Detachment"
+msgid "Over Extrusion"
+msgstr ""
+
+msgid "Warping"
 msgstr ""
 
 msgid "Foreign Object"

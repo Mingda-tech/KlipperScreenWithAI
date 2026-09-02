@@ -1505,11 +1505,14 @@ msgstr "Проверката на правилата е неуспешна"
 msgid "Nozzle Blob"
 msgstr "Петно върху дюзата"
 
-msgid "First Layer Extrusion"
-msgstr "Проблем с екструдирането на първия слой"
+msgid "Under Extrusion"
+msgstr "Under Extrusion"
 
-msgid "Warp or Detachment"
-msgstr "Изкривяване или отделяне"
+msgid "Over Extrusion"
+msgstr "Over Extrusion"
+
+msgid "Warping"
+msgstr "Warping"
 
 msgid "Off"
 msgstr "Изкл"

@@ -1950,11 +1950,14 @@ msgstr "ポリシーの検証に失敗しました"
 msgid "Nozzle Blob"
 msgstr "ノズルの樹脂塊"
 
-msgid "First Layer Extrusion"
-msgstr "第一層の押出異常"
+msgid "Under Extrusion"
+msgstr "Under Extrusion"
 
-msgid "Warp or Detachment"
-msgstr "反りまたは剥離"
+msgid "Over Extrusion"
+msgstr "Over Extrusion"
+
+msgid "Warping"
+msgstr "Warping"
 
 msgid "Off"
 msgstr "オフ"

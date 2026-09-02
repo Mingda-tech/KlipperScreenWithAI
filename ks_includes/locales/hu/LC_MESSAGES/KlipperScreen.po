@@ -1920,11 +1920,14 @@ msgstr "A szabályzat ellenőrzése nem sikerült"
 msgid "Nozzle Blob"
 msgstr "Folt a fúvókán"
 
-msgid "First Layer Extrusion"
-msgstr "Első réteg extrudálási probléma"
+msgid "Under Extrusion"
+msgstr "Under Extrusion"
 
-msgid "Warp or Detachment"
-msgstr "Vetedés vagy leválás"
+msgid "Over Extrusion"
+msgstr "Over Extrusion"
+
+msgid "Warping"
+msgstr "Warping"
 
 msgid "Off"
 msgstr "Ki"

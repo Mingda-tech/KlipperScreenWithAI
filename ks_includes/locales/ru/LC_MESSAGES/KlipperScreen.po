@@ -2118,11 +2118,14 @@ msgstr "Проверка политики не удалась"
 msgid "Nozzle Blob"
 msgstr "Капля на сопле"
 
-msgid "First Layer Extrusion"
-msgstr "Проблема с экструзией первого слоя"
+msgid "Under Extrusion"
+msgstr "Under Extrusion"
 
-msgid "Warp or Detachment"
-msgstr "Деформация или отсоединение"
+msgid "Over Extrusion"
+msgstr "Over Extrusion"
+
+msgid "Warping"
+msgstr "Warping"
 
 msgid "Off"
 msgstr "Выкл."

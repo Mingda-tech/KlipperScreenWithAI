@@ -2000,11 +2000,14 @@ msgstr "Policyverifiering misslyckades"
 msgid "Nozzle Blob"
 msgstr "Blob på munstycket"
 
-msgid "First Layer Extrusion"
-msgstr "Första skiktets extruderingsproblem"
+msgid "Under Extrusion"
+msgstr "Under Extrusion"
 
-msgid "Warp or Detachment"
-msgstr "Vridning eller lösgöring"
+msgid "Over Extrusion"
+msgstr "Over Extrusion"
+
+msgid "Warping"
+msgstr "Warping"
 
 msgid "Off"
 msgstr "Av"

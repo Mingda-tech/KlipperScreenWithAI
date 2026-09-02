@@ -36,19 +36,24 @@ class Panel(ScreenPanel):
     def arrangeMenuItems(self, items, columns, expand_last=False):
         for child in self.grid.get_children():
             self.grid.remove(child)
-        length = len(items)
-        i = 0
+
+        configured_length = len(items)
+        visible_items = []
         for item in items:
             key = list(item)[0]
             if not self.evaluate_enable(item[key]['enable']):
                 logging.debug(f"X > {key}")
                 continue
+            visible_items.append(key)
+
+        visible_length = len(visible_items)
+        for i, key in enumerate(visible_items):
 
             if columns == 4:
-                if length <= 4:
+                if configured_length <= 4:
                     # Arrange 2 x 2
                     columns = 2
-                elif 4 < length <= 6:
+                elif 4 < configured_length <= 6:
                     # Arrange 3 x 2
                     columns = 3
 
@@ -56,11 +61,10 @@ class Panel(ScreenPanel):
             row = int(i / columns)
 
             width = height = 1
-            if expand_last is True and i + 1 == length and length % 2 == 1:
+            if expand_last is True and i + 1 == visible_length and visible_length % 2 == 1:
                 width = 2
 
             self.grid.attach(self.labels[key], col, row, width, height)
-            i += 1
         return self.grid
 
     def create_menu_items(self):

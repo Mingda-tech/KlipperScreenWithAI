@@ -2012,11 +2012,14 @@ msgstr "정책 확인 실패"
 msgid "Nozzle Blob"
 msgstr "노즐 뭉침"
 
-msgid "First Layer Extrusion"
-msgstr "첫 레이어 압출 이상"
+msgid "Under Extrusion"
+msgstr "Under Extrusion"
 
-msgid "Warp or Detachment"
-msgstr "뒤틀림 또는 분리"
+msgid "Over Extrusion"
+msgstr "Over Extrusion"
+
+msgid "Warping"
+msgstr "Warping"
 
 msgid "Off"
 msgstr "끄기"

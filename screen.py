@@ -29,7 +29,11 @@ from ks_includes.printer import Printer
 from ks_includes.widgets.keyboard import Keyboard
 from ks_includes.config import KlipperScreenConfig
 from ks_includes.device_lock import DeviceLockSocketClient, DeviceLockStateReader
-from ks_includes.ai_detection_result import current_auto_pause_fault, result_signature
+from ks_includes.ai_detection_result import (
+    canonical_defect_type,
+    current_auto_pause_fault,
+    result_signature,
+)
 from panels.base_panel import BasePanel
 
 logging.getLogger("urllib3").setLevel(logging.WARNING)
@@ -57,9 +61,10 @@ PRINTER_BASE_STATUS_OBJECTS = [
 AI_DETECTION_DISPLAY_NAMES = {
     "SPAGHETTI": "Spaghetti",
     "NOZZLE_BLOB": "Nozzle Blob",
-    "FIRST_LAYER_EXTRUSION": "First Layer Extrusion",
-    "WARP_OR_DETACHMENT": "Warp or Detachment",
     "FOREIGN_OBJECT": "Foreign Object",
+    "UNDER_EXTRUSION": "Under Extrusion",
+    "OVER_EXTRUSION": "Over Extrusion",
+    "WARPING": "Warping",
 }
 AI_DETECTION_STATUS_RETRY_DELAYS_MS = (500, 1000, 2000)
 
@@ -1101,7 +1106,7 @@ class KlipperScreen(Gtk.Window):
             return None
 
     def _show_ai_detection_dialog(self, result):
-        defect_type = str(result.get("defectType") or "").upper()
+        defect_type = canonical_defect_type(result.get("defectType"))
         defect_name = _(AI_DETECTION_DISPLAY_NAMES.get(defect_type, defect_type or "Unknown"))
         confidence = result.get("confidence")
         try:

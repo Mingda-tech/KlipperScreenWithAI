@@ -2082,11 +2082,14 @@ msgstr "La verifica della politica non è riuscita"
 msgid "Nozzle Blob"
 msgstr "Macchia sull'ugello"
 
-msgid "First Layer Extrusion"
-msgstr "Problema di estrusione del primo strato"
+msgid "Under Extrusion"
+msgstr "Under Extrusion"
 
-msgid "Warp or Detachment"
-msgstr "Deformazione o distacco"
+msgid "Over Extrusion"
+msgstr "Over Extrusion"
+
+msgid "Warping"
+msgstr "Warping"
 
 msgid "Off"
 msgstr "Spento"

@@ -1955,11 +1955,14 @@ msgstr "Beleidsverificatie mislukt"
 msgid "Nozzle Blob"
 msgstr "Klontje op het mondstuk"
 
-msgid "First Layer Extrusion"
-msgstr "Extrusieprobleem van de eerste laag"
+msgid "Under Extrusion"
+msgstr "Under Extrusion"
 
-msgid "Warp or Detachment"
-msgstr "Vervorming of onthechting"
+msgid "Over Extrusion"
+msgstr "Over Extrusion"
+
+msgid "Warping"
+msgstr "Warping"
 
 msgid "Off"
 msgstr "Uit"

@@ -2135,11 +2135,14 @@ msgstr "אימות המדיניות נכשל"
 msgid "Nozzle Blob"
 msgstr "כתם על הזרבובית"
 
-msgid "First Layer Extrusion"
-msgstr "בעיית שחול בשכבה ראשונה"
+msgid "Under Extrusion"
+msgstr "Under Extrusion"
 
-msgid "Warp or Detachment"
-msgstr "עיוות או ניתוק"
+msgid "Over Extrusion"
+msgstr "Over Extrusion"
+
+msgid "Warping"
+msgstr "Warping"
 
 msgid "Off"
 msgstr "כבוי"

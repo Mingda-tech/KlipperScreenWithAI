@@ -2155,11 +2155,14 @@ msgstr "Xác minh chính sách không thành công"
 msgid "Nozzle Blob"
 msgstr "Đốm trên vòi phun"
 
-msgid "First Layer Extrusion"
-msgstr "Vấn đề đùn lớp đầu tiên"
+msgid "Under Extrusion"
+msgstr "Under Extrusion"
 
-msgid "Warp or Detachment"
-msgstr "Cong vênh hoặc tách rời"
+msgid "Over Extrusion"
+msgstr "Over Extrusion"
+
+msgid "Warping"
+msgstr "Warping"
 
 msgid "Off"
 msgstr "Tắt"

@@ -1951,11 +1951,14 @@ msgstr "Weryfikacja zasad nie powiodła się"
 msgid "Nozzle Blob"
 msgstr "Kropla na dyszy"
 
-msgid "First Layer Extrusion"
-msgstr "Problem z wytłaczaniem pierwszej warstwy"
+msgid "Under Extrusion"
+msgstr "Under Extrusion"
 
-msgid "Warp or Detachment"
-msgstr "Wypaczenie lub oderwanie"
+msgid "Over Extrusion"
+msgstr "Over Extrusion"
+
+msgid "Warping"
+msgstr "Warping"
 
 msgid "Off"
 msgstr "Wyłączone"

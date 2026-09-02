@@ -1929,11 +1929,14 @@ msgstr "Politikos patvirtinimas nepavyko"
 msgid "Nozzle Blob"
 msgstr "Dėmė ant purkštuko"
 
-msgid "First Layer Extrusion"
-msgstr "Pirmojo sluoksnio ekstruzijos problema"
+msgid "Under Extrusion"
+msgstr "Under Extrusion"
 
-msgid "Warp or Detachment"
-msgstr "Iškrypimas arba atsiskyrimas"
+msgid "Over Extrusion"
+msgstr "Over Extrusion"
+
+msgid "Warping"
+msgstr "Warping"
 
 msgid "Off"
 msgstr "Išjungta"

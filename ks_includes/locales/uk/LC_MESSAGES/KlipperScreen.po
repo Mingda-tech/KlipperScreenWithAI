@@ -2030,11 +2030,14 @@ msgstr "Помилка перевірки політики"
 msgid "Nozzle Blob"
 msgstr "Ляпка на насадці"
 
-msgid "First Layer Extrusion"
-msgstr "Проблема екструзії першого шару"
+msgid "Under Extrusion"
+msgstr "Under Extrusion"
 
-msgid "Warp or Detachment"
-msgstr "Викривлення або відшарування"
+msgid "Over Extrusion"
+msgstr "Over Extrusion"
+
+msgid "Warping"
+msgstr "Warping"
 
 msgid "Off"
 msgstr "Вимкнено"

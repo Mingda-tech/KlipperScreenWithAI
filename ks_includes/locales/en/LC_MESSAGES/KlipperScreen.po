@@ -1912,11 +1912,14 @@ msgstr "Policy verification failed"
 msgid "Nozzle Blob"
 msgstr "Nozzle Blob"
 
-msgid "First Layer Extrusion"
-msgstr "First Layer Extrusion"
+msgid "Under Extrusion"
+msgstr "Under Extrusion"
 
-msgid "Warp or Detachment"
-msgstr "Warp or Detachment"
+msgid "Over Extrusion"
+msgstr "Over Extrusion"
+
+msgid "Warping"
+msgstr "Warping"
 
 msgid "Off"
 msgstr "Off"

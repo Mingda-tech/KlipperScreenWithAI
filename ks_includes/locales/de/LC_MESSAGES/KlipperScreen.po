@@ -1993,11 +1993,14 @@ msgstr "Die Richtlinienüberprüfung ist fehlgeschlagen"
 msgid "Nozzle Blob"
 msgstr "Klecks auf der Düse"
 
-msgid "First Layer Extrusion"
-msgstr "Problem mit der Extrusion der ersten Schicht"
+msgid "Under Extrusion"
+msgstr "Under Extrusion"
 
-msgid "Warp or Detachment"
-msgstr "Verziehen oder Ablösen"
+msgid "Over Extrusion"
+msgstr "Over Extrusion"
+
+msgid "Warping"
+msgstr "Warping"
 
 msgid "Off"
 msgstr "Aus"

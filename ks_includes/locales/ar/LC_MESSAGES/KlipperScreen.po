@@ -1973,11 +1973,14 @@ msgstr "فشل التحقق من السياسة"
 msgid "Nozzle Blob"
 msgstr "فقاعة على فوهة"
 
-msgid "First Layer Extrusion"
-msgstr "مشكلة قذف الطبقة الأولى"
+msgid "Under Extrusion"
+msgstr "Under Extrusion"
 
-msgid "Warp or Detachment"
-msgstr "تزييفها أو الانفصال"
+msgid "Over Extrusion"
+msgstr "Over Extrusion"
+
+msgid "Warping"
+msgstr "Warping"
 
 msgid "Off"
 msgstr "إيقاف"

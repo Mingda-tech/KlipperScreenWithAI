@@ -2029,11 +2029,14 @@ msgstr "Politika doğrulaması başarısız oldu"
 msgid "Nozzle Blob"
 msgstr "Meme üzerinde damla"
 
-msgid "First Layer Extrusion"
-msgstr "Birinci katman ekstrüzyon sorunu"
+msgid "Under Extrusion"
+msgstr "Under Extrusion"
 
-msgid "Warp or Detachment"
-msgstr "Çarpılma veya ayrılma"
+msgid "Over Extrusion"
+msgstr "Over Extrusion"
+
+msgid "Warping"
+msgstr "Warping"
 
 msgid "Off"
 msgstr "Kapalı"
