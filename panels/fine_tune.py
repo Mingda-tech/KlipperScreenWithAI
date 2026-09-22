@@ -10,6 +10,8 @@ from ks_includes.manual_settings import (
     build_zoffset_restore_command,
     ensure_manual_settings,
     get_manual_zoffset,
+    get_zoffset_baseline,
+    has_manual_zoffset,
     store_manual_zoffset,
 )
 from ks_includes.screen_panel import ScreenPanel
@@ -178,14 +180,19 @@ class Panel(ScreenPanel):
         if self._screen.klippy_config is None:
             self._screen.load_klipper_config()
         if self._screen.klippy_config is None:
-            return 0.0
+            return None
         try:
-            return self._screen.klippy_config.getfloat("Variables", "e1_zoffset", fallback=0.0)
+            return self._screen.klippy_config.getfloat("Variables", "e1_zoffset", fallback=None)
         except (TypeError, ValueError):
-            logging.warning("Invalid saved right extruder Z offset; using 0")
-            return 0.0
+            logging.warning("Invalid saved right extruder Z offset; keeping the value set by the macro")
+            return None
 
     def _restore_zoffset(self, extruder):
+        # T0/T1 own the offsets until the user adjusts one of the tools.
+        # After that, restore both tools to prevent relative tool-change
+        # offsets from carrying one tool's adjustment over to the other.
+        if not has_manual_zoffset(self._screen.manual_settings):
+            return
         zoffset = get_manual_zoffset(self._screen.manual_settings, extruder)
         script = build_zoffset_restore_command(
             zoffset,
@@ -208,7 +215,8 @@ class Panel(ScreenPanel):
             if "homing_origin" in data["gcode_move"]:
                 self.labels['zoffset'].set_label(f'  {data["gcode_move"]["homing_origin"][2]:.3f}mm')
                 self.z_offset = float(data["gcode_move"]["homing_origin"][2])
-                if not tool_changed or get_manual_zoffset(
+                if not tool_changed or not has_manual_zoffset(
+                        self._screen.manual_settings) or get_manual_zoffset(
                         self._screen.manual_settings, self.current_extruder) is None:
                     store_manual_zoffset(
                         self._screen.manual_settings,
@@ -250,15 +258,19 @@ class Panel(ScreenPanel):
     def change_babystepping(self, widget, direction):
         current_extruder = self._printer.get_stat("toolhead", "extruder")
         if direction == "reset":
-            self.z_offset = 0.0
+            baseline = get_zoffset_baseline(self._screen.manual_settings, current_extruder)
+            if baseline is None or not has_manual_zoffset(self._screen.manual_settings, current_extruder):
+                return
+            self.z_offset = baseline
             store_manual_zoffset(
                 self._screen.manual_settings,
                 current_extruder,
                 self.z_offset,
                 manually_set=True,
             )
-            self.labels['zoffset'].set_label('  0.00mm')
-            self._screen._send_action(widget, "printer.gcode.script", {"script": "SET_GCODE_OFFSET Z=0 MOVE=1"})
+            self.labels['zoffset'].set_label(f'  {self.z_offset:.3f}mm')
+            self._screen._send_action(widget, "printer.gcode.script",
+                                      {"script": f"SET_GCODE_OFFSET Z={self.z_offset} MOVE=1"})
             return
         elif direction == "+":
             self.z_offset += float(self.z_delta)

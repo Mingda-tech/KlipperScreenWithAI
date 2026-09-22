@@ -35,8 +35,6 @@ def ensure_manual_settings(manual_settings, tools, right_zoffset=0.0, reset=Fals
         manual_settings.clear()
 
     configured_right_zoffset = normalize_zoffset(right_zoffset)
-    if configured_right_zoffset is None:
-        configured_right_zoffset = 0.0
 
     for index, extruder in enumerate(tools):
         if index == 0:
@@ -54,6 +52,7 @@ def ensure_manual_settings(manual_settings, tools, right_zoffset=0.0, reset=Fals
         settings.setdefault("zoffset_manually_set", False)
         if "zoffset" not in settings or normalize_zoffset(settings["zoffset"]) is None:
             settings["zoffset"] = default_zoffset
+        settings.setdefault("zoffset_baseline", settings["zoffset"])
 
 
 def get_manual_zoffset(manual_settings, extruder):
@@ -63,6 +62,27 @@ def get_manual_zoffset(manual_settings, extruder):
     return normalize_zoffset(settings.get("zoffset"))
 
 
+def get_zoffset_baseline(manual_settings, extruder):
+    return normalize_zoffset(manual_settings.get(extruder, {}).get("zoffset_baseline"))
+
+
+def has_manual_zoffset(manual_settings, extruder=None):
+    if extruder is None:
+        return any(has_manual_zoffset(manual_settings, tool) for tool in manual_settings)
+    return bool(
+        manual_settings.get(extruder, {}).get("zoffset_manually_set", False)
+        and get_manual_zoffset(manual_settings, extruder) is not None
+    )
+
+
+def manual_zoffset_is_adjusted(manual_settings, extruder):
+    if not has_manual_zoffset(manual_settings, extruder):
+        return False
+    baseline = get_zoffset_baseline(manual_settings, extruder)
+    zoffset = get_manual_zoffset(manual_settings, extruder)
+    return baseline is not None and abs(zoffset - baseline) > 0.001
+
+
 def store_manual_zoffset(manual_settings, extruder, value, manually_set=False):
     zoffset = normalize_zoffset(value)
     if zoffset is None or extruder not in manual_settings:
@@ -70,6 +90,10 @@ def store_manual_zoffset(manual_settings, extruder, value, manually_set=False):
     settings = manual_settings[extruder]
     if settings.get("zoffset_manually_set", False) and not manually_set:
         return False
+    if not settings.get("zoffset_manually_set", False):
+        settings["zoffset_baseline"] = (
+            normalize_zoffset(settings.get("zoffset")) if manually_set else zoffset
+        )
     settings["zoffset"] = zoffset
     if manually_set:
         settings["zoffset_manually_set"] = True

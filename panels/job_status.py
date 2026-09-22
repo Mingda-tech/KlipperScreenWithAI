@@ -13,8 +13,9 @@ from ks_includes.manual_settings import (
     build_zoffset_restore_command,
     ensure_manual_settings,
     get_manual_zoffset,
+    has_manual_zoffset,
+    manual_zoffset_is_adjusted,
     store_manual_zoffset,
-    zoffset_is_adjusted,
 )
 from ks_includes.screen_panel import ScreenPanel
 from ks_includes.KlippyGtk import find_widget
@@ -155,20 +156,19 @@ class Panel(ScreenPanel):
         self.switch_info(info=self.status_grid)
         self.content.add(self.grid)
 
-    @staticmethod
-    def _zoffset_is_adjusted(zoffset):
-        return zoffset_is_adjusted(zoffset)
+    def _zoffset_is_adjusted(self, extruder):
+        return manual_zoffset_is_adjusted(self._screen.manual_settings, extruder)
 
     def _get_configured_right_zoffset(self):
         if self._screen.klippy_config is None:
             self._screen.load_klipper_config()
         if self._screen.klippy_config is None:
-            return 0.0
+            return None
         try:
-            return self._screen.klippy_config.getfloat("Variables", "e1_zoffset", fallback=0.0)
+            return self._screen.klippy_config.getfloat("Variables", "e1_zoffset", fallback=None)
         except (TypeError, ValueError):
-            logging.warning("Invalid saved right extruder Z offset; using 0")
-            return 0.0
+            logging.warning("Invalid saved right extruder Z offset; keeping the value set by the macro")
+            return None
 
     def _has_gcode_command(self, command):
         return command in self._printer.available_commands or command in self._printer.get_gcode_macros()
@@ -190,6 +190,9 @@ class Panel(ScreenPanel):
         store_manual_zoffset(self._screen.manual_settings, self.current_extruder, self.zoffset)
 
     def _restore_zoffset(self, extruder):
+        # Keep the macro's offsets unless this print has manual Z adjustments.
+        if not has_manual_zoffset(self._screen.manual_settings):
+            return
         zoffset = get_manual_zoffset(self._screen.manual_settings, extruder)
         script = build_zoffset_restore_command(
             zoffset,
@@ -480,8 +483,10 @@ class Panel(ScreenPanel):
         right_sign = "+" if right_zoffset > 0 else "-"
         
         # Check if offsets have been adjusted
-        left_adjusted = self._zoffset_is_adjusted(left_zoffset)
-        right_adjusted = self._zoffset_is_adjusted(right_zoffset)
+        left_adjusted = self._zoffset_is_adjusted("extruder")
+        right_adjusted = self._zoffset_is_adjusted("extruder1")
+        if not left_adjusted and not right_adjusted:
+            return
         
         label = Gtk.Label()
         if device == "probe":
@@ -542,8 +547,10 @@ class Panel(ScreenPanel):
         self._gtk.remove_dialog(dialog)
         if response_id == Gtk.ResponseType.APPLY:
             device, adjustment_status = data
-            left_adjusted = adjustment_status["left_adjusted"]
-            right_adjusted = adjustment_status["right_adjusted"]
+            left_adjusted = adjustment_status["left_adjusted"] and self._zoffset_is_adjusted("extruder")
+            right_adjusted = adjustment_status["right_adjusted"] and self._zoffset_is_adjusted("extruder1")
+            if not left_adjusted and not right_adjusted:
+                return
             
             # If current extruder is right and left needs adjustment
             if self.current_extruder != "extruder" and left_adjusted:
@@ -727,7 +734,8 @@ class Panel(ScreenPanel):
             with suppress(KeyError):
                 self.zoffset = float(data["gcode_move"]["homing_origin"][2])
                 self.labels['zoffset'].set_label(f"{self.zoffset:.3f} {self.mm}")
-                if not tool_changed or get_manual_zoffset(
+                if not tool_changed or not has_manual_zoffset(
+                        self._screen.manual_settings) or get_manual_zoffset(
                         self._screen.manual_settings, self.current_extruder) is None:
                     self._sync_current_zoffset()
 
@@ -928,19 +936,8 @@ class Panel(ScreenPanel):
             offset = self._printer.get_stat("gcode_move", "homing_origin")
             self.zoffset = float(offset[2]) if offset else 0
             
-            # Check if any extruder has adjusted Z offset
-            left_zoffset = 0
-            right_zoffset = 0
-            
-            saved_left_zoffset = get_manual_zoffset(self._screen.manual_settings, "extruder")
-            saved_right_zoffset = get_manual_zoffset(self._screen.manual_settings, "extruder1")
-            if saved_left_zoffset is not None:
-                left_zoffset = saved_left_zoffset
-            if saved_right_zoffset is not None:
-                right_zoffset = saved_right_zoffset
-                
-            left_adjusted = self._zoffset_is_adjusted(left_zoffset)
-            right_adjusted = self._zoffset_is_adjusted(right_zoffset)
+            left_adjusted = self._zoffset_is_adjusted("extruder")
+            right_adjusted = self._zoffset_is_adjusted("extruder1")
             
             # Only show save buttons if there are adjustments to save
             if left_adjusted or right_adjusted:
@@ -1050,13 +1047,15 @@ class Panel(ScreenPanel):
             self._screen.files.add_file_callback(self._callback_metadata)
         self.show_file_thumbnail()
     def save_idex_zoffset(self, reboot=False):
+        if not self._zoffset_is_adjusted("extruder1"):
+            return
         if self._screen.klippy_config is not None and 'extruder1' in self._screen.manual_settings:
             right_zoffset = get_manual_zoffset(self._screen.manual_settings, "extruder1")
             if right_zoffset is None:
                 logging.info("Right extruder Z offset is unknown, skipping save")
                 return
-            # Only save if there's a meaningful offset (greater than 0.001) and within safe limits
-            if abs(right_zoffset) > 0.001 and abs(right_zoffset) < 10:
+            # A manually adjusted zero is valid; the baseline decides whether it changed.
+            if abs(right_zoffset) < 10:
                 self._screen.klippy_config.set("Variables", "e1_zoffset", f"{right_zoffset:.2f}")
                 if self._screen.klippy_config.has_option("Variables", "idex_zoffset"):
                     self._screen.klippy_config.remove_option("Variables", "idex_zoffset")
